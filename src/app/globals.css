@@ -1,26 +1,160 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  /* Custom Colors */
+  --color-primary-deepBlue: #0b1d3a;
+  --color-primary-dodgerBlue: #418dff;
+  --color-neutral-black1: #222222;
+  --color-neutral-bodyText: #333333;
+  --color-neutral-offWhiteBlue: #f7fafc;
+  --color-neutral-babyBlueTint: #bfdbfe;
+  --color-neutral-lightGray: #ebebeb;
+  --color-background-white: #ffffff;
+
+  /* Custom Fonts */
+  --font-dm-sans: "DM Sans", sans-serif;
+  --font-poppins: "Poppins", sans-serif;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* Mobile-first Typography Classes */
+.text-h1-regular {
+  font-size: 35px;
+  font-family: "DM Sans", sans-serif;
+  font-weight: 400;
+  line-height: 100%;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+.text-h2-regular {
+  font-size: 28px;
+  font-family: "DM Sans", sans-serif;
+  font-weight: 400;
+  line-height: 100%;
+}
+
+.text-h2-semibold {
+  font-size: 28px;
+  font-family: "DM Sans", sans-serif;
+  font-weight: 600;
+  line-height: 100%;
+}
+
+.text-h3-regular {
+  font-size: 24px;
+  font-family: "DM Sans", sans-serif;
+  font-weight: 400;
+}
+
+.text-h3-medium {
+  font-size: 24px;
+  font-family: "DM Sans", sans-serif;
+  font-weight: 500;
+}
+
+.text-h3-semibold {
+  font-size: 24px;
+  font-family: "DM Sans", sans-serif;
+  font-weight: 600;
+}
+
+.text-h4-semibold {
+  font-size: 20px;
+  font-family: "DM Sans", sans-serif;
+  font-weight: 600;
+}
+
+.text-body-28 {
+  font-size: 28px;
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+}
+
+.text-body-24 {
+  font-size: 24px;
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+}
+
+.text-body-24-semibold {
+  font-size: 24px;
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+}
+
+.text-body-20 {
+  font-size: 20px;
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+}
+
+.text-body-20-semibold {
+  font-size: 20px;
+  font-family: "DM Sans", sans-serif;
+  font-weight: 600;
+}
+
+.text-body-16 {
+  font-size: 16px;
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+}
+
+.text-body-16-medium {
+  font-size: 16px;
+  font-family: "Poppins", sans-serif;
+  font-weight: 500;
+}
+
+.text-body-14 {
+  font-size: 14px;
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+}
+
+.text-body-14-medium {
+  font-size: 14px;
+  font-family: "Poppins", sans-serif;
+  font-weight: 500;
+}
+
+.text-body-12 {
+  font-size: 12px;
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+}
+
+.text-body-12-medium {
+  font-size: 12px;
+  font-family: "Poppins", sans-serif;
+  font-weight: 500;
+}
+
+/* Desktop Responsive Typography (lg breakpoint and above) */
+@media (min-width: 1024px) {
+  .text-h1-regular {
+    font-size: 85px;
   }
-}
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  
+  .text-h2-regular {
+    font-size: 50px;
+  }
+  
+  .text-h2-semibold {
+    font-size: 50px;
+  }
+  
+  .text-h3-regular {
+    font-size: 40px;
+  }
+  
+  .text-h3-medium {
+    font-size: 40px;
+  }
+  
+  .text-h3-semibold {
+    font-size: 40px;
+  }
+  
+  .text-h4-semibold {
+    font-size: 30px;
+  }
 }

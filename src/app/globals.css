@@ -4,12 +4,12 @@
   /* Custom Colors */
   --color-primary-deepBlue: #0b1d3a;
   --color-primary-dodgerBlue: #418dff;
-  --color-neutral-black1: #222222;
-  --color-neutral-bodyText: #333333;
   --color-neutral-offWhiteBlue: #f7fafc;
   --color-neutral-babyBlueTint: #bfdbfe;
-  --color-neutral-lightGray: #ebebeb;
-  --color-background-white: #ffffff;
+  --color-neutral-lightGray: #e5e7eb;
+  --color-neutral-bodyText: #333333;
+  --color-fedex-purple: #4d148c;
+  --color-fedex-orange: #ff6600;
 
   /* Custom Fonts */
   --font-dm-sans: "DM Sans", sans-serif;

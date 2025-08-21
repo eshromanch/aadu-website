@@ -18,26 +18,26 @@ export const navigationData: NavItem[] = [
     href: "/academics",
     children: [
       {
+        label: "About life experience",
+        href: "/life-experience",
+      },
+      {
         label: "Degree Programs",
-        href: "/academics/degree-programs",
+        href: "/degree-programs",
       },
       {
         label: "Available Majors",
-        href: "/academics/majors",
+        href: "/majors",
       },
     ],
   },
   {
     label: "Partnership Programs",
-    href: "/partnerships",
+    href: "/partnership-programs",
     children: [
       {
         label: "Corporate Partnership Program",
-        href: "/partnerships/corporate",
-      },
-      {
-        label: "Community College Partnership Program",
-        href: "/partnerships/community-college",
+        href: "/partnership-programs/corporate",
       },
     ],
   },
@@ -55,5 +55,9 @@ export const topNavData: NavItem[] = [
   {
     label: "Verification",
     href: "/verification",
+  },
+  {
+    label: "Apply",
+    href: "/apply",
   },
 ]; 

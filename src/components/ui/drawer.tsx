@@ -55,9 +55,15 @@ export function Drawer({ isOpen, onClose }: DrawerProps) {
                 <div key={index}>
                   {item.children ? (
                     <div className="space-y-2">
-                      <div className="text-body-20-semibold font-poppins text-primary-deepBlue">
+                      {/* Parent Link - Clickable to navigate to parent page */}
+                      <Link
+                        href={item.href}
+                        className="block text-body-20-semibold font-poppins text-primary-deepBlue hover:text-primary-dodgerBlue transition-colors"
+                        onClick={onClose}
+                      >
                         {item.label}
-                      </div>
+                      </Link>
+                      {/* Child Links */}
                       <div className="ml-4 space-y-2">
                         {item.children.map((child, childIndex) => (
                           <Link

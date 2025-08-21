@@ -1,27 +1,40 @@
-import { PageHero } from "@/components/common/PageHero"
+import { BigHero } from "@/components/common/BigHero"
+import { CardWithImage } from "@/components/common/CardWithImage"
+import { EvaluationBodySection } from "@/components/academics/EvaluationBodySection"
 import { academicsHeroData } from "@/data/heroData"
+import { degreeProgramData, availableMajorsData } from "@/data/academicsData"
 
 export default function AcademicsPage() {
   return (
     <div className="min-h-screen">
-      <div className="py-16 lg:py-24">
-        <PageHero
-          title={academicsHeroData.title}
-          subtitle={academicsHeroData.subtitle}
-          backgroundImage={academicsHeroData.backgroundImage}
-          className="container mx-auto px-8"
-        />
-      </div>
+      {/* Hero Section */}
+      <BigHero
+        title={academicsHeroData.title}
+        backgroundImage={academicsHeroData.backgroundImage}
+      />
       
-      {/* Add other academics page content here */}
-      <div className="container mx-auto px-8 py-16">
-        <h2 className="text-2xl font-bold text-primary-deepBlue mb-8">
-          Our Academic Programs
-        </h2>
-        <p className="text-neutral-bodyText">
-          Content for academics page will go here...
-        </p>
-      </div>
+      {/* Degree Program Section */}
+      <CardWithImage
+        title={degreeProgramData.title}
+        description={degreeProgramData.description}
+        buttonText={degreeProgramData.buttonText}
+        variant="dark"
+        image={degreeProgramData.image}
+        imageAlt={degreeProgramData.imageAlt}
+      />
+      
+      {/* Available Majors Section */}
+      <CardWithImage
+        title={availableMajorsData.title}
+        description={availableMajorsData.description}
+        buttonText={availableMajorsData.buttonText}
+        variant="light"
+        image={availableMajorsData.image}
+        imageAlt={availableMajorsData.imageAlt}
+      />
+      
+      {/* Evaluation Body Section */}
+      <EvaluationBodySection />
     </div>
   )
 } 

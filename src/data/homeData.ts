@@ -108,24 +108,28 @@ export const aboutData: AboutData = {
 // FAQ Section Data
 export const faqData: FAQItem[] = [
   {
-    question: "Faculty of Science",
-    answer: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+    question: "What are life experience degrees?",
+    answer: "Life experience degrees are accredited academic qualifications awarded based on your professional work experience, skills, and knowledge gained outside traditional classroom settings. They recognize real-world expertise and allow you to earn a degree without attending classes or taking exams."
   },
   {
-    question: "Faculty of Engineering",
-    answer: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+    question: "How long does it take to receive my degree?",
+    answer: "You can receive your accredited degree within 20-45 days after your application is approved. We use FedEx/DHL for fast and secure delivery to ensure you get your degree quickly and safely."
   },
   {
-    question: "Faculty of LAW",
-    answer: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+    question: "Are these degrees recognized internationally?",
+    answer: "Yes, our degrees are internationally recognized. AADU is accredited by the Education Accreditation Council of America (EACOA) since 1991, ensuring your degree is credible and accepted worldwide for career advancement and professional purposes."
   },
   {
-    question: "Faculty of Business Administration",
-    answer: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+    question: "What types of degrees are available?",
+    answer: "We offer Associate, Bachelor's, Master's, Doctorate degrees, and High School Diplomas across 180+ disciplines. You can choose from various fields including Business, Engineering, Science, Arts, and many more based on your experience."
   },
   {
-    question: "Faculty of Business Medicine",
-    answer: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+    question: "Do I need to take classes or exams?",
+    answer: "No, there are no classes, exams, or course books required. Your degree is awarded based on the evaluation of your professional experience, work history, and skills by our expert faculty members."
+  },
+  {
+    question: "What documents will I receive?",
+    answer: "You'll receive 10 official documents including 1 Original Accredited Degree, 2 Original Transcripts, 1 Award of Excellence, 1 Certificate of Distinction, 1 Certificate of Membership, and 4 Education Verification Letters."
   }
 ];
 

@@ -92,22 +92,22 @@ export const ourValuesData: OurValuesData = {
   image: "https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
   values: [
     {
-      icon: "/icons/integrity.svg",
+      icon: "icons/file (7) 1.svg",
       title: "Integrity",
       description: "Rigorous, fair evaluations."
     },
     {
-      icon: "/icons/accessibility.svg",
+      icon: "/icons/Lock.svg",
       title: "Accessibility",
       description: "Academic Degrees for all professionals."
     },
     {
-      icon: "/icons/excellence.svg",
+      icon: "/icons/Badge.svg",
       title: "Excellence",
       description: "Quality, recognized credentials."
     },
     {
-      icon: "/icons/growth.svg",
+      icon: "/icons/Growth.svg",
       title: "Growth",
       description: "Enabling career advancement"
     }

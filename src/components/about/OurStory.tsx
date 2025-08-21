@@ -1,19 +1,20 @@
 "use client"
 
 import { SectionContainer } from "@/components/common/SectionContainer"
-import { H2, Body20 } from "@/components/common/Typography"
+import { H2, Body20, H2Semibold } from "@/components/common/Typography"
 import { ourStoryData } from "@/data/aboutData"
 import Image from "next/image"
 
 export function OurStory() {
   return (
+    <div className="w-full bg-neutral-offWhiteBlue">
     <SectionContainer className="py-16">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
         {/* Left - Content */}
         <div>
-          <H2 className="text-primary-deepBlue mb-6">
+          <H2Semibold className="text-primary-deepBlue mb-6">
             {ourStoryData.title}
-          </H2>
+          </H2Semibold>
           <Body20 className="text-neutral-bodyText leading-relaxed">
             {ourStoryData.description}
           </Body20>
@@ -32,5 +33,6 @@ export function OurStory() {
         </div>
       </div>
     </SectionContainer>
+    </div>
   )
 } 

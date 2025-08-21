@@ -1,7 +1,7 @@
 "use client"
 
 import { SectionContainer } from "@/components/common/SectionContainer"
-import { H2, Body20 } from "@/components/common/Typography"
+import { H2, Body20, H2Semibold } from "@/components/common/Typography"
 import { evaluationBodyData } from "@/data/aboutData"
 import Image from "next/image"
 
@@ -11,9 +11,10 @@ export function EvaluationBody() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
         {/* Left - Content */}
         <div>
-          <H2 className="text-primary-deepBlue mb-6">
+          <H2Semibold
+           className="text-primary-deepBlue mb-6">
             {evaluationBodyData.title}
-          </H2>
+          </H2Semibold>
           <div className="space-y-4">
             {evaluationBodyData.paragraphs.map((paragraph, index) => (
               <Body20 key={index} className="text-neutral-bodyText leading-relaxed">

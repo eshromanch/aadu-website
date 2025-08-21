@@ -1,4 +1,3 @@
-import { AboutHero } from "@/components/about/AboutHero"
 import { OurStory } from "@/components/about/OurStory"
 import { MissionVision } from "@/components/about/MissionVision"
 import { OurValues } from "@/components/about/OurValues"
@@ -7,6 +6,7 @@ import { EvaluationBody } from "@/components/about/EvaluationBody"
 import { TalkWithUs } from "@/components/about/TalkWithUs"
 import { aboutHeroData } from "@/data/heroData"
 import { PageHero } from "@/components/common/PageHero"
+
 
 export default function AboutPage() {
   return (

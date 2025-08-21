@@ -1,16 +1,20 @@
 
-import { Hero } from "@/components/home/Hero"
+import { BigHero } from "@/components/common/BigHero"
 import { Testimonial } from "@/components/home/Testimonial"
 import { LifeExperienceSection } from "@/components/home/LifeExperienceSection"
 import { DegreeProgramsSection } from "@/components/home/DegreeProgramsSection"
 import { AboutSection } from "@/components/home/AboutSection"
 import { FAQSection } from "@/components/home/FAQSection"
 import { CallToActionSection } from "@/components/home/CallToActionSection"
+import { homeHeroData } from "@/data/heroData"
 
 export default function HomePage() {
   return (
     <div className="min-h-screen">
-      <Hero />
+      <BigHero
+        title={homeHeroData.title}
+        backgroundImage={homeHeroData.backgroundImage}
+      />
       <Testimonial />
       <LifeExperienceSection />
       <DegreeProgramsSection />

@@ -1,12 +1,13 @@
 "use client"
 
 import { SectionContainer } from "@/components/common/SectionContainer"
-import { H2, Body20 } from "@/components/common/Typography"
+import { H2, Body20, H2Semibold } from "@/components/common/Typography"
 import { accreditationRecognitionData } from "@/data/aboutData"
 import Image from "next/image"
 
 export function AccreditationRecognition() {
   return (
+    <div className="w-full py-16 bg-neutral-offWhiteBlue">
     <SectionContainer className="py-16">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
         {/* Left - Image */}
@@ -23,14 +24,15 @@ export function AccreditationRecognition() {
         
         {/* Right - Content */}
         <div>
-          <H2 className="text-primary-deepBlue mb-6">
+          <H2Semibold className="text-primary-deepBlue mb-6">
             {accreditationRecognitionData.title}
-          </H2>
+          </H2Semibold>
           <Body20 className="text-neutral-bodyText leading-relaxed">
             {accreditationRecognitionData.description}
           </Body20>
         </div>
       </div>
     </SectionContainer>
+    </div>
   )
 } 

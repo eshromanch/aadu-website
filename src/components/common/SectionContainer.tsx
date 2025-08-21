@@ -13,7 +13,7 @@ export function SectionContainer({
   as: Component = "section" 
 }: SectionContainerProps) {
   return (
-    <Component className={cn("container mx-auto px-8", className)}>
+    <Component className={cn("container mx-auto px-4 lg:px-8", className)}>
       {children}
     </Component>
   )

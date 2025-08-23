@@ -6,17 +6,19 @@ import { EvaluationBody } from "@/components/about/EvaluationBody"
 import { TalkWithUs } from "@/components/about/TalkWithUs"
 import { aboutHeroData } from "@/data/heroData"
 import { PageHero } from "@/components/common/PageHero"
+import { SectionContainer } from "@/components/common/SectionContainer"
 
 
 export default function AboutPage() {
   return (
     <div className="min-h-screen">
-           <PageHero
-        title={aboutHeroData.title}
-        subtitle={aboutHeroData.subtitle}
-        backgroundImage={aboutHeroData.backgroundImage}
-        className="container mx-auto py-16 lg:py-24"
-      />
+      <SectionContainer className="py-8 lg:py-16">
+        <PageHero
+          title={aboutHeroData.title}
+          subtitle={aboutHeroData.subtitle}
+          backgroundImage={aboutHeroData.backgroundImage}
+        />
+      </SectionContainer>
       <OurStory />
       <MissionVision />
       <OurValues />

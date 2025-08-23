@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import { DM_Sans, Poppins } from "next/font/google";
 import "./globals.css";
-import { Navbar } from "@/components/common/Navbar";
-import { Footer } from "@/components/common/Footer";
+import { ConditionalLayout } from "@/components/layout/ConditionalLayout";
 
 const dmSans = DM_Sans({
   variable: "--font-dm-sans",
@@ -31,12 +30,9 @@ export default function RootLayout({
       <body
         className={`${dmSans.variable} ${poppins.variable} antialiased`}
       >
-      <Navbar />
-
-        {children}
-
-      <Footer />
-
+        <ConditionalLayout>
+          {children}
+        </ConditionalLayout>
       </body>
     </html>
   );

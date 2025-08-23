@@ -5,6 +5,7 @@ import { SectionContainer } from "@/components/common/SectionContainer"
 import { H2, Body20 } from "@/components/common/Typography"
 import { Button } from "@/components/ui/button"
 import { CombinationPackagesDrawer } from "@/components/degree-programs/CombinationPackagesDrawer"
+import Link from "next/link"
 
 export function FinalCTASection() {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false)
@@ -26,33 +27,35 @@ export function FinalCTASection() {
             <div className="hidden lg:block absolute left-1/2 top-0 bottom-0 w-px bg-white"></div>
             
             {/* Left Column - Apply Now */}
-            <div className="text-center lg:text-left space-y-6">
-              <H2 className="text-primary-deepBlue leading-tight">
+            <div className="flex flex-col items-center justify-center space-y-6">
+              <H2 className="text-primary-deepBlue leading-tight text-center">
                 Looking for a bright new future?
                 <br />
                 It starts here
               </H2>
-              <Button 
-                variant="default" 
-                size="lg"
-                className="bg-primary-deepBlue hover:bg-primary-deepBlue/90 text-white px-8 py-4 text-[18px] font-semibold rounded-lg"
-              >
-                Apply Now
-              </Button>
+              <Link href="/apply">
+                <Button 
+                  variant="default" 
+                  size="lg"
+                  className="bg-primary-deepBlue hover:bg-primary-deepBlue/90 text-white px-8 py-4 text-[18px] font-semibold rounded"
+                >
+                  Apply Now
+                </Button>
+              </Link>
             </div>
             
             {/* Right Column - Learn More */}
-            <div className="text-center lg:text-left space-y-6">
-              <H2 className="text-primary-deepBlue leading-tight">
-                Need multiple degrees?
+            <div className="flex flex-col items-center justify-center space-y-6">
+              <H2 className="text-primary-deepBlue leading-tight text-center">
+                Want to learn more about
                 <br />
-                View our combination packages
+                our combination packages?
               </H2>
               <Button 
                 variant="default" 
                 size="lg"
-                className="bg-primary-deepBlue hover:bg-primary-deepBlue/90 text-white px-8 py-4 text-[18px] font-semibold rounded-lg"
                 onClick={handleLearnMoreClick}
+                className="text-white px-8 py-4 text-[18px] font-semibold rounded"
               >
                 Learn More
               </Button>

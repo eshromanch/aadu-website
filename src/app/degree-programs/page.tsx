@@ -4,19 +4,21 @@ import { CallToActionBanner } from "@/components/common/CallToActionBanner"
 import { degreeProgramsHeroData } from "@/data/heroData"
 import { degreePrograms, callToActionData, individualDegreePrograms } from "@/data/degreeProgramsData"
 import Link from "next/link"
+import { SectionContainer } from "@/components/common/SectionContainer"
 
 export default function DegreeProgramsPage() {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <div className="py-16 lg:py-24">
+
+        <SectionContainer className="py-8 lg:py-16">
         <PageHero
           title={degreeProgramsHeroData.title}
           subtitle={degreeProgramsHeroData.subtitle}
           backgroundImage={degreeProgramsHeroData.backgroundImage}
-          className="container mx-auto px-8"
         />
-      </div>
+
+        </SectionContainer>
       
       {/* Degree Program Cards */}
       {degreePrograms.map((program, index) => {

@@ -1,8 +1,7 @@
-"use client"
 
 import { PageHero } from "@/components/common/PageHero"
 import { SectionContainer } from "@/components/common/SectionContainer"
-import { H2, H3, Body20, Body16 } from "@/components/common/Typography"
+import { H2, H3, Body20, Body16, Body16Medium } from "@/components/common/Typography"
 import { CallToActionBanner } from "@/components/common/CallToActionBanner"
 import { 
   whatAreLifeExperienceDegrees, 
@@ -19,17 +18,19 @@ export default function LifeExperiencePage() {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <div className="py-16 lg:py-24">
+
+      <SectionContainer className="py-8 lg:py-16">
+        
         <PageHero
           title="Life Experience Degrees"
           subtitle="Turn your work experience into an accredited qualification"
           backgroundImage="https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-          className="container mx-auto px-8"
         />
-      </div>
+      </SectionContainer>
+  
 
       {/* What Are Life Experience Degrees Section */}
-      <SectionContainer className="py-16 lg:py-24">
+      <SectionContainer className="py-8 lg:py-16">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
           {/* Left - Content */}
           <div className="space-y-8">
@@ -60,22 +61,22 @@ export default function LifeExperiencePage() {
       </SectionContainer>
 
       {/* What Counts as Life Experience Section */}
-      <SectionContainer className="py-16 lg:py-24">
+      <SectionContainer className="py-8 lg:py-16">
         <div className="">
           <H2 className="text-primary-deepBlue mb-12 ">
             <span className="text-neutral-bodyText">What Counts as </span>
             Life Experience?
           </H2>
           
-          <div className="relative rounded-[25px] p-8 lg:p-12 shadow-lg">
+          <div className="relative rounded-[25px] p-8 lg:p-12 shadow-lg ">
             <Image className="absolute top-0 left-0 w-full h-full object-cover" src={'https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'} alt={''} fill />
-            <div className="absolute top-0 left-0 w-full h-full bg-primary-dodgerBlue opacity-50"></div>
+            <div className="absolute top-0 left-0 w-full h-full bg-neutral-babyBlueTint opacity-80 backdrop-blur-lg"></div>
             <div className="relative flex flex-col gap-4 z-10">
               {whatCountsAsLifeExperience.map((item) => (
                 <div key={item.id} className="p-4  border-b-1 border-neutral-lightGray">
-                  <Body16 className="text-center text-primary-deepBlue font-medium">
+                  <Body16Medium className="text-center text-primary-deepBlue font-medium ">
                     {item.text}
-                  </Body16>
+                  </Body16Medium>
                 </div>
               ))}
             </div>
@@ -84,7 +85,7 @@ export default function LifeExperiencePage() {
       </SectionContainer>
 
       {/* About AADU Life Experience Degrees Section */}
-      <SectionContainer className="py-16 lg:py-24">
+      <SectionContainer className="py-8 lg:py-16">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
           {/* Left - Content */}
           <div className="space-y-8">

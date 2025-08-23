@@ -3,6 +3,7 @@
 import { SectionContainer } from "@/components/common/SectionContainer"
 import { H3, Body16, Body14 } from "@/components/common/Typography"
 import { footerData } from "@/data/footerData"
+import Image from "next/image"
 import Link from "next/link"
 
 export function Footer() {
@@ -12,15 +13,7 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Logo and Description */}
           <div className="space-y-4">
-            <div className="w-16 h-16 rounded-full border-2 border-primary-deepBlue flex items-center justify-center bg-white">
-              <div className="text-center">
-                <div className="text-body-12 font-dm-sans font-semibold text-primary-deepBlue leading-tight">
-                  ASIAN AMERICAN<br />
-                  DIGITAL<br />
-                  UNIVERSITY
-                </div>
-              </div>
-            </div>
+            <Image className="w-24 h-24" src="/AADU LOGO.png" alt="Logo" width={100} height={100} />
             <Body14 className="text-neutral-bodyText">
               {footerData.description}
             </Body14>

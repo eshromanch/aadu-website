@@ -18,17 +18,16 @@ export default function MajorsPage() {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <div className="py-16 lg:py-24">
+      <SectionContainer className="py-8 lg:py-16">
         <PageHero
           title="Available Fields of Study"
           subtitle="Discover the diverse academic disciplines available for your degree"
           backgroundImage="https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-          className="container mx-auto px-8"
         />
-      </div>
+      </SectionContainer>
 
       {/* Main Content - Faculties and Majors */}
-      <SectionContainer className="py-16 lg:py-24">
+      <SectionContainer className="py-8 lg:py-16">
         <div className="max-w-6xl mx-auto">
           <H2 className="text-primary-deepBlue mb-12 text-center">
             Explore Degree Majors by Faculty
@@ -50,7 +49,7 @@ export default function MajorsPage() {
                     {faculty.majors.map((major) => (
                       <div
                         key={major.id}
-                        className="p-4 bg-neutral-offWhiteBlue rounded-lg hover:bg-neutral-lightGray transition-colors cursor-pointer"
+                        className="p-4 bg-neutral-offWhiteBlue rounded-2xl hover:bg-neutral-lightGray transition-colors cursor-pointer"
                       >
                         <Body16 className="text-primary-deepBlue font-medium">
                           {major.name}

@@ -16,7 +16,7 @@ export default function CorporatePartnershipPage() {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-     <SectionContainer className="py-16"> 
+     <SectionContainer className="py-8 lg:py-16"> 
         <PageHero
         title="Corporate Partnership Program"
         backgroundImage="https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
@@ -37,7 +37,7 @@ export default function CorporatePartnershipPage() {
         
         {/* Right - Image */}
         <div>
-          <div className="relative w-full h-96 lg:h-[500px] rounded-lg overflow-hidden">
+          <div className="relative w-full h-96 lg:h-[500px] rounded-2xl overflow-hidden">
             <Image
               src={'https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'}
               alt="Professional woman in academic setting"
@@ -49,45 +49,16 @@ export default function CorporatePartnershipPage() {
       </div>
     </SectionContainer>
     </div>
-      {/* About the Program Section */}
-      <SectionContainer className="py-16 lg:py-24">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
-          {/* Left - Content */}
-          <div className="space-y-8">
-            <H2 className="text-primary-deepBlue">
-              About the Program
-            </H2>
-            <div className="space-y-6">
-              {corporatePartnershipData.aboutProgram.map((paragraph, index) => (
-                <Body20 key={index} className="text-neutral-bodyText leading-relaxed">
-                  {paragraph}
-                </Body20>
-              ))}
-            </div>
-          </div>
-          
-          {/* Right - Image */}
-          <div className="relative w-full h-[400px] lg:h-[500px] rounded-[20px] overflow-hidden">
-            <Image
-              src={corporatePartnershipData.aboutProgramImage}
-              alt="Professional woman in front of blackboard"
-              fill
-              className="object-cover"
-              sizes="(max-width: 768px) 100vw, 50vw"
-            />
-          </div>
-        </div>
-      </SectionContainer>
 
       {/* Features Section */}
-      <SectionContainer className="py-16 lg:py-24">
+      <SectionContainer className="">
         <FeaturesSection />
         </SectionContainer>
       {/* How It Works Section */}
       <HowItWorksSection />
 
       {/* Partner Advantages Section */}
-      <SectionContainer className="py-16 lg:py-24">
+      <SectionContainer className="py-8 lg:py-16">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
           {/* Left - Content */}
           <div className="space-y-8">

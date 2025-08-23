@@ -29,7 +29,7 @@ export function CombinationPackagesDrawer({ isOpen, onClose }: CombinationPackag
           <div className="flex items-center justify-between p-6 border-b border-neutral-lightGray">
             <button
               onClick={onClose}
-              className="p-2 hover:bg-neutral-lightGray rounded-lg transition-colors"
+              className="p-2 hover:bg-neutral-lightGray rounded-2xl transition-colors"
             >
               <X className="w-6 h-6 text-neutral-bodyText" />
             </button>
@@ -76,7 +76,7 @@ export function CombinationPackagesDrawer({ isOpen, onClose }: CombinationPackag
                       <Button 
                         variant="default"
                         size="sm"
-                        className="bg-primary-deepBlue hover:bg-primary-deepBlue/90 text-white px-4 py-2 rounded-lg font-semibold"
+                        className="bg-primary-deepBlue hover:bg-primary-deepBlue/90 text-white px-4 py-2 rounded-2xl font-semibold"
                       >
                         Apply Now
                       </Button>
@@ -130,7 +130,7 @@ export function CombinationPackagesDrawer({ isOpen, onClose }: CombinationPackag
                   </div>
                   
                   {/* Discounted Price */}
-                  <div className="flex justify-between items-center py-3 rounded-lg ">
+                  <div className="flex justify-between items-center py-3 rounded-2xl ">
                     <H3 className="text-primary-deepBlue font-bold">
                       Discounted Price
                     </H3>
@@ -142,7 +142,7 @@ export function CombinationPackagesDrawer({ isOpen, onClose }: CombinationPackag
                   {/* Apply Now Button */}
                   <Button 
                     variant="default"
-                    className="w-full bg-primary-deepBlue hover:bg-primary-deepBlue/90 text-white py-3 rounded-lg font-semibold"
+                    className="w-full bg-primary-deepBlue hover:bg-primary-deepBlue/90 text-white py-3 rounded-2xl font-semibold"
                   >
                     Apply Now
                   </Button>

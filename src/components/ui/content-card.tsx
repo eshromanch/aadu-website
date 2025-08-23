@@ -39,7 +39,7 @@ const ContentCard = React.forwardRef<HTMLDivElement, ContentCardProps>(
       <div
         ref={ref}
         className={cn(
-          "w-full h-[534px] lg:h-[330px] rounded-[25px] overflow-hidden relative",
+          "w-full h-[564px] lg:h-[330px] rounded-[25px] overflow-hidden relative",
           variantClasses[variant],
           className
         )}

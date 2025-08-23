@@ -18,7 +18,7 @@ export const navigationData: NavItem[] = [
     href: "/academics",
     children: [
       {
-        label: "About life experience",
+        label: "Life Experience",
         href: "/life-experience",
       },
       {
@@ -42,14 +42,14 @@ export const navigationData: NavItem[] = [
     ],
   },
   {
-    label: "Contact us",
+    label: "Contact",
     href: "/contact",
   },
 ];
 
 export const topNavData: NavItem[] = [
   {
-    label: "List of Majors",
+    label: "Majors",
     href: "/majors",
   },
   {

@@ -4,6 +4,7 @@ import { BigHero } from "@/components/common/BigHero"
 import { SectionContainer } from "@/components/common/SectionContainer"
 import { CardWithImage } from "@/components/common/CardWithImage"
 import { partnershipProgramsData } from "@/data/partnershipProgramsData"
+import Link from "next/link"
 
 export default function PartnershipProgramsPage() {
   return (
@@ -15,18 +16,19 @@ export default function PartnershipProgramsPage() {
       />
 
       {/* Partnership Programs Section */}
-      <SectionContainer className="py-16 lg:py-24">
+      <SectionContainer className="py-8 lg:py-16">
         <div className="space-y-12 lg:space-y-16">
           {partnershipProgramsData.map((program, index) => (
-            <CardWithImage
-              key={program.id}
-              title={program.title}
-              description={program.description}
-              image={program.image}
-              imageAlt={program.imageAlt}
-              buttonText={program.buttonText}
-              variant={program.variant}
-            />
+            <Link key={program.id} href={`/partnership-programs/${program.id}`}>
+              <CardWithImage
+                title={program.title}
+                description={program.description}
+                image={program.image}
+                imageAlt={program.imageAlt}
+                buttonText={program.buttonText}
+                variant={program.variant}
+              />
+            </Link>
           ))}
         </div>
       </SectionContainer>

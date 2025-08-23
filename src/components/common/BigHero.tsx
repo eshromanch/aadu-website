@@ -41,7 +41,7 @@ interface BigHeroProps {
  */
 export function BigHero({ title, backgroundImage, className }: BigHeroProps) {
   return (
-    <section className={cn("relative h-screen", className)}>
+    <section className={cn("relative h-[70vh]", className)}>
       {/* Background Image */}
       <div className="absolute inset-0">
         <Image
@@ -58,7 +58,7 @@ export function BigHero({ title, backgroundImage, className }: BigHeroProps) {
       {/* Content */}
       <div className="relative z-10 h-full flex items-end">
         <SectionContainer className="pb-16">
-          <H1 className="text-white max-w-4xl">
+          <H1 className="text-white ">
             {title}
           </H1>
         </SectionContainer>

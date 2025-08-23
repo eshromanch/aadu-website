@@ -3,6 +3,7 @@ import { CardWithImage } from "@/components/common/CardWithImage"
 import { EvaluationBodySection } from "@/components/academics/EvaluationBodySection"
 import { academicsHeroData } from "@/data/heroData"
 import { degreeProgramData, availableMajorsData } from "@/data/academicsData"
+import Link from "next/link"
 
 export default function AcademicsPage() {
   return (
@@ -14,24 +15,28 @@ export default function AcademicsPage() {
       />
       
       {/* Degree Program Section */}
-      <CardWithImage
-        title={degreeProgramData.title}
-        description={degreeProgramData.description}
-        buttonText={degreeProgramData.buttonText}
-        variant="dark"
-        image={degreeProgramData.image}
-        imageAlt={degreeProgramData.imageAlt}
-      />
+      <Link href="/degree-programs">
+        <CardWithImage
+          title={degreeProgramData.title}
+          description={degreeProgramData.description}
+          buttonText={degreeProgramData.buttonText}
+          variant="dark"
+          image={degreeProgramData.image}
+          imageAlt={degreeProgramData.imageAlt}
+        />
+      </Link>
       
       {/* Available Majors Section */}
-      <CardWithImage
-        title={availableMajorsData.title}
-        description={availableMajorsData.description}
-        buttonText={availableMajorsData.buttonText}
-        variant="light"
-        image={availableMajorsData.image}
-        imageAlt={availableMajorsData.imageAlt}
-      />
+      <Link href="/majors">
+        <CardWithImage
+          title={availableMajorsData.title}
+          description={availableMajorsData.description}
+          buttonText={availableMajorsData.buttonText}
+          variant="light"
+          image={availableMajorsData.image}
+          imageAlt={availableMajorsData.imageAlt}
+        />
+      </Link>
       
       {/* Evaluation Body Section */}
       <EvaluationBodySection />

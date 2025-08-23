@@ -23,7 +23,7 @@ export function CardWithImage({
   className
 }: CardWithImageProps) {
   return (
-    <SectionContainer className="py-16 ">
+    <SectionContainer className="py-8 lg:py-16">
       <ContentCard
         title={title}
         description={description}

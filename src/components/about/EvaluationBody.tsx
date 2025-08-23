@@ -26,7 +26,7 @@ export function EvaluationBody() {
         
         {/* Right - Image */}
         <div>
-          <div className="relative w-full h-96 lg:h-[500px] rounded-lg overflow-hidden">
+          <div className="relative w-full h-96 lg:h-[500px] rounded-2xl overflow-hidden">
             <Image
               src={evaluationBodyData.image}
               alt="Faculty team meeting"

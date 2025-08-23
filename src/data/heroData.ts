@@ -18,7 +18,7 @@ export const aboutHeroData: PageHeroData = {
 
 // Academics Page Hero (PageHero - smaller card style)
 export const academicsHeroData: PageHeroData = {
-  title: "Start your career & pursue your passion",
+  title: "Turn Your Work Experience Into an Accredited Degree",
   backgroundImage: "https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
 };
 

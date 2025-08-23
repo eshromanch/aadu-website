@@ -18,8 +18,8 @@ export function OurValues() {
       {/* Values Grid */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 lg:gap-6 ">
         {ourValuesData.values.map((value, index) => (
-          <div key={index} className="bg-primary-deepBlue rounded-lg text-center p-12">
-            <div className="mx-auto mb-4  rounded-lg flex items-center justify-center">
+          <div key={index} className="bg-primary-deepBlue rounded-2xl text-center p-12">
+            <div className="mx-auto mb-4  rounded-2xl flex items-center justify-center">
               <Image
                 src={value.icon}
                 alt={value.title}

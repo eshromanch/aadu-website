@@ -49,7 +49,7 @@ export function Dropdown({ item, className }: DropdownProps) {
       {/* Dropdown Menu - Shows on hover */}
       {isOpen && item.children && (
         <div 
-          className="absolute top-full left-0 mt-2 w-72 bg-white border border-neutral-lightGray rounded-lg shadow-lg z-50"
+          className="absolute top-full left-0 mt-2 w-72 bg-white border border-neutral-lightGray rounded-2xl shadow-lg z-50"
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
         >

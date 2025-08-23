@@ -34,15 +34,15 @@ export function Testimonial() {
         </div>
         
         {/* Right - Portrait */}
-        <div className="flex-1">
-          <div className="relative w-full h-96 lg:h-[500px] rounded-lg overflow-hidden">
+        <div className="flex justify-center items-center">
+         
             <Image 
               src={testimonialData.image}
               alt={`${testimonialData.author}, ${testimonialData.position}`}
-              fill
-              className="object-cover"
+              width={500}
+              height={500}
+              className="rounded-2xl"
             />
-          </div>
         </div>
       </SectionContainer>
     </div>

@@ -25,17 +25,16 @@ export default function IndividualDegreeProgramPage({ params }: PageProps) {
   return (
     <div className="min-h-screen">
       {/* Hero Section - Changed to PageHero (card-style) */}
-      <div className="py-16 lg:py-24">
+      <SectionContainer className="py-8 lg:py-16">
         <PageHero
           title={degreeProgram.title}
           subtitle={degreeProgram.subtitle}
           backgroundImage={degreeProgram.heroImage}
-          className="container mx-auto px-8"
         />
-      </div>
+      </SectionContainer>
       
       {/* About the Degree Section */}
-      <SectionContainer className="py-16 lg:py-24">
+      <SectionContainer className="py-8 lg:py-16">
         {/* Left - Content */}
         <div className="space-y-8">
           <H2 className="text-primary-deepBlue">
@@ -53,17 +52,16 @@ export default function IndividualDegreeProgramPage({ params }: PageProps) {
       </SectionContainer>
       
       {/* Eligibility Criteria Section */}
-      <SectionContainer className="py-16 lg:py-24">
+      <SectionContainer className="py-8 lg:py-16">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
           {/* Left - Image */}
-          <div className="relative w-full h-full rounded-[20px] overflow-hidden flex items-center justify-center">
-            <Image
+              <Image
               src={degreeProgram.eligibilityImage}
               alt={degreeProgram.eligibilityImageAlt}
-              fill
-              className="object-cover w-[300px] lg:h-[500px]"
+              width={500}
+              height={500}
+              className="w-full h-full rounded-lg"
             />
-          </div>
           
           {/* Right - Content */}
           <div className="space-y-8">
@@ -91,14 +89,14 @@ export default function IndividualDegreeProgramPage({ params }: PageProps) {
       </SectionContainer>
       
       {/* List of Certifications Section - Fixed styling */}
-      <SectionContainer className="py-16 lg:py-24">
+      <SectionContainer className="">
         {/* How It Works Section */}
         <HowItWorksSection />
       </SectionContainer>
 
       {/* Two-column layout: Certifications Card + FedEx CTA */}
       <div className="bg-primary-deepBlue">
-        <SectionContainer className="py-16 lg:py-24">
+        <SectionContainer className="py-8 lg:py-16">
         <div className=" grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           {/* Left - Certifications Card */}
           <div className="bg-white rounded-[25px] p-8 lg:p-12 shadow-lg">
@@ -168,7 +166,7 @@ export default function IndividualDegreeProgramPage({ params }: PageProps) {
         </div>
         </SectionContainer>
       </div>
-        <SectionContainer className="py-16 lg:py-24">
+        <SectionContainer className="py-8 lg:py-16">
         <FeaturesSection />
         </SectionContainer>
         <FinalCTASection />

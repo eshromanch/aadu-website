@@ -40,7 +40,7 @@ Accordion.displayName = "Accordion"
 
 const AccordionItem = React.forwardRef<HTMLDivElement, AccordionItemProps>(
   ({ children, className, value, ...props }, ref) => (
-    <div ref={ref} className={cn("border border-neutral-lightGray rounded-lg", className)} {...props}>
+    <div ref={ref} className={cn("border border-neutral-lightGray rounded-2xl", className)} {...props}>
       {children}
     </div>
   )

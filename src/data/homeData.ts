@@ -23,6 +23,7 @@ export interface DegreeProgramData {
   bgColor: string;
   textColor: string;
   hasShadow?: boolean;
+  link: string;
 }
 
 export interface DegreeProgramsSectionData {
@@ -79,20 +80,23 @@ export const degreeProgramsData: DegreeProgramsSectionData = {
       title: "Bachelor's Degree",
       image: "https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
       bgColor: "bg-primary-deepBlue",
-      textColor: "text-neutral-offWhiteBlue"
+      textColor: "text-neutral-offWhiteBlue",
+      link: "/degree-programs/bachelors"
     },
     {
       title: "Master's Degree",
       image: "https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
       bgColor: "bg-neutral-offWhiteBlue",
       textColor: "text-primary-deepBlue",
-      hasShadow: true
+      hasShadow: true,
+      link: "/degree-programs/masters"
     },
     {
       title: "Associate Degree",
       image: "https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
       bgColor: "bg-primary-deepBlue",
-      textColor: "text-neutral-offWhiteBlue"
+      textColor: "text-neutral-offWhiteBlue",
+      link: "/degree-programs/associate"
     }
   ]
 };

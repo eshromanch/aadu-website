@@ -22,7 +22,7 @@ const ImageCard = React.forwardRef<HTMLDivElement, ImageCardProps>(
       <div
         ref={ref}
         className={cn(
-          "relative overflow-hidden rounded-lg",
+          "relative overflow-hidden rounded-2xl",
           aspectRatioClasses[aspectRatio],
           className
         )}

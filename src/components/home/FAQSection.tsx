@@ -14,7 +14,7 @@ export function FAQSection() {
   }
 
   return (
-    <SectionContainer className="py-16 lg:py-24">
+    <SectionContainer className="py-8 lg:py-16">
       <H2 className="text-primary-deepBlue text-center mb-12">
         Frequently asked questions
       </H2>

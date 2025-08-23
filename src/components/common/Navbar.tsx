@@ -1,15 +1,25 @@
 "use client"
 
 import Link from "next/link"
-import { Search, Menu } from "lucide-react"
+import { Menu, Search } from "lucide-react"
 import { navigationData, topNavData } from "@/data/navData"
 import { Dropdown } from "@/components/ui/dropdown"
 import { Drawer } from "@/components/ui/drawer"
+import { SearchHero } from "@/components/common/SearchHero"
 import { useState } from "react"
 import Image from "next/image"
 
 export function Navbar() {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false)
+  const [isSearchOpen, setIsSearchOpen] = useState(false)
+
+  const toggleSearch = () => {
+    setIsSearchOpen(!isSearchOpen)
+  }
+
+  const closeSearch = () => {
+    setIsSearchOpen(false)
+  }
 
   return (
     <>
@@ -19,27 +29,15 @@ export function Navbar() {
           <div className="container mx-auto px-4">
             <div className="flex items-center justify-between h-16">
               {/* Logo */}
-              <div className="flex items-center">
-                <div className="w-12 h-12 rounded-full border-2 border-primary-deepBlue flex items-center justify-center bg-white">
-                  <div className="text-center">
-                    <div className="text-body-12 font-dm-sans font-semibold text-primary-deepBlue leading-tight">
-                      ASIAN AMERICAN<br />
-                      DIGITAL<br />
-                      UNIVERSITY
-                    </div>
-                  </div>
-                </div>
-              </div>
+             <Image className="w-12 h-12" src="/AADU LOGO.png" alt="Logo" width={100} height={100} />
               
               {/* Mobile Icons */}
               <div className="flex items-center space-x-4">
-                <button className="text-primary-deepBlue hover:text-primary-dodgerBlue transition-colors">
-                  <Image
-                    src="/icons/search-alt_svgrepo.com.svg"
-                    alt="Search"
-                    width={20}
-                    height={20}
-                  />
+                <button 
+                  onClick={toggleSearch}
+                  className="text-primary-deepBlue hover:text-primary-dodgerBlue transition-colors"
+                >
+                  <Search className="w-5 h-5" />
                 </button>
                 <button 
                   onClick={() => setIsDrawerOpen(true)}
@@ -75,26 +73,17 @@ export function Navbar() {
           
           {/* Main Navigation Bar */}
           <div className="container mx-auto px-8">
-            <div className="flex items-center justify-between h-24">
+            <div className="flex justify-between h-24">
               {/* Logo */}
-              <div className="flex items-center">
-                <div className="w-20 h-20 rounded-full border-2 border-primary-deepBlue flex items-center justify-center bg-white">
-                  <div className="text-center">
-                    <div className="text-body-16 font-dm-sans font-semibold text-primary-deepBlue leading-tight">
-                      ASIAN AMERICAN<br />
-                      DIGITAL<br />
-                      UNIVERSITY
-                    </div>
-                  </div>
-                </div>
-              </div>
+             <Link href="/">
+             <Image className="w-24 h-24" src="/AADU LOGO.png" alt="Logo" width={100} height={100} /></Link>
               
               {/* Main Navigation */}
-              <nav className="w-full flex  justify-end space-x-12 mr-12">
+              <nav className="flex items-center space-x-12">
                 {navigationData.map((item, index) => (
                   <div key={index}>
                     {item.children ? (
-                      <Dropdown item={item} className="text-body-20 font-poppins" />
+                      <Dropdown item={item} className="text-body-20-semibold font-poppins" />
                     ) : (
                       <Link
                         href={item.href}
@@ -105,21 +94,34 @@ export function Navbar() {
                     )}
                   </div>
                 ))}
+                  {/* Search Icon */}
+              <button 
+                onClick={toggleSearch}
+                className="text-primary-deepBlue hover:text-primary-dodgerBlue transition-colors"
+              >
+                <Search className="w-6 h-6" />
+              </button>
               </nav>
               
-              {/* Search Icon */}
-              <button className="text-primary-deepBlue hover:text-primary-dodgerBlue transition-colors">
-                <Image
-                  src="/icons/search-alt_svgrepo.com.svg"
-                  alt="Search"
-                  width={24}
-                  height={24}
-                />
-              </button>
+            
             </div>
           </div>
         </div>
       </header>
+
+      {/* Search Section - Toggleable */}
+      {isSearchOpen && (
+        <div className=" bg-neutral-offWhiteBlue rounded-b-lg">
+          <div className="container mx-auto px-8 py-16 lg:py-24">
+            <div className="max-w-2xl mx-auto text-center">
+              <h1 className="text-4xl lg:text-5xl font-bold text-primary-deepBlue mb-8">
+                What are you looking for?
+              </h1>
+              <SearchHero onSearch={closeSearch} />
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Mobile Drawer */}
       <Drawer 

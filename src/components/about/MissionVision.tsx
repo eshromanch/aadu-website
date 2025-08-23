@@ -10,9 +10,9 @@ export function MissionVision() {
     <SectionContainer className="py-16">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
         {/* Left - Mission & Vision Cards */}
-        <div className="flex flex-col justify-between h-full ">
+        <div className="flex flex-col justify-between h-full space-y-8">
           {/* Mission Card */}
-          <div className="bg-primary-deepBlue p-8 rounded-lg">
+          <div className="bg-primary-deepBlue p-8 rounded-2xl">
             <H3Semibold className="text-white mb-4">
               {missionVisionData.mission.title}
             </H3Semibold>
@@ -22,7 +22,7 @@ export function MissionVision() {
           </div>
           
           {/* Vision Card */}
-          <div className="bg-primary-dodgerBlue p-8 rounded-lg">
+          <div className="bg-primary-dodgerBlue p-8 rounded-2xl">
             <H3Semibold className="text-white mb-4">
               {missionVisionData.vision.title}
             </H3Semibold>
@@ -33,16 +33,13 @@ export function MissionVision() {
         </div>
         
         {/* Right - Image */}
-        <div>
-          <div className="relative w-full h-full lg:h-[500px] rounded-lg overflow-hidden">
-            <Image
+        <Image
               src={missionVisionData.image}
               alt="Graduation celebration"
-              fill
-              className="object-cover"
+              width={500}
+              height={500}
+              className="w-full h-full rounded-lg"
             />
-          </div>
-        </div>
       </div>
     </SectionContainer>
   )

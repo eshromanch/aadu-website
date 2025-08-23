@@ -14,33 +14,33 @@ export interface FooterData {
 }
 
 export const footerData: FooterData = {
-  description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed gravida ac elit eu egestas.",
+  description: "AADU - American Academy of Distance University. Transform your work experience into an accredited degree and advance your professional career.",
   sections: [
     {
       title: "Academics",
       links: [
-        { label: "Bachelor's Degree", href: "/bachelors" },
-        { label: "Master's Degree", href: "/masters" },
-        { label: "Doctorate Degree", href: "/doctorate" },
-        { label: "Associate Degree", href: "/associate" },
-        { label: "Diploma Degree", href: "/diploma" }
+        { label: "Degree Programs", href: "/degree-programs" },
+        { label: "Life Experience", href: "/life-experience" },
+        { label: "Available Majors", href: "/majors" },
+        { label: "Apply Now", href: "/apply" }
       ]
     },
     {
       title: "Quick Links",
       links: [
-        { label: "Application Form", href: "/application" },
-        { label: "Privacy Policy", href: "/privacy" },
-        { label: "Terms & Conditions", href: "/terms" },
-        { label: "FAQ", href: "/faq" }
+        { label: "About AADU", href: "/about" },
+        { label: "Contact Us", href: "/contact" },
+        { label: "Verification", href: "/verification" },
+        { label: "Partnership Programs", href: "/partnership-programs" }
       ]
     },
     {
-      title: "About",
+      title: "Services",
       links: [
-        { label: "Admission Requirements", href: "/admission" },
-        { label: "Philosophy of AADU", href: "/philosophy" },
-        { label: "List of Majors", href: "/majors" }
+        { label: "Student Verification", href: "/verification" },
+        { label: "Corporate Partnerships", href: "/partnership-programs/corporate" },
+        { label: "Search", href: "/search" },
+        { label: "Admin Panel", href: "/admin" }
       ]
     }
   ]

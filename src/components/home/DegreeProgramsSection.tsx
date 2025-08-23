@@ -4,6 +4,7 @@ import { SectionContainer } from "@/components/common/SectionContainer"
 import { H2, Body24, Body20, Body20Semibold } from "@/components/common/Typography"
 import { Button } from "@/components/ui/button"
 import { degreeProgramsData } from "@/data/homeData"
+import Link from "next/link"
 import Image from "next/image"
 
 export function DegreeProgramsSection() {
@@ -15,7 +16,8 @@ export function DegreeProgramsSection() {
           <H2 className="text-primary-deepBlue mb-6">
             {degreeProgramsData.title}
           </H2>
-          <Button className="w-fit">
+  <Link href="/degree-programs">
+  <Button className="w-fit">
             {degreeProgramsData.buttonText}
             <Image
               src="/icons/arrow-right.svg"
@@ -23,26 +25,26 @@ export function DegreeProgramsSection() {
               width={16}
               height={16}
             />
-          </Button>
+          </Button></Link>
         </div>
         
         {/* Right - Degree Cards */}
         <div className="lg:col-span-2">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {degreeProgramsData.programs.map((program, index) => (
-              <div 
-                key={index} 
-                className={`${program.bgColor} ${program.hasShadow ? 'shadow-lg' : ''} rounded-[15px] w-full h-[360px] relative overflow-hidden`}
+             <Link key={index} href={program.link}>
+                <div 
+                className={`${program.bgColor} ${program.hasShadow ? 'shadow-lg' : ''} rounded-[15px] w-full h-[360px] relative overflow-hidden flex flex-col items-center justify-center`}
               >
-                {/* Image Container with 14px top padding */}
-                <div className="absolute top-[14px] left-1/2 transform -translate-x-1/2 w-[233px] h-[233px] rounded-[10px] overflow-hidden">
+                
                   <Image
                     src={program.image}
                     alt={program.title}
-                    fill
-                    className="object-cover"
+                    className=""
+                    height={233}
+                    width={233}
                   />
-                </div>
+                
                 
                 {/* Title positioned at bottom */}
                 <div className="absolute bottom-0 left-0 right-0 p-4">
@@ -51,6 +53,7 @@ export function DegreeProgramsSection() {
                   </Body24>
                 </div>
               </div>
+             </Link>
             ))}
           </div>
         </div>

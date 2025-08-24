@@ -10,14 +10,7 @@ images: {
     },
   ],
 },
-eslint: {
-  ignoreDuringBuilds: true,
-},
-typescript: {
-  ignoreBuildErrors: true,
-},
-
-
+// Removed dangerous ignore settings that bypass quality checks
 };
 
 export default nextConfig;

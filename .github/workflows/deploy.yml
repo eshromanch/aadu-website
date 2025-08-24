@@ -7,7 +7,6 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    # Add environment variables from secrets to make them available to the SSH script
     env:
       MONGODB_URI: ${{ secrets.MONGODB_URI }}
       JWT_SECRET: ${{ secrets.JWT_SECRET }}
@@ -27,8 +26,6 @@ jobs:
       
     - name: Build application
       run: npm run build
-      # This build will likely still fail due to missing env vars, but that's okay
-      # The real build happens on the server where we have the environment variables
       continue-on-error: true
       
     - name: Deploy to server
@@ -60,10 +57,10 @@ jobs:
           
           # Create .env.production file from GitHub Secrets
           cat > .env.production << EOF
-MONGODB_URI=$MONGODB_URI
-JWT_SECRET=$JWT_SECRET
-NODE_ENV=production
-EOF
+          MONGODB_URI=$MONGODB_URI
+          JWT_SECRET=$JWT_SECRET
+          NODE_ENV=production
+          EOF
           
           # Install dependencies and build
           npm ci
@@ -75,4 +72,4 @@ EOF
           # Reload Nginx
           sudo nginx -t && sudo systemctl reload nginx
           
-          echo "Deployment completed!"
+          echo "Deployment completed!

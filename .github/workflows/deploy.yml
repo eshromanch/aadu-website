@@ -82,7 +82,7 @@ on:
     branches: [ main, master ]
 
 jobs:
-  deploy:
+  test-and-deploy:
     runs-on: ubuntu-latest
     
     steps:
@@ -98,8 +98,17 @@ jobs:
     - name: Install dependencies
       run: npm ci
       
+    - name: Run linting
+      run: npm run lint
+      
+    - name: Run type checking
+      run: npx tsc --noEmit
+      
     - name: Build application
       run: npm run build
+      
+    - name: Security audit
+      run: npm audit --audit-level moderate
       
     - name: Deploy to server
       uses: appleboy/ssh-action@v1.0.3
@@ -150,6 +159,17 @@ jobs:
           
           # Test and reload Nginx
           sudo nginx -t && sudo systemctl reload nginx
+          
+          # Wait for application to start
+          sleep 10
+          
+          # Health check
+          if curl -f http://localhost:3001/api/health || curl -f http://localhost:3001; then
+            echo "✅ Application is running successfully"
+          else
+            echo "❌ Application failed to start"
+            exit 1
+          fi
           
           echo "Deployment completed successfully!"
       env:

@@ -34,7 +34,7 @@ export function VerificationService({ onSearch, isSearching }: VerificationServi
               <strong>Primary Search Method:</strong> Enter the student ID number for quick and accurate verification. You can also search by student name, email address, phone number, major subject, or degree program.
             </Body20>
             <Body20 className="text-neutral-bodyText leading-relaxed">
-              All verification results include the student's current application status and degree information.
+              All verification results include the student&apos;s current application status and degree information.
             </Body20>
           </div>
 
@@ -70,11 +70,11 @@ export function VerificationService({ onSearch, isSearching }: VerificationServi
               <p className="font-semibold text-primary-deepBlue">Search Methods:</p>
               <ul className="space-y-1 ml-4">
                 <li>• <strong>Student ID</strong> (recommended): Enter the 7-digit student ID number</li>
-                <li>• Full name (e.g., "John Smith")</li>
-                <li>• Email address (e.g., "john@example.com")</li>
+                <li>• Full name (e.g., &quot;John Smith&quot;)</li>
+                <li>• Email address (e.g., &quot;john@example.com&quot;)</li>
                 <li>• Phone number</li>
-                <li>• Major subject (e.g., "Computer Science")</li>
-                <li>• Degree program (e.g., "Bachelor's Degree")</li>
+                <li>• Major subject (e.g., &quot;Computer Science&quot;)</li>
+                <li>• Degree program (e.g., &quot;Bachelor&apos;s Degree&quot;)</li>
               </ul>
             </div>
           </div>

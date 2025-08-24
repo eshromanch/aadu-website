@@ -2,7 +2,7 @@
 
 import { useSearchParams } from "next/navigation"
 import { SectionContainer } from "@/components/common/SectionContainer"
-import { H2, Body16 } from "@/components/common/Typography"
+import { H2 } from "@/components/common/Typography"
 import { SearchResults } from "@/components/search/SearchResults"
 import { SearchHero } from "@/components/common/SearchHero"
 import { searchContent } from "@/data/searchData"

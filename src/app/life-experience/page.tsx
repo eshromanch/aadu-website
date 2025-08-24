@@ -8,8 +8,7 @@ import {
   whatCountsAsLifeExperience, 
   aboutAADULifeExperienceDegrees, 
   certifications, 
-  keyBenefits, 
-  contactInfo 
+  keyBenefits
 } from "@/data/lifeExperienceData"
 import Image from "next/image"
 import { TalkWithUs } from "@/components/about/TalkWithUs"
@@ -109,7 +108,7 @@ export default function LifeExperiencePage() {
                 List of Certifications
               </H3>
               <div className="text-[20px] font-dm-sans font-semibold text-primary-deepBlue">
-                (Bachelor's Degree)
+                (Bachelor&apos;s Degree)
               </div>
               
               <div className="space-y-4 text-left">

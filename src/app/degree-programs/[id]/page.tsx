@@ -1,22 +1,23 @@
 import { notFound } from "next/navigation"
 import { PageHero } from "@/components/common/PageHero"
 import { SectionContainer } from "@/components/common/SectionContainer"
-import { H2, H3, Body20, Body16, Body16Medium, Body20Semibold, Body24 } from "@/components/common/Typography"
-import { CallToActionBanner } from "@/components/common/CallToActionBanner"
+import { H2, H3, Body20, Body16, Body20Semibold } from "@/components/common/Typography"
+
 import { HowItWorksSection } from "@/components/degree-programs/HowItWorksSection"
 import { FeaturesSection } from "@/components/degree-programs/FeaturesSection"
 import { FinalCTASection } from "@/components/common/FinalCTASection"
-import { individualDegreePrograms, callToActionData } from "@/data/degreeProgramsData"
+import { individualDegreePrograms } from "@/data/degreeProgramsData"
 import Image from "next/image"
 
 interface PageProps {
-  params: {
+  params: Promise<{
     id: string
-  }
+  }>
 }
 
-export default function IndividualDegreeProgramPage({ params }: PageProps) {
-  const degreeProgram = individualDegreePrograms.find(program => program.id === params.id)
+export default async function IndividualDegreeProgramPage({ params }: PageProps) {
+  const resolvedParams = await params
+  const degreeProgram = individualDegreePrograms.find(program => program.id === resolvedParams.id)
   
   if (!degreeProgram) {
     notFound()

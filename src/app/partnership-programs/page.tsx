@@ -1,5 +1,3 @@
-"use client"
-
 import { BigHero } from "@/components/common/BigHero"
 import { SectionContainer } from "@/components/common/SectionContainer"
 import { CardWithImage } from "@/components/common/CardWithImage"
@@ -18,7 +16,7 @@ export default function PartnershipProgramsPage() {
       {/* Partnership Programs Section */}
       <SectionContainer className="py-8 lg:py-16">
         <div className="space-y-12 lg:space-y-16">
-          {partnershipProgramsData.map((program, index) => (
+          {partnershipProgramsData.map((program) => (
             <Link key={program.id} href={`/partnership-programs/${program.id}`}>
               <CardWithImage
                 title={program.title}

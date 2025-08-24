@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useCallback } from "react"
 import { Button } from "@/components/ui/button"
 import { H2, H3, Body16 } from "@/components/common/Typography"
 import { MessageSquare, Search, Eye, CheckCircle, XCircle, Clock, Mail } from "lucide-react"
@@ -45,7 +45,7 @@ export function ContactManagement({ onBack }: ContactManagementProps) {
   const [statusFilter, setStatusFilter] = useState("all")
   const [selectedContact, setSelectedContact] = useState<Contact | null>(null)
 
-  const fetchContacts = async () => {
+  const fetchContacts = useCallback(async () => {
     try {
       const params = new URLSearchParams({
         page: currentPage.toString(),
@@ -71,7 +71,7 @@ export function ContactManagement({ onBack }: ContactManagementProps) {
         
         // Calculate stats from the data
         const total = data.pagination.total
-        const statusCounts = data.data.reduce((acc: any, contact: Contact) => {
+        const statusCounts = data.data.reduce((acc: Record<string, number>, contact: Contact) => {
           acc[contact.status] = (acc[contact.status] || 0) + 1
           return acc
         }, {})
@@ -89,11 +89,11 @@ export function ContactManagement({ onBack }: ContactManagementProps) {
     } finally {
       setIsLoading(false)
     }
-  }
+  }, [currentPage, statusFilter, searchTerm])
 
   useEffect(() => {
     fetchContacts()
-  }, [currentPage, statusFilter, searchTerm])
+  }, [fetchContacts])
 
   const handleStatusUpdate = async (contactId: string, newStatus: string, notes?: string) => {
     try {

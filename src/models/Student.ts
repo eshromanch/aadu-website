@@ -55,8 +55,7 @@ const studentSchema = new mongoose.Schema<IStudent>({
   studentId: {
     type: Number,
     required: true,
-    unique: true,
-    index: true
+    unique: true
   },
   
   // Personal Information

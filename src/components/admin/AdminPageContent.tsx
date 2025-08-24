@@ -23,7 +23,7 @@ export function AdminPageContent() {
         } else {
           setIsAuthenticated(false)
         }
-      } catch (error) {
+      } catch {
         setIsAuthenticated(false)
       } finally {
         setIsLoading(false)

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import dbConnect from '@/lib/mongodb'
 import Admin from '@/models/Admin'
-import { generateToken, createAuthResponse } from '@/lib/auth'
+import { generateToken } from '@/lib/auth'
 
 export async function POST(request: NextRequest) {
   try {
@@ -9,7 +9,6 @@ export async function POST(request: NextRequest) {
     
     const { username, password } = await request.json()
     
-    // Validate input
     if (!username || !password) {
       return NextResponse.json(
         { success: false, message: 'Username and password are required' },
@@ -17,8 +16,7 @@ export async function POST(request: NextRequest) {
       )
     }
     
-    // Find admin by username
-    const admin = await Admin.findOne({ username, isActive: true })
+    const admin = await Admin.findOne({ username }).select('+password')
     
     if (!admin) {
       return NextResponse.json(
@@ -27,36 +25,40 @@ export async function POST(request: NextRequest) {
       )
     }
     
-    // Verify password
-    const isValidPassword = await admin.comparePassword(password)
+    const isPasswordValid = await admin.comparePassword(password)
     
-    if (!isValidPassword) {
+    if (!isPasswordValid) {
       return NextResponse.json(
         { success: false, message: 'Invalid credentials' },
         { status: 401 }
       )
     }
     
-    // Update last login
-    admin.lastLogin = new Date()
-    await admin.save()
-    
-    // Generate JWT token
     const token = generateToken({
-      adminId: admin._id.toString(),
-      username: admin.username,
-      role: admin.role
+      userId: admin._id.toString(),
+      email: admin.email,
+      role: 'admin'
     })
     
-    // Create response with cookie
-    return createAuthResponse(token, {
-      admin: {
+    const response = NextResponse.json({
+      success: true,
+      message: 'Login successful',
+      data: {
         id: admin._id,
         username: admin.username,
-        email: admin.email,
-        role: admin.role
+        email: admin.email
       }
     })
+    
+    // Set HTTP-only cookie
+    response.cookies.set('auth-token', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+      maxAge: 24 * 60 * 60 // 24 hours
+    })
+    
+    return response
     
   } catch (error) {
     console.error('Login error:', error)

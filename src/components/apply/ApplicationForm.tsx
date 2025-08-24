@@ -125,7 +125,7 @@ export function ApplicationForm() {
     }))
   }
 
-  const handleFileUpload = (field: keyof Pick<FormData, 'passport' | 'drivingLicense' | 'workExperience'>, file: File) => {
+  const handleFileUpload = (field: 'passport' | 'drivingLicense' | 'workExperience', file: File) => {
     setUploadedFiles(prev => ({
       ...prev,
       [field]: file
@@ -142,7 +142,7 @@ export function ApplicationForm() {
     }))
   }
 
-  const removeFile = (field: keyof Pick<FormData, 'passport' | 'drivingLicense' | 'workExperience'>) => {
+  const removeFile = (field: 'passport' | 'drivingLicense' | 'workExperience') => {
     setUploadedFiles(prev => {
       const newFiles = { ...prev }
       delete newFiles[field]

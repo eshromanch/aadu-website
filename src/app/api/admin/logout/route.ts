@@ -1,6 +1,10 @@
-import { NextRequest } from 'next/server'
-import { clearAuthResponse } from '@/lib/auth'
+import { NextResponse } from 'next/server'
 
-export async function POST(request: NextRequest) {
-  return clearAuthResponse()
+export async function POST() {
+  const response = NextResponse.json({ success: true, message: 'Logged out successfully' })
+  
+  // Clear the auth cookie
+  response.cookies.delete('auth-token')
+  
+  return response
 } 

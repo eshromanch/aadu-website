@@ -7,9 +7,9 @@ export function ContactInfo() {
   return (
     <SectionContainer className="py-8 lg:py-16">
       <div className="max-w-4xl mx-auto">
-        <H2 className="text-primary-deepBlue mb-6">Let's talk with us</H2>
+        <H2 className="text-primary-deepBlue mb-6">Let&apos;s talk with us</H2>
         <Body20 className="text-neutral-bodyText mb-12">
-          Questions, comments, or suggestions? Simply fill in the form and we'll be in touch shortly.
+          Questions, comments, or suggestions? Simply fill in the form and we&apos;ll be in touch shortly.
         </Body20>
         
         <div className="space-y-8">

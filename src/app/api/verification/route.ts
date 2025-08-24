@@ -2,73 +2,53 @@ import { NextRequest, NextResponse } from 'next/server'
 import dbConnect from '@/lib/mongodb'
 import Student from '@/models/Student'
 
-export async function GET(request: NextRequest) {
+export async function POST(request: NextRequest) {
   try {
     await dbConnect()
     
-    const { searchParams } = new URL(request.url)
-    const query = searchParams.get('q') || ''
+    const { studentId, email, lastName } = await request.json()
     
-    if (!query.trim()) {
+    if (!studentId && !email && !lastName) {
       return NextResponse.json(
-        { success: false, message: 'Search query is required' },
+        { success: false, message: 'Please provide at least one search criteria' },
         { status: 400 }
       )
     }
     
-    // Check if query is a number (student ID)
-    const isStudentId = !isNaN(Number(query))
+    const query: Record<string, unknown> = {}
     
-    let searchQuery: any
-    
-    if (isStudentId) {
-      // If it's a number, search by student ID first
-      searchQuery = { studentId: Number(query) }
-    } else {
-      // If it's not a number, search by other criteria
-      searchQuery = {
-        $or: [
-          { email: { $regex: query, $options: 'i' } },
-          { firstName: { $regex: query, $options: 'i' } },
-          { lastName: { $regex: query, $options: 'i' } },
-          { phone: { $regex: query, $options: 'i' } },
-          { major: { $regex: query, $options: 'i' } },
-          { degreePackage: { $regex: query, $options: 'i' } }
-        ]
-      }
+    if (studentId) {
+      query.studentId = { $regex: studentId, $options: 'i' }
     }
     
-    const students = await Student.find(searchQuery)
-      .select('studentId firstName lastName email phone major degreePackage status createdAt yearOfGraduation')
+    if (email) {
+      query.email = { $regex: email, $options: 'i' }
+    }
+    
+    if (lastName) {
+      query.lastName = { $regex: lastName, $options: 'i' }
+    }
+    
+    const students = await Student.find(query)
+      .select('studentId firstName lastName email degreeProgram major status yearOfGraduation createdAt')
       .sort({ createdAt: -1 })
       .limit(10)
       .lean()
     
-    // Format the results for the verification page
-    const formattedResults = students.map(student => ({
-      name: `${student.firstName} ${student.lastName}`,
-      registrationNo: student.studentId.toString(), // Use studentId as registration number
-      email: student.email,
-      session: student.yearOfGraduation ? new Date(student.yearOfGraduation).getFullYear().toString() : 'N/A',
-      majorSubject: student.major,
-      gender: 'N/A', // Not stored in current schema
-      institute: 'AADU',
-      dateOfBirth: 'N/A', // Not stored in current schema
-      certificateNo: student.studentId.toString(), // Use studentId as certificate number
-      status: student.status,
-      degreePackage: student.degreePackage,
-      phone: student.phone,
-      appliedDate: student.createdAt
-    }))
+    if (students.length === 0) {
+      return NextResponse.json(
+        { success: false, message: 'No students found with the provided criteria' },
+        { status: 404 }
+      )
+    }
     
     return NextResponse.json({
       success: true,
-      data: formattedResults,
-      count: formattedResults.length
+      data: students
     })
     
   } catch (error) {
-    console.error('Verification search error:', error)
+    console.error('Verification error:', error)
     return NextResponse.json(
       { success: false, message: 'Internal server error' },
       { status: 500 }

@@ -30,7 +30,7 @@ interface AccordionContentProps {
 }
 
 const Accordion = React.forwardRef<HTMLDivElement, AccordionProps>(
-  ({ children, className, defaultOpen, ...props }, ref) => (
+  ({ children, className, ...props }, ref) => (
     <div ref={ref} className={cn("space-y-4", className)} {...props}>
       {children}
     </div>
@@ -39,7 +39,7 @@ const Accordion = React.forwardRef<HTMLDivElement, AccordionProps>(
 Accordion.displayName = "Accordion"
 
 const AccordionItem = React.forwardRef<HTMLDivElement, AccordionItemProps>(
-  ({ children, className, value, ...props }, ref) => (
+  ({ children, className, ...props }, ref) => (
     <div ref={ref} className={cn("border border-neutral-lightGray rounded-2xl", className)} {...props}>
       {children}
     </div>

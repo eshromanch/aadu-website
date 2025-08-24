@@ -5,7 +5,9 @@ import Admin from '@/models/Admin'
 
 export async function GET(request: NextRequest) {
   try {
-    const token = getTokenFromRequest(request)
+    // Try getting token from NextRequest cookies first
+    const cookieToken = request.cookies.get('auth-token')?.value
+    const token = cookieToken || getTokenFromRequest(request)
     
     if (!token) {
       return NextResponse.json(
@@ -25,7 +27,7 @@ export async function GET(request: NextRequest) {
     await dbConnect()
     
     // Get admin details
-    const admin = await Admin.findById(payload.adminId).select('-password').lean()
+    const admin = await Admin.findById(payload.userId).select('-password').lean() as { _id: string; username: string; email: string; role: string; isActive: boolean } | null
     
     if (!admin || !admin.isActive) {
       return NextResponse.json(

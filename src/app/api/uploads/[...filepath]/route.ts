@@ -4,10 +4,11 @@ import path from 'path'
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { filepath: string[] } }
+  { params }: { params: Promise<{ filepath: string[] }> }
 ) {
   try {
-    const filepath = params.filepath.join('/')
+    const resolvedParams = await params
+    const filepath = resolvedParams.filepath.join('/')
     const fullPath = path.join(process.cwd(), 'public', 'uploads', filepath)
     
     // Basic security check - only allow files from uploads directory
@@ -29,7 +30,7 @@ export async function GET(
     else if (ext === '.png') contentType = 'image/png'
     else if (ext === '.gif') contentType = 'image/gif'
     
-    return new NextResponse(fileBuffer, {
+    return new NextResponse(new Uint8Array(fileBuffer), {
       headers: {
         'Content-Type': contentType,
         'Content-Disposition': `inline; filename="${path.basename(filepath)}"`,

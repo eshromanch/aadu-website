@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useCallback } from "react"
 import { Button } from "@/components/ui/button"
 import { H2, H3, Body16 } from "@/components/common/Typography"
 import { LogOut, Users, FileText, CheckCircle, XCircle, Clock, Search, Plus, MessageSquare } from "lucide-react"
@@ -110,12 +110,7 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
     adminNotes: ""
   })
 
-  // If showing contact management, render that component
-  if (showContactManagement) {
-    return <ContactManagement onBack={() => setShowContactManagement(false)} />
-  }
-
-  const fetchStudents = async () => {
+  const fetchStudents = useCallback(async () => {
     try {
       const params = new URLSearchParams({
         page: currentPage.toString(),
@@ -141,7 +136,7 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
         
         // Calculate stats from the data
         const total = data.pagination.total
-        const statusCounts = data.data.reduce((acc: any, student: Student) => {
+        const statusCounts = data.data.reduce((acc: Record<string, number>, student: Student) => {
           acc[student.status] = (acc[student.status] || 0) + 1
           return acc
         }, {})
@@ -159,11 +154,16 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
     } finally {
       setIsLoading(false)
     }
-  }
+  }, [currentPage, statusFilter, searchTerm])
 
   useEffect(() => {
     fetchStudents()
-  }, [currentPage, statusFilter, searchTerm])
+  }, [fetchStudents])
+
+  // If showing contact management, render that component
+  if (showContactManagement) {
+    return <ContactManagement onBack={() => setShowContactManagement(false)} />
+  }
 
   const handleStatusUpdate = async (studentId: string, newStatus: string, notes?: string) => {
     try {
@@ -245,7 +245,7 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
     }
   }
 
-  const handleCreateFormChange = (field: keyof CreateStudentForm, value: any) => {
+  const handleCreateFormChange = (field: keyof CreateStudentForm, value: string | Date) => {
     setCreateForm(prev => ({
       ...prev,
       [field]: value

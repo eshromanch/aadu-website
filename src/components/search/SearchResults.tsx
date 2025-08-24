@@ -58,7 +58,7 @@ export function SearchResults({ results, query }: SearchResultsProps) {
         <div className="text-center">
           <H2 className="text-primary-deepBlue mb-4">No results found</H2>
           <Body16 className="text-neutral-bodyText mb-8">
-            We couldn't find any results for "{query}". Try searching with different keywords.
+            We couldn&apos;t find any results for &quot;{query}&quot;. Try searching with different keywords.
           </Body16>
           <div className="space-y-4">
             <p className="text-sm text-neutral-bodyText">Try searching for:</p>
@@ -83,7 +83,7 @@ export function SearchResults({ results, query }: SearchResultsProps) {
         {/* Search Summary */}
         <div className="mb-8">
           <H2 className="text-primary-deepBlue mb-2">
-            Search Results for "{query}"
+            Search Results for &quot;{query}&quot;
           </H2>
           <Body16 className="text-neutral-bodyText">
             Found {results.length} result{results.length !== 1 ? 's' : ''}

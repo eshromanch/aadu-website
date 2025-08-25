@@ -7,8 +7,27 @@ const path = require('path');
 // Load environment variables
 require('dotenv').config({ path: path.join(__dirname, '..', '.env.production') });
 
-// Import the Admin model
-const Admin = require('../src/models/Admin');
+// Define Admin schema directly (avoiding path resolution issues)
+const adminSchema = new mongoose.Schema({
+  username: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  password: {
+    type: String,
+    required: true,
+  },
+}, {
+  timestamps: true,
+});
+
+const Admin = mongoose.model('Admin', adminSchema);
 
 async function createAdmin() {
   try {

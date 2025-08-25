@@ -3,7 +3,7 @@ module.exports = {
     name: 'aadu-website',
     script: 'npm',
     args: 'start',
-    cwd: './app',
+    cwd: '/var/www/projects/aadu-website/app',
     instances: 1,
     autorestart: true,
     watch: false,
@@ -12,9 +12,9 @@ module.exports = {
       NODE_ENV: 'production',
       PORT: 3001
     },
-    error_file: './logs/err.log',
-    out_file: './logs/out.log',
-    log_file: './logs/combined.log',
+    error_file: '/var/www/projects/aadu-website/logs/err.log',
+    out_file: '/var/www/projects/aadu-website/logs/out.log',
+    log_file: '/var/www/projects/aadu-website/logs/combined.log',
     time: true
   }]
 };

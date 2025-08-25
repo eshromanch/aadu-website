@@ -84,7 +84,7 @@ jobs:
           MONGODB_URI=$MONGODB_URI
           JWT_SECRET=$JWT_SECRET
           NODE_ENV=production
-          PORT=3000
+          PORT=3001
           ENV_EOF
           
           # Install dependencies and build
@@ -109,12 +109,12 @@ jobs:
           pm2 list
           
           # Check if process is actually running
-          echo "🔍 Checking if process is listening on port 3000..."
+          echo "🔍 Checking if process is listening on port 3001..."
           sleep 10
-          if ss -tuln | grep :3000; then
-            echo "✅ Port 3000 is listening"
+          if ss -tuln | grep :3001; then
+            echo "✅ Port 3001 is listening"
           else
-            echo "❌ Port 3000 is not listening"
+            echo "❌ Port 3001 is not listening"
             echo "📋 PM2 Status:"
             pm2 list
             echo "🔍 Process status:"
@@ -139,15 +139,15 @@ jobs:
           # Health check
           echo "🏥 Running health check..."
           echo "Testing health endpoint..."
-          if timeout 10s curl -f http://localhost:3000/api/health > /dev/null 2>&1; then
-            echo "✅ Health endpoint is working on port 3000"
-          elif timeout 10s curl -f http://localhost:3000 > /dev/null 2>&1; then
-            echo "✅ Root endpoint is working on port 3000"
+          if timeout 10s curl -f http://localhost:3001/api/health > /dev/null 2>&1; then
+            echo "✅ Health endpoint is working on port 3001"
+          elif timeout 10s curl -f http://localhost:3001 > /dev/null 2>&1; then
+            echo "✅ Root endpoint is working on port 3001"
           else
             echo "❌ No endpoints are responding"
             echo "Testing with verbose output:"
-            timeout 10s curl -v http://localhost:3000/api/health || echo "Port 3000 health endpoint timeout"
-            timeout 10s curl -v http://localhost:3000/ || echo "Port 3000 root endpoint timeout"
+            timeout 10s curl -v http://localhost:3001/api/health || echo "Port 3001 health endpoint timeout"
+            timeout 10s curl -v http://localhost:3001/ || echo "Port 3001 root endpoint timeout"
             echo "📋 Application logs:"
             pm2 logs aadu-website --lines 20
             exit 1
@@ -174,4 +174,4 @@ jobs:
         MONGODB_URI: ${{ secrets.MONGODB_URI }}
         JWT_SECRET: ${{ secrets.JWT_SECRET }}
         NODE_ENV: production
-        PORT: 3000
+        PORT: 3001

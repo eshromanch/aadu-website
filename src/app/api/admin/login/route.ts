@@ -7,16 +7,19 @@ export async function POST(request: NextRequest) {
   try {
     await dbConnect()
     
-    const { username, password } = await request.json()
+    const body = await request.json()
+    const { username, email, password } = body
     
-    if (!username || !password) {
+    if (!password || (!username && !email)) {
       return NextResponse.json(
-        { success: false, message: 'Username and password are required' },
+        { success: false, message: 'Username/email and password are required' },
         { status: 400 }
       )
     }
     
-    const admin = await Admin.findOne({ username }).select('+password')
+    // Build query to find admin by username or email
+    const query = username ? { username } : { email }
+    const admin = await Admin.findOne(query).select('+password')
     
     if (!admin) {
       return NextResponse.json(

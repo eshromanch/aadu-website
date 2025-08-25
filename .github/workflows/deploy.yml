@@ -92,9 +92,8 @@ jobs:
           npm ci
           
           echo "🔨 Building application..."
-          # Ensure we're not building for static export
-          export NEXT_EXPORT=false
-          export BUILD_STANDALONE=false
+          # Clean any existing build artifacts
+          rm -rf .next
           npm run build
           
           # Copy ecosystem config to app directory

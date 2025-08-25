@@ -1,85 +1,9 @@
-# name: Deploy to Contabo VPS
-
-# on:
-#   push:
-#     branches: [ main ]
-
-# jobs:
-#   deploy:
-#     runs-on: ubuntu-latest
-#     env:
-#       MONGODB_URI: ${{ secrets.MONGODB_URI }}
-#       JWT_SECRET: ${{ secrets.JWT_SECRET }}
-    
-#     steps:
-#     - name: Checkout code
-#       uses: actions/checkout@v4
-      
-#     - name: Setup Node.js
-#       uses: actions/setup-node@v4
-#       with:
-#         node-version: '20'
-#         cache: 'npm'
-        
-#     - name: Install dependencies
-#       run: npm ci
-      
-#     - name: Build application
-#       run: npm run build
-#       continue-on-error: true
-      
-#     - name: Deploy to server
-#       uses: appleboy/ssh-action@v1.0.3
-#       with:
-#         host: ${{ secrets.HOST }}
-#         username: ${{ secrets.USERNAME }}
-#         key: ${{ secrets.SSH_PRIVATE_KEY }}
-#         port: ${{ secrets.PORT }}
-#         script: |
-#           cd /var/www/projects/aadu-website
-          
-#           # Stop the application
-#           pm2 stop aadu-website || true
-          
-#           # Backup current version
-#           if [ -d "app" ]; then
-#             cp -r app backups/app-$(date +%Y%m%d_%H%M%S)
-#           fi
-          
-#           # Clone/pull latest code
-#           if [ ! -d "app/.git" ]; then
-#             git clone https://github.com/eshromanch/aadu-website.git app
-#           else
-#             cd app && git pull origin main
-#           fi
-          
-#           cd app
-          
-#           # Create .env.production file from GitHub Secrets
-#           cat > .env.production << EOF
-#           MONGODB_URI=$MONGODB_URI
-#           JWT_SECRET=$JWT_SECRET
-#           NODE_ENV=production
-#           EOF
-          
-#           # Install dependencies and build
-#           npm ci
-#           npm run build
-          
-#           # Start/restart with PM2
-#           pm2 start ecosystem.config.js || pm2 restart aadu-website
-          
-#           # Reload Nginx
-#           sudo nginx -t && sudo systemctl reload nginx
-          
-#           echo "Deployment completed!
-
-
 name: Deploy Aadu Website
 
 on:
   push:
     branches: [ main, master ]
+  workflow_dispatch: # Allow manual deployment
 
 jobs:
   test-and-deploy:
@@ -119,27 +43,46 @@ jobs:
         port: ${{ secrets.PORT }}
         envs: MONGODB_URI,JWT_SECRET
         script: |
-          cd /var/www/projects/aadu-website
+          # Set error handling
+          set -e
+          
+          PROJECT_DIR="/var/www/projects/aadu-website"
+          
+          echo "🚀 Starting deployment..."
+          
+          # Check if project directory exists
+          if [ ! -d "$PROJECT_DIR" ]; then
+            echo "❌ Project directory not found. Please run server-setup.sh first."
+            exit 1
+          fi
+          
+          cd $PROJECT_DIR
           
           # Stop the application
+          echo "⏹️  Stopping application..."
           pm2 stop aadu-website || true
           
-          # Backup current version
+          # Create backup
+          echo "💾 Creating backup..."
           if [ -d "app" ]; then
+            mkdir -p backups
             cp -r app backups/app-$(date +%Y%m%d_%H%M%S)
             # Keep only last 5 backups
             ls -t backups/ | tail -n +6 | xargs -I {} rm -rf backups/{}
           fi
           
           # Remove existing app directory for fresh clone
+          echo "🗑️  Removing old code..."
           rm -rf app
           
           # Clone latest code
+          echo "📥 Cloning latest code..."
           git clone https://github.com/eshromanch/aadu-website.git app
           
           cd app
           
           # Create .env.production file
+          echo "⚙️  Creating environment file..."
           cat > .env.production << 'ENV_EOF'
           MONGODB_URI=$MONGODB_URI
           JWT_SECRET=$JWT_SECRET
@@ -148,30 +91,55 @@ jobs:
           ENV_EOF
           
           # Install dependencies and build
+          echo "📦 Installing dependencies..."
           npm ci
+          
+          echo "🔨 Building application..."
           npm run build
           
           # Copy ecosystem config to app directory
+          echo "📋 Copying PM2 configuration..."
           cp ../ecosystem.config.js .
           
           # Start/restart with PM2
+          echo "🚀 Starting application..."
           pm2 start ecosystem.config.js || pm2 restart aadu-website
           
           # Test and reload Nginx
+          echo "🌐 Reloading Nginx..."
           sudo nginx -t && sudo systemctl reload nginx
           
           # Wait for application to start
-          sleep 10
+          echo "⏳ Waiting for application to start..."
+          sleep 15
           
           # Health check
-          if curl -f http://localhost:3001/api/health || curl -f http://localhost:3001; then
+          echo "🏥 Running health check..."
+          if curl -f http://localhost:3001/api/health > /dev/null 2>&1 || curl -f http://localhost:3001 > /dev/null 2>&1; then
             echo "✅ Application is running successfully"
+            
+            # Run monitoring health check
+            if [ -f "/var/monitoring/aadu-website/health-check.sh" ]; then
+              /var/monitoring/aadu-website/health-check.sh
+            fi
+            
           else
             echo "❌ Application failed to start"
+            echo "📋 Application logs:"
+            pm2 logs aadu-website --lines 20
             exit 1
           fi
           
-          echo "Deployment completed successfully!"
+          # Create deployment log
+          echo "📝 Logging deployment..."
+          echo "$(date): Deployment completed successfully" >> $PROJECT_DIR/logs/deployment.log
+          
+          echo "🎉 Deployment completed successfully!"
+          
+          # Show application status
+          echo "📊 Application status:"
+          pm2 list
+          
       env:
         MONGODB_URI: ${{ secrets.MONGODB_URI }}
         JWT_SECRET: ${{ secrets.JWT_SECRET }}

@@ -28,9 +28,6 @@ jobs:
     - name: Run type checking
       run: npx tsc --noEmit
       
-    - name: Build application
-      run: npm run build
-      
     - name: Security audit
       run: npm audit --audit-level moderate
       
@@ -95,6 +92,9 @@ jobs:
           npm ci
           
           echo "🔨 Building application..."
+          # Ensure we're not building for static export
+          export NEXT_EXPORT=false
+          export BUILD_STANDALONE=false
           npm run build
           
           # Copy ecosystem config to app directory

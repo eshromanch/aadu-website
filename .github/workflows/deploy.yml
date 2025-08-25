@@ -83,7 +83,7 @@ jobs:
           
           # Create .env.production file
           echo "⚙️  Creating environment file..."
-          cat > .env.production << 'ENV_EOF'
+          cat > .env.production << ENV_EOF
           MONGODB_URI=$MONGODB_URI
           JWT_SECRET=$JWT_SECRET
           NODE_ENV=production
@@ -143,3 +143,5 @@ jobs:
       env:
         MONGODB_URI: ${{ secrets.MONGODB_URI }}
         JWT_SECRET: ${{ secrets.JWT_SECRET }}
+        NODE_ENV: production
+        PORT: 3001

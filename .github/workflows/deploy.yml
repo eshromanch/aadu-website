@@ -105,6 +105,29 @@ jobs:
           echo "🚀 Starting application..."
           pm2 start ecosystem.config.js || pm2 restart aadu-website
           
+          # Check PM2 status immediately
+          echo "📊 PM2 Status:"
+          pm2 list
+          
+          # Check if process is actually running
+          echo "🔍 Checking if process is listening on port 3001..."
+          sleep 5
+          if ss -tuln | grep :3001; then
+            echo "✅ Port 3001 is listening"
+          else
+            echo "❌ Port 3001 is not listening"
+            echo "📋 PM2 Logs:"
+            pm2 logs aadu-website --lines 20
+            echo "🔍 Process status:"
+            ps aux | grep node | grep -v grep
+            
+            # Try manual startup test
+            echo "🧪 Testing manual startup..."
+            cd app
+            timeout 30s npm start || echo "Manual startup failed or timed out"
+            cd ..
+          fi
+          
           # Test and reload Nginx
           echo "🌐 Reloading Nginx..."
           sudo nginx -t && sudo systemctl reload nginx

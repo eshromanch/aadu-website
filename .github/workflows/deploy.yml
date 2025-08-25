@@ -100,9 +100,9 @@ jobs:
           rm -rf .next
           npm run build
           
-          # Copy ecosystem config to app directory
-          echo "📋 Copying PM2 configuration..."
-          cp ../ecosystem.config.js .
+          # Use ecosystem config from repository (already in app directory)
+          echo "📋 Using PM2 configuration from repository..."
+          ls -la ecosystem.config.js
           
           # Test manual startup first
           echo "🧪 Testing manual startup..."

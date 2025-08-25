@@ -87,7 +87,7 @@ jobs:
           MONGODB_URI=$MONGODB_URI
           JWT_SECRET=$JWT_SECRET
           NODE_ENV=production
-          PORT=3001
+          PORT=3000
           ENV_EOF
           
           # Install dependencies and build
@@ -142,15 +142,21 @@ jobs:
           # Health check
           echo "🏥 Running health check..."
           echo "Testing health endpoint..."
-          if timeout 10s curl -f http://localhost:3001/api/health > /dev/null 2>&1; then
-            echo "✅ Health endpoint is working"
+          if timeout 10s curl -f http://localhost:3000/api/health > /dev/null 2>&1; then
+            echo "✅ Health endpoint is working on port 3000"
+          elif timeout 10s curl -f http://localhost:3000 > /dev/null 2>&1; then
+            echo "✅ Root endpoint is working on port 3000"
+          elif timeout 10s curl -f http://localhost:3001/api/health > /dev/null 2>&1; then
+            echo "✅ Health endpoint is working on port 3001"
           elif timeout 10s curl -f http://localhost:3001 > /dev/null 2>&1; then
-            echo "✅ Root endpoint is working"
+            echo "✅ Root endpoint is working on port 3001"
           else
             echo "❌ No endpoints are responding"
             echo "Testing with verbose output:"
-            timeout 10s curl -v http://localhost:3001/api/health || echo "Health endpoint timeout"
-            timeout 10s curl -v http://localhost:3001/ || echo "Root endpoint timeout"
+            timeout 10s curl -v http://localhost:3000/api/health || echo "Port 3000 health endpoint timeout"
+            timeout 10s curl -v http://localhost:3000/ || echo "Port 3000 root endpoint timeout"
+            timeout 10s curl -v http://localhost:3001/api/health || echo "Port 3001 health endpoint timeout"
+            timeout 10s curl -v http://localhost:3001/ || echo "Port 3001 root endpoint timeout"
             exit 1
           fi
             echo "✅ Application is running successfully"

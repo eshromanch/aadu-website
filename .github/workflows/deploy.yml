@@ -87,6 +87,10 @@ jobs:
           PORT=3001
           ENV_EOF
           
+          # Verify environment file
+          echo "📋 Environment file contents:"
+          cat .env.production
+          
           # Install dependencies and build
           echo "📦 Installing dependencies..."
           npm ci
@@ -99,6 +103,10 @@ jobs:
           # Copy ecosystem config to app directory
           echo "📋 Copying PM2 configuration..."
           cp ../ecosystem.config.js .
+          
+          # Test manual startup first
+          echo "🧪 Testing manual startup..."
+          NODE_ENV=production PORT=3001 timeout 10s npm start || echo "Manual startup failed or timed out"
           
           # Start/restart with PM2
           echo "🚀 Starting application..."

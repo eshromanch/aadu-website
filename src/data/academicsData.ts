@@ -31,7 +31,7 @@ export const degreeProgramData: DegreeProgramData = {
   title: "Degree Program",
   description: "Discover our accredited degree programs that recognize your professional experience and support your career growth. Choose from Associate to Doctorate degrees tailored to your goals.",
   buttonText: "Learn More",
-  image: "https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+  image: "/images/Degree Programs Card.jpg",
   imageAlt: "Person working at desk"
 };
 
@@ -40,7 +40,7 @@ export const availableMajorsData: AvailableMajorsData = {
   title: "Available Majors",
   description: "Explore a wide selection of majors across various fields, designed to match your expertise and career ambitions. Our accredited programs offer flexibility and recognition in disciplines that suit your work experience.",
   buttonText: "Learn More",
-  image: "https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+  image: "/images/Available Majors Card.jpg",
   imageAlt: "Person working at desk"
 };
 
@@ -52,5 +52,5 @@ export const evaluationBodyData: EvaluationBodyData = {
     "Degrees are awarded in the major(s) requested by the applicant upon approval from a faculty member specializing in that discipline.",
     "To meet growing demand, we continually expand our faculty across diverse disciplines, enabling evaluation in virtually any major. Our faculty is organized by field to ensure thorough and credible assessments aligned with academic standards."
   ],
-  image: "https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+  image: "/images/Evaluation Body Section.png"
 }; 

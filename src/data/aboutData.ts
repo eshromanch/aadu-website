@@ -83,7 +83,7 @@ export const missionVisionData: MissionVisionData = {
     title: "Vision",
     description: "To lead globally in recognizing experiential learning and empower individuals through accredited credentials."
   },
-  image: "https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+  image: "/images/Mission and Vision Sections.png"
 };
 
 // Our Values Section Data
@@ -129,7 +129,7 @@ export const evaluationBodyData: EvaluationBodyData = {
     "Degrees are awarded in the major(s) requested by the applicant upon approval from a faculty member specializing in that discipline.",
     "To meet growing demand, we continually expand our faculty across diverse disciplines, enabling evaluation in virtually any major. Our faculty is organized by field to ensure thorough and credible assessments aligned with academic standards."
   ],
-  image: "https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+  image: "/images/Evaluation Body Section.png"
 };
 
 // Talk With Us Section Data

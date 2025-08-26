@@ -38,7 +38,7 @@ export function MissionVision() {
               alt="Graduation celebration"
               width={500}
               height={500}
-              className="w-full h-full rounded-lg"
+              className="w-full h-full lg:h-[500px] rounded-lg object-cover"
             />
       </div>
     </SectionContainer>

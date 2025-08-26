@@ -30,7 +30,7 @@ export const whatAreLifeExperienceDegrees = {
     "These degrees validate practical skills, allowing adults to earn recognized credentials without classes or exams. They bridge real-world experience and formal education, offering a credible alternative path.",
     "Life experience degrees help professionals advance careers, gain recognition, and unlock new opportunities by valuing their knowledge and skills."
   ],
-  image: "https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+  image: "/images/About Asian American Digital University (AADU) - Card - Homepagge.png",
   imageAlt: "Construction workers in safety gear"
 };
 

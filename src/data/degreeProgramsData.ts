@@ -37,7 +37,7 @@ export interface IndividualDegreeProgram {
 export const degreeProgramsHeroData = {
   title: "Degree Programs at AADU",
   subtitle: "Unlock career growth with degree options that recognize your professional journey",
-  backgroundImage: "https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+  backgroundImage: "/images/Bachelor's Degree.jpg"
 };
 
 // Degree Program Cards Data
@@ -47,7 +47,7 @@ export const degreePrograms: DegreeProgramCard[] = [
     description: "Earn an accredited Bachelor's degree based on your professional and life experience—no classes or exams required.",
     buttonText: "Learn More",
     variant: "light",
-    image: "https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    image: "/images/Bachelor's Degree.jpg",
     imageAlt: "Person working at desk"
   },
   {
@@ -55,7 +55,7 @@ export const degreePrograms: DegreeProgramCard[] = [
     description: "Advance your expertise with a Master's degree awarded through rigorous evaluation of your career achievements.",
     buttonText: "Learn More",
     variant: "light",
-    image: "https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    image: "/images/masters degreee.jpg",
     imageAlt: "Person working at desk"
   },
   {
@@ -63,7 +63,7 @@ export const degreePrograms: DegreeProgramCard[] = [
     description: "Achieve the highest academic honor with a Doctorate degree recognizing your extensive knowledge and contributions.",
     buttonText: "Learn More",
     variant: "light",
-    image: "https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    image: "/images/Doctorate Degree.jpg",
     imageAlt: "Person working at desk"
   },
   {
@@ -71,7 +71,7 @@ export const degreePrograms: DegreeProgramCard[] = [
     description: "Obtain an accredited Associate degree reflecting your practical experience without traditional coursework.",
     buttonText: "Learn More",
     variant: "light",
-    image: "https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    image: "/images/Assosiate Degree.jpg",
     imageAlt: "Person working at desk"
   },
   {
@@ -79,7 +79,7 @@ export const degreePrograms: DegreeProgramCard[] = [
     description: "Receive an accredited High School Diploma based on your life experience, opening doors to further education and opportunities.",
     buttonText: "Learn More",
     variant: "light",
-    image: "https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    image: "/images/High school Diploma.jpg",
     imageAlt: "Person working at desk"
   }
 ];
@@ -94,7 +94,7 @@ export const individualDegreePrograms: IndividualDegreeProgram[] = [
     heroImageAlt: "Graduates in red caps and gowns",
     aboutImage: "https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
     aboutImageAlt: "Person working at desk",
-    eligibilityImage: "https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    eligibilityImage: "/images/About Asian American Digital University (AADU) - Card - Homepagge.png",
     eligibilityImageAlt: "Construction workers in safety gear",
     aboutTheDegree: {
       paragraph1: "The Bachelor's degree from Asian American Digital University (AADU) is an accredited academic qualification awarded based on the rigorous evaluation of your professional work and life experience. Designed for individuals with substantial expertise in their field, this degree validates your knowledge and skills without the need for traditional coursework or exams.",

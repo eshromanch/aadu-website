@@ -67,7 +67,7 @@ export const testimonialData: TestimonialData = {
 export const lifeExperienceData: LifeExperienceData = {
   title: "What Are Life Experience Degrees?",
   description: "Many people gain valuable knowledge outside the classroom—through years of work, business, travel, or personal learning. Life experience degrees formally recognize this real-world expertise and award accredited degrees based on it.",
-  image: "https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+  image: "/images/What Are Life Experience Degrees - Card- Home Page.png",
   buttonText: "Learn More"
 };
 
@@ -78,14 +78,14 @@ export const degreeProgramsData: DegreeProgramsSectionData = {
   programs: [
     {
       title: "Bachelor's Degree",
-      image: "https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+      image: "/images/Community College Program Card.png",
       bgColor: "bg-primary-deepBlue",
       textColor: "text-neutral-offWhiteBlue",
       link: "/degree-programs/bachelors"
     },
     {
       title: "Master's Degree",
-      image: "https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+      image: "/images/Community College Program Card.png",
       bgColor: "bg-neutral-offWhiteBlue",
       textColor: "text-primary-deepBlue",
       hasShadow: true,
@@ -93,7 +93,7 @@ export const degreeProgramsData: DegreeProgramsSectionData = {
     },
     {
       title: "Associate Degree",
-      image: "https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+      image: "/images/Community College Program Card.png",
       bgColor: "bg-primary-deepBlue",
       textColor: "text-neutral-offWhiteBlue",
       link: "/degree-programs/associate"
@@ -105,7 +105,7 @@ export const degreeProgramsData: DegreeProgramsSectionData = {
 export const aboutData: AboutData = {
   title: "About Asian American Digital University (AADU)",
   description: "Asian American Digital University (AADU), accredited by the Education Accreditation Council of America (EACOA) since 1991, validates the real-world knowledge and experience of professionals by awarding Associate, Bachelor's, Master's, Doctorate degrees, and High School Diplomas across 180+ disciplines - based on rigorous faculty-led evaluation.",
-  image: "https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+  image: "/images/About Asian American Digital University (AADU) - Card - Homepagge.png",
   buttonText: "Learn More"
 };
 

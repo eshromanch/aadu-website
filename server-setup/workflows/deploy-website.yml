@@ -1,0 +1,145 @@
+name: Deploy Website to Server
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment to deploy to'
+        required: true
+        default: 'production'
+        type: choice
+        options:
+        - production
+        - staging
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        cache: 'npm'
+        
+    - name: Install dependencies
+      run: npm ci
+      
+    - name: Run tests
+      run: npm test
+      
+    - name: Build application
+      run: npm run build
+      env:
+        NODE_ENV: production
+        
+    - name: Deploy to server
+      uses: appleboy/ssh-action@v1.0.3
+      with:
+        host: ${{ secrets.SERVER_HOST }}
+        username: ${{ secrets.SERVER_USER }}
+        key: ${{ secrets.SERVER_SSH_KEY }}
+        port: ${{ secrets.SERVER_PORT }}
+        script: |
+          # Set error handling
+          set -e
+          
+          # Configuration
+          PROJECT_NAME="aadu-website"
+          PROJECT_DIR="/var/www/projects/$PROJECT_NAME"
+          BACKUP_DIR="$PROJECT_DIR/backups"
+          
+          echo "🚀 Starting deployment for $PROJECT_NAME..."
+          
+          # Check if project directory exists
+          if [ ! -d "$PROJECT_DIR" ]; then
+            echo "❌ Project directory not found. Creating..."
+            mkdir -p $PROJECT_DIR/{app,logs,backups,ssl,config}
+          fi
+          
+          cd $PROJECT_DIR
+          
+          # Stop the application
+          echo "⏹️ Stopping application..."
+          pm2 stop $PROJECT_NAME || true
+          
+          # Create backup
+          echo "💾 Creating backup..."
+          if [ -d "app" ]; then
+            mkdir -p $BACKUP_DIR
+            cp -r app $BACKUP_DIR/app-$(date +%Y%m%d_%H%M%S)
+            # Keep only last 5 backups
+            ls -t $BACKUP_DIR/ | tail -n +6 | xargs -I {} rm -rf $BACKUP_DIR/{}
+          fi
+          
+          # Remove existing app directory for fresh clone
+          echo "🗑️ Removing old code..."
+          rm -rf app
+          
+          # Clone latest code
+          echo "📥 Cloning latest code..."
+          git clone https://github.com/${{ github.repository }}.git app
+          cd app
+          
+          # Install dependencies
+          echo "📦 Installing dependencies..."
+          npm ci --production
+          
+          # Create environment file
+          echo "⚙️ Creating environment file..."
+          cat > .env.production << 'ENV_EOF'
+          MONGODB_URI=${{ secrets.MONGODB_URI }}
+          JWT_SECRET=${{ secrets.JWT_SECRET }}
+          NODE_ENV=production
+          PORT=3001
+          ENV_EOF
+          
+          # Build application
+          echo "🔨 Building application..."
+          rm -rf .next
+          npm run build
+          
+          # Copy PM2 configuration
+          echo "📋 Copying PM2 configuration..."
+          cp ../ecosystem.config.js .
+          
+          # Start application
+          echo "🚀 Starting application..."
+          pm2 delete $PROJECT_NAME || true
+          pm2 start ecosystem.config.js
+          
+          # Reload Nginx
+          echo "🌐 Reloading Nginx..."
+          nginx -t && systemctl reload nginx
+          
+          # Wait for application to start
+          echo "⏳ Waiting for application to start..."
+          sleep 15
+          
+          # Health check
+          echo "🏥 Running health check..."
+          if curl -f http://localhost:3001/api/health || curl -f http://localhost:3001; then
+            echo "✅ Application is running successfully"
+          else
+            echo "❌ Application failed to start"
+            echo "📋 Application logs:"
+            pm2 logs $PROJECT_NAME --lines 20
+            exit 1
+          fi
+          
+          echo "🎉 Deployment completed successfully!"
+          
+    - name: Notify deployment status
+      if: always()
+      run: |
+        if [ "${{ job.status }}" == "success" ]; then
+          echo "✅ Deployment successful!"
+        else
+          echo "❌ Deployment failed!"
+        fi

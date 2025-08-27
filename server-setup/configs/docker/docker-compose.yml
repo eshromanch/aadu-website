@@ -1,0 +1,153 @@
+version: '3.8'
+
+services:
+  # Global Mail Server
+  global-mailserver:
+    image: analogic/poste.io
+    container_name: global-mailserver
+    hostname: mail.athenadevtech.com
+    ports:
+      - "25:25"      # SMTP
+      - "110:110"    # POP3  
+      - "143:143"    # IMAP
+      - "587:587"    # SMTP Submission
+      - "993:993"    # IMAP SSL
+      - "995:995"    # POP3 SSL
+      - "8080:80"    # Web interface
+      - "8443:443"   # Web interface SSL
+    environment:
+      - HTTPS=OFF
+      - DISABLE_CLAMAV=TRUE
+    volumes:
+      - ./mail-data:/data
+    restart: unless-stopped
+    networks:
+      - mail-network
+
+  # MongoDB (Alternative to system MongoDB)
+  mongodb:
+    image: mongo:6.0
+    container_name: mongodb
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
+    volumes:
+      - ./mongodb-data:/data/db
+      - ./mongodb-init:/docker-entrypoint-initdb.d
+    ports:
+      - "27017:27017"
+    networks:
+      - app-network
+    profiles:
+      - docker-mongo  # Only start if explicitly requested
+
+  # Redis (for caching)
+  redis:
+    image: redis:7-alpine
+    container_name: redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./redis-data:/data
+    networks:
+      - app-network
+    profiles:
+      - cache
+
+  # Nginx (Alternative to system Nginx)
+  nginx:
+    image: nginx:alpine
+    container_name: nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/sites:/etc/nginx/sites-available
+      - ./nginx/ssl:/etc/nginx/ssl
+      - ./nginx/logs:/var/log/nginx
+    depends_on:
+      - global-mailserver
+    networks:
+      - mail-network
+      - app-network
+    profiles:
+      - docker-nginx
+
+  # Monitoring Stack
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    restart: unless-stopped
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./monitoring/prometheus-data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+      - '--storage.tsdb.retention.time=200h'
+      - '--web.enable-lifecycle'
+    networks:
+      - monitoring
+    profiles:
+      - monitoring
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD}
+    volumes:
+      - ./monitoring/grafana-data:/var/lib/grafana
+      - ./monitoring/grafana-provisioning:/etc/grafana/provisioning
+    networks:
+      - monitoring
+    profiles:
+      - monitoring
+
+  # Backup Service
+  backup:
+    image: alpine:latest
+    container_name: backup-service
+    restart: unless-stopped
+    volumes:
+      - ./backup-scripts:/scripts
+      - ./backups:/backups
+      - /var/www:/host-www:ro
+    environment:
+      - BACKUP_SCHEDULE=0 2 * * *
+      - BACKUP_RETENTION_DAYS=7
+    command: |
+      sh -c "
+        apk add --no-cache curl tar gzip
+        chmod +x /scripts/backup.sh
+        crond -f -l 8
+      "
+    profiles:
+      - backup
+
+networks:
+  mail-network:
+    driver: bridge
+  app-network:
+    driver: bridge
+  monitoring:
+    driver: bridge
+
+volumes:
+  mail-data:
+  mongodb-data:
+  redis-data:
+  prometheus-data:
+  grafana-data:
+  backup-data:

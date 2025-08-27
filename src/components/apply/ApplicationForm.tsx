@@ -204,7 +204,7 @@ export function ApplicationForm() {
         formDataToSend.append('workExperience', uploadedFiles.workExperience)
       }
 
-      const response = await fetch('/api/admin/students', {
+      const response = await fetch('/api/apply', {
         method: 'POST',
         body: formDataToSend // Send as FormData instead of JSON
       })

@@ -68,7 +68,7 @@ server {
     
     # Proxy to Next.js application
                 location / {
-                proxy_pass http://localhost:3000;
+                proxy_pass http://localhost:3001;
         proxy_http_version 1.1;
         proxy_set_header Upgrade \$http_upgrade;
         proxy_set_header Connection 'upgrade';
@@ -82,21 +82,21 @@ server {
     
     # Serve static files directly
     location /_next/static/ {
-        proxy_pass http://localhost:3000;
+        proxy_pass http://localhost:3001;
         expires 1y;
         add_header Cache-Control "public, immutable";
     }
     
     # Serve public files
     location /public/ {
-        proxy_pass http://localhost:3000;
+        proxy_pass http://localhost:3001;
         expires 1y;
         add_header Cache-Control "public";
     }
     
     # API routes
     location /api/ {
-        proxy_pass http://localhost:3000;
+        proxy_pass http://localhost:3001;
         proxy_http_version 1.1;
         proxy_set_header Upgrade \$http_upgrade;
         proxy_set_header Connection 'upgrade';
@@ -123,6 +123,65 @@ EOF
     sudo ln -sf $NGINX_SITES_AVAILABLE/$client_name $NGINX_SITES_ENABLED/
     
     log "Nginx configuration created for $client_name"
+}
+
+# Function to create mail subdomain configuration
+create_mail_nginx_config() {
+    local client_name=$1
+    local client_domain=$2
+    local mail_port=$3
+    
+    log "Creating mail Nginx configuration for $client_name (mail.$client_domain -> port $mail_port)"
+    
+    # Create mail Nginx configuration
+    cat > $NGINX_SITES_AVAILABLE/$client_name-mail << EOF
+# Nginx configuration for $client_name mail server
+# Domain: mail.$client_domain
+# Port: $mail_port
+
+server {
+    listen 80;
+    server_name mail.$client_domain;
+    
+    # Security headers
+    add_header X-Frame-Options "SAMEORIGIN" always;
+    add_header X-XSS-Protection "1; mode=block" always;
+    add_header X-Content-Type-Options "nosniff" always;
+    add_header Referrer-Policy "no-referrer-when-downgrade" always;
+    add_header Content-Security-Policy "default-src 'self' http: https: data: blob: 'unsafe-inline' 'unsafe-eval'" always;
+    
+    # Increase client max body size for email attachments
+    client_max_body_size 100M;
+    
+    # Proxy to Postal mail server
+    location / {
+        proxy_pass http://localhost:$mail_port;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade \$http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host \$host;
+        proxy_set_header X-Real-IP \$remote_addr;
+        proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto \$scheme;
+        proxy_cache_bypass \$http_upgrade;
+        proxy_read_timeout 86400;
+        proxy_send_timeout 86400;
+        
+        # Special headers for mail server
+        proxy_set_header X-Forwarded-Host \$host;
+        proxy_set_header X-Forwarded-Server \$host;
+    }
+    
+    # Logs
+    access_log /var/log/nginx/$client_name-mail.access.log;
+    error_log /var/log/nginx/$client_name-mail.error.log;
+}
+EOF
+    
+    # Enable the mail site
+    sudo ln -sf $NGINX_SITES_AVAILABLE/$client_name-mail $NGINX_SITES_ENABLED/
+    
+    log "Mail Nginx configuration created for $client_name"
 }
 
 # Function to remove Nginx configuration
@@ -230,19 +289,39 @@ elif [ "$1" = "test" ]; then
 elif [ "$1" = "reload" ]; then
     reload_nginx
     
+elif [ "$1" = "create-mail" ] && [ -n "$2" ] && [ -n "$3" ]; then
+    client_name=$2
+    client_domain=$3
+    
+    # Get mail port from postal client info
+    if [ -f "$PROJECTS_DIR/$client_name/postal/client-info.json" ]; then
+        mail_port=$(grep -o '"mail_port":[0-9]*' "$PROJECTS_DIR/$client_name/postal/client-info.json" | cut -d: -f2)
+    else
+        error "Postal client info not found. Please setup Postal first with setup-postal.sh"
+    fi
+    
+    create_mail_nginx_config "$client_name" "$client_domain" "$mail_port"
+    reload_nginx
+    
+    log "Mail Nginx setup completed for $client_name!"
+    log "Mail interface will be available at: http://mail.$client_domain"
+    log "Next step: Setup SSL with ./scripts/setup-ssl.sh setup mail.$client_domain your-email@domain.com"
+
 elif [ "$1" = "create" ]; then
     error "Usage: $0 create <client_name> <domain>"
     echo "Example: $0 create aadu-website aadu.online"
     
 else
     echo "Usage:"
-    echo "  $0 create <client_name> <domain>  - Create Nginx config for client"
-    echo "  $0 remove <client_name>           - Remove Nginx config for client"
-    echo "  $0 list                           - List all Nginx configurations"
-    echo "  $0 test                           - Test Nginx configuration"
-    echo "  $0 reload                         - Reload Nginx"
+    echo "  $0 create <client_name> <domain>      - Create Nginx config for client website"
+    echo "  $0 create-mail <client_name> <domain> - Create Nginx config for client mail server"
+    echo "  $0 remove <client_name>               - Remove Nginx config for client"
+    echo "  $0 list                               - List all Nginx configurations"
+    echo "  $0 test                               - Test Nginx configuration"
+    echo "  $0 reload                             - Reload Nginx"
     echo ""
     echo "Examples:"
     echo "  $0 create aadu-website aadu.online"
+    echo "  $0 create-mail aadu-website aadu.online"
     echo "  $0 remove aadu-website"
 fi

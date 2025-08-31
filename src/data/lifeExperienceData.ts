@@ -51,7 +51,7 @@ export const aboutAADULifeExperienceDegrees = {
   paragraphs: [
     "Asian American Digital University (AADU), accredited by Education Accreditation Council of America (EACOA), awards degrees based on rigorous evaluation of your professional experience across 180+ disciplines.",
     "Importantly, your official degree does not mention 'online' or 'Work experience,' making it identical in appearance and credibility to traditional university qualifications.",
-    "No classes or exams are required, and you can receive your degree within weeks. Our internationally recognized credentials help advance your career globally with degrees as - Associate, Bachelor's, Master's, Doctorate degrees, and High School Diplomas.",
+    "No classes or exams are required, and you can receive your degree within weeks. Our internationally recognized credentials help advance your career globally with degrees as - Associate, Bachelor's, Master's, Doctorate degrees, and Diploma Degrees.",
     "We ensure transparent, fair evaluation - if you don't meet criteria, your application is declined with no hidden fees and full refund."
   ]
 };

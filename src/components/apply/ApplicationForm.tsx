@@ -4,9 +4,23 @@ import { useState } from "react"
 import { SectionContainer } from "@/components/common/SectionContainer"
 import { H2 } from "@/components/common/Typography"
 import { Button } from "@/components/ui/button"
-import { ArrowRight, Upload, X } from "lucide-react"
-import { degreePrograms } from "@/data/degreeProgramsData"
+import { ArrowRight, Upload, X, Plus, Minus } from "lucide-react"
+import { degreePrograms, individualDegreePrograms } from "@/data/degreeProgramsData"
+import { combinationPackages } from "@/data/combinationPackagesData"
 import { faculties } from "@/data/majorsData"
+
+interface SingleDegreeData {
+  degreeType: string
+  major: string
+}
+
+interface MultipleDegreeData {
+  combinationPackage: string
+  degrees: Array<{
+    degreeType: string
+    major: string
+  }>
+}
 
 interface FormData {
   // Personal Information
@@ -27,8 +41,9 @@ interface FormData {
   }
   
   // Academic Information
-  degreePackage: string
-  major: string
+  degreePackageType: 'single' | 'multiple'
+  singleDegree?: SingleDegreeData
+  multipleDegree?: MultipleDegreeData
   yearOfGraduation: string
   
   // Parent/Guardian Information
@@ -43,24 +58,38 @@ interface FormData {
   documents: {
     passport?: string
     drivingLicense?: string
-    workExperience?: string
+    workExperience?: string[]
   }
 }
 
-export function ApplicationForm() {
+interface ApplicationFormProps {
+  isAdmin?: boolean
+  onSuccess?: (data: unknown) => void
+  onCancel?: () => void
+}
+
+export function ApplicationForm({ isAdmin = false, onSuccess, onCancel }: ApplicationFormProps) {
   const degreeProgramsList = degreePrograms.map((program) => program.title)
   const allMajors = faculties.flatMap((faculty) => faculty.majors.map((major) => major.name))
 
   const getFilteredMajors = (selectedDegree: string) => {
     const degreeMajorMapping: { [key: string]: string[] } = {
-      "Bachelor's Degree": ["Business Administration", "Computer Science", "Engineering", "Psychology", "Education"],
-      "Master's Degree": ["Business Administration", "Computer Science", "Engineering", "Psychology", "Education"],
-      "Doctorate Degree": ["Business Administration", "Computer Science", "Engineering", "Psychology", "Education"],
-      "Associate's Degree": ["Business Administration", "Computer Science", "Engineering", "Psychology", "Education"],
+      "Bachelor's Degree Program": ["Business Administration", "Computer Science", "Engineering", "Psychology", "Education"],
+      "Master's Degree Program": ["Business Administration", "Computer Science", "Engineering", "Psychology", "Education"],
+      "Doctorate Degree Program": ["Business Administration", "Computer Science", "Engineering", "Psychology", "Education"],
+      "Associate Degree Program": ["Business Administration", "Computer Science", "Engineering", "Psychology", "Education"],
+      "Diploma Degree Program": ["General Studies", "Business", "Technology", "Arts", "Sciences"],
       "Certificate Program": ["Business Administration", "Computer Science", "Engineering", "Psychology", "Education"]
     }
     
     return degreeMajorMapping[selectedDegree] || allMajors
+  }
+
+  const getSelectedCombinationPackage = () => {
+    if (formData.degreePackageType === 'multiple' && formData.multipleDegree?.combinationPackage) {
+      return combinationPackages.find(pkg => pkg.id === formData.multipleDegree?.combinationPackage)
+    }
+    return null
   }
 
   const [formData, setFormData] = useState<FormData>({
@@ -77,8 +106,15 @@ export function ApplicationForm() {
       zipCode: "",
       country: ""
     },
-    degreePackage: "",
-    major: "",
+    degreePackageType: 'single',
+    singleDegree: {
+      degreeType: "",
+      major: ""
+    },
+    multipleDegree: {
+      combinationPackage: "",
+      degrees: []
+    },
     yearOfGraduation: "",
     parentGuardian: {
       name: "",
@@ -86,14 +122,18 @@ export function ApplicationForm() {
       phone: "",
       email: ""
     },
-    documents: {}
+    documents: {
+      workExperience: []
+    }
   })
 
   const [uploadedFiles, setUploadedFiles] = useState<{
     passport?: File
     drivingLicense?: File
-    workExperience?: File
-  }>({})
+    workExperience: File[]
+  }>({
+    workExperience: []
+  })
 
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitMessage, setSubmitMessage] = useState("")
@@ -125,14 +165,72 @@ export function ApplicationForm() {
     }))
   }
 
-  const handleFileUpload = (field: 'passport' | 'drivingLicense' | 'workExperience', file: File) => {
+  const handleSingleDegreeChange = (field: keyof SingleDegreeData, value: string) => {
+    setFormData(prev => ({
+      ...prev,
+      singleDegree: {
+        ...prev.singleDegree!,
+        [field]: value
+      }
+    }))
+  }
+
+  const handleMultipleDegreeChange = (field: 'combinationPackage', value: string) => {
+    // Auto-populate degrees based on selected package
+    const selectedPackage = combinationPackages.find(pkg => pkg.id === value)
+    if (selectedPackage) {
+      // Map component names to degree program titles
+      const componentToDegreeMapping: { [key: string]: string } = {
+        "Diploma Degree": "Diploma Degree Program",
+        "Associate Degree": "Associate Degree Program", 
+        "Bachelor's Degree": "Bachelor's Degree Program",
+        "Master's Degree": "Master's Degree Program",
+        "Doctorate Degree": "Doctorate Degree Program"
+      }
+      
+      const autoDegrees: Array<{ degreeType: string; major: string }> = selectedPackage.components.map(component => ({
+        degreeType: componentToDegreeMapping[component.name] || component.name,
+        major: ""
+      }))
+      
+      setFormData(prev => ({
+        ...prev,
+        multipleDegree: {
+          combinationPackage: value,
+          degrees: autoDegrees
+        }
+      }))
+    } else {
+      setFormData(prev => ({
+        ...prev,
+        multipleDegree: {
+          combinationPackage: value,
+          degrees: []
+        }
+      }))
+    }
+  }
+
+  const handleDegreeChange = (index: number, field: 'degreeType' | 'major', value: string) => {
+    setFormData(prev => ({
+      ...prev,
+      multipleDegree: {
+        ...prev.multipleDegree!,
+        degrees: prev.multipleDegree!.degrees.map((degree, i) => 
+          i === index ? { ...degree, [field]: value } : degree
+        )
+      }
+    }))
+  }
+
+
+
+  const handleFileUpload = (field: 'passport' | 'drivingLicense', file: File) => {
     setUploadedFiles(prev => ({
       ...prev,
       [field]: file
     }))
     
-    // For now, we'll store the filename as a string
-    // In a real implementation, you'd upload to a file storage service
     setFormData(prev => ({
       ...prev,
       documents: {
@@ -142,7 +240,22 @@ export function ApplicationForm() {
     }))
   }
 
-  const removeFile = (field: 'passport' | 'drivingLicense' | 'workExperience') => {
+  const handleWorkExperienceUpload = (file: File) => {
+    setUploadedFiles(prev => ({
+      ...prev,
+      workExperience: [...prev.workExperience, file]
+    }))
+    
+    setFormData(prev => ({
+      ...prev,
+      documents: {
+        ...prev.documents,
+        workExperience: [...(prev.documents.workExperience || []), file.name]
+      }
+    }))
+  }
+
+  const removeFile = (field: 'passport' | 'drivingLicense') => {
     setUploadedFiles(prev => {
       const newFiles = { ...prev }
       delete newFiles[field]
@@ -158,13 +271,27 @@ export function ApplicationForm() {
     }))
   }
 
+  const removeWorkExperienceFile = (index: number) => {
+    setUploadedFiles(prev => ({
+      ...prev,
+      workExperience: prev.workExperience.filter((_, i) => i !== index)
+    }))
+    
+    setFormData(prev => ({
+      ...prev,
+      documents: {
+        ...prev.documents,
+        workExperience: prev.documents.workExperience?.filter((_, i) => i !== index) || []
+      }
+    }))
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsSubmitting(true)
     setSubmitMessage("")
 
     try {
-      // Create FormData for file upload
       const formDataToSend = new FormData()
       
       // Add all form fields
@@ -183,8 +310,21 @@ export function ApplicationForm() {
       formDataToSend.append('address.country', formData.address.country)
       
       // Academic fields
-      formDataToSend.append('degreePackage', formData.degreePackage)
-      formDataToSend.append('major', formData.major)
+      formDataToSend.append('degreePackageType', formData.degreePackageType)
+      
+      if (formData.degreePackageType === 'single' && formData.singleDegree) {
+        formDataToSend.append('singleDegree.degreeType', formData.singleDegree.degreeType)
+        formDataToSend.append('singleDegree.major', formData.singleDegree.major)
+      }
+      
+      if (formData.degreePackageType === 'multiple' && formData.multipleDegree) {
+        formDataToSend.append('multipleDegree.combinationPackage', formData.multipleDegree.combinationPackage)
+        formData.multipleDegree.degrees.forEach((degree, index) => {
+          formDataToSend.append(`multipleDegree.degrees[${index}].degreeType`, degree.degreeType)
+          formDataToSend.append(`multipleDegree.degrees[${index}].major`, degree.major)
+        })
+      }
+      
       formDataToSend.append('yearOfGraduation', formData.yearOfGraduation)
       
       // Parent/Guardian fields
@@ -200,19 +340,27 @@ export function ApplicationForm() {
       if (uploadedFiles.drivingLicense) {
         formDataToSend.append('drivingLicense', uploadedFiles.drivingLicense)
       }
-      if (uploadedFiles.workExperience) {
-        formDataToSend.append('workExperience', uploadedFiles.workExperience)
-      }
+      uploadedFiles.workExperience.forEach((file, index) => {
+        formDataToSend.append(`workExperience[${index}]`, file)
+      })
 
-      const response = await fetch('/api/apply', {
+      const response = await fetch(isAdmin ? '/api/admin/students' : '/api/apply', {
         method: 'POST',
-        body: formDataToSend // Send as FormData instead of JSON
+        body: formDataToSend
       })
 
       const result = await response.json()
 
       if (response.ok) {
-        setSubmitMessage("Application submitted successfully! We'll review your application and get back to you soon.")
+        if (isAdmin) {
+          setSubmitMessage("Student created successfully!")
+          if (onSuccess) {
+            onSuccess(result.data)
+          }
+        } else {
+          setSubmitMessage("Application submitted successfully! We'll review your application and get back to you soon.")
+        }
+        
         // Reset form
         setFormData({
           firstName: "",
@@ -228,8 +376,15 @@ export function ApplicationForm() {
             zipCode: "",
             country: ""
           },
-          degreePackage: "",
-          major: "",
+          degreePackageType: 'single',
+          singleDegree: {
+            degreeType: "",
+            major: ""
+          },
+          multipleDegree: {
+            combinationPackage: "",
+            degrees: []
+          },
           yearOfGraduation: "",
           parentGuardian: {
             name: "",
@@ -237,20 +392,24 @@ export function ApplicationForm() {
             phone: "",
             email: ""
           },
-          documents: {}
+          documents: {
+            workExperience: []
+          }
         })
-        setUploadedFiles({})
+        setUploadedFiles({
+          workExperience: []
+        })
       } else {
         setSubmitMessage(result.message || "Failed to submit application. Please try again.")
       }
-    } catch (error) {
+    } catch {
       setSubmitMessage("Network error. Please check your connection and try again.")
     } finally {
       setIsSubmitting(false)
     }
   }
 
-  const availableMajors = getFilteredMajors(formData.degreePackage)
+  const selectedPackage = getSelectedCombinationPackage()
 
   return (
     <SectionContainer className="py-8 lg:py-16">
@@ -270,40 +429,21 @@ export function ApplicationForm() {
             {/* Degree Selection Section */}
             <div className="space-y-6">
               <H2 className="text-primary-deepBlue">Degree Selection</H2>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              
+              {/* Degree Package Type Selection */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label className="block text-sm font-medium text-neutral-bodyText mb-2">
-                    Your Selected Degree Package
+                    Degree Package Type
                   </label>
                   <select
-                    value={formData.degreePackage}
-                    onChange={(e) => handleInputChange('degreePackage', e.target.value)}
+                    value={formData.degreePackageType}
+                    onChange={(e) => handleInputChange('degreePackageType', e.target.value as 'single' | 'multiple')}
                     className="w-full px-4 py-3 border border-neutral-lightGray rounded-2xl focus:ring-2 focus:ring-primary-dodgerBlue focus:border-transparent"
                     required
                   >
-                    <option value="">Select degree package</option>
-                    {degreeProgramsList.map((program: string, index: number) => (
-                      <option key={index} value={program}>{program}</option>
-                    ))}
-                  </select>
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-neutral-bodyText mb-2">
-                    Your Selected Major
-                  </label>
-                  <select
-                    value={formData.major}
-                    onChange={(e) => handleInputChange('major', e.target.value)}
-                    className="w-full px-4 py-3 border border-neutral-lightGray rounded-2xl focus:ring-2 focus:ring-primary-dodgerBlue focus:border-transparent"
-                    disabled={!formData.degreePackage}
-                    required
-                  >
-                    <option value="">
-                      {formData.degreePackage ? "Select major" : "Select degree package first"}
-                    </option>
-                    {availableMajors.map((major: string, index: number) => (
-                      <option key={index} value={major}>{major}</option>
-                    ))}
+                    <option value="single">Single Degree</option>
+                    <option value="multiple">Multiple Degree Package</option>
                   </select>
                 </div>
                 <div>
@@ -318,22 +458,147 @@ export function ApplicationForm() {
                     required
                   />
                 </div>
-                <div>
-                  <label className="block text-sm font-medium text-neutral-bodyText mb-2">
-                    Gender
-                  </label>
-                  <select
-                    value={formData.gender}
-                    onChange={(e) => handleInputChange('gender', e.target.value as 'male' | 'female' | 'other')}
-                    className="w-full px-4 py-3 border border-neutral-lightGray rounded-2xl focus:ring-2 focus:ring-primary-dodgerBlue focus:border-transparent"
-                    required
-                  >
-                    <option value="male">Male</option>
-                    <option value="female">Female</option>
-                    <option value="other">Other</option>
-                  </select>
-                </div>
               </div>
+
+              {/* Single Degree Flow */}
+              {formData.degreePackageType === 'single' && (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <label className="block text-sm font-medium text-neutral-bodyText mb-2">
+                      Degree Type
+                    </label>
+                    <select
+                      value={formData.singleDegree?.degreeType || ""}
+                      onChange={(e) => handleSingleDegreeChange('degreeType', e.target.value)}
+                      className="w-full px-4 py-3 border border-neutral-lightGray rounded-2xl focus:ring-2 focus:ring-primary-dodgerBlue focus:border-transparent"
+                      required
+                    >
+                      <option value="">Select degree type</option>
+                      {degreeProgramsList.map((program: string, index: number) => (
+                        <option key={index} value={program}>{program}</option>
+                      ))}
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-neutral-bodyText mb-2">
+                      Major
+                    </label>
+                    <select
+                      value={formData.singleDegree?.major || ""}
+                      onChange={(e) => handleSingleDegreeChange('major', e.target.value)}
+                      className="w-full px-4 py-3 border border-neutral-lightGray rounded-2xl focus:ring-2 focus:ring-primary-dodgerBlue focus:border-transparent"
+                      disabled={!formData.singleDegree?.degreeType}
+                      required
+                    >
+                      <option value="">
+                        {formData.singleDegree?.degreeType ? "Select major" : "Select degree type first"}
+                      </option>
+                      {formData.singleDegree?.degreeType && 
+                        getFilteredMajors(formData.singleDegree.degreeType).map((major: string, index: number) => (
+                          <option key={index} value={major}>{major}</option>
+                        ))
+                      }
+                    </select>
+                  </div>
+                </div>
+              )}
+
+              {/* Multiple Degree Package Flow */}
+              {formData.degreePackageType === 'multiple' && (
+                <div className="space-y-6">
+                  {/* Combination Package Selection */}
+                  <div>
+                    <label className="block text-sm font-medium text-neutral-bodyText mb-2">
+                      Combination Package
+                    </label>
+                    <select
+                      value={formData.multipleDegree?.combinationPackage || ""}
+                      onChange={(e) => handleMultipleDegreeChange('combinationPackage', e.target.value)}
+                      className="w-full px-4 py-3 border border-neutral-lightGray rounded-2xl focus:ring-2 focus:ring-primary-dodgerBlue focus:border-transparent"
+                      required
+                    >
+                      <option value="">Select combination package</option>
+                      {combinationPackages.map((pkg) => (
+                        <option key={pkg.id} value={pkg.id}>{pkg.title}</option>
+                      ))}
+                    </select>
+                  </div>
+
+                  {/* Selected Package Info */}
+                  {selectedPackage && (
+                    <div className="bg-gray-50 p-4 rounded-2xl">
+                      <h4 className="font-medium text-primary-deepBlue mb-2">{selectedPackage.title}</h4>
+                      <div className="text-sm text-neutral-bodyText">
+                        <p>Components: {selectedPackage.components.map(c => c.name).join(' + ')}</p>
+                        <p>Total Price: {selectedPackage.discountedPrice}</p>
+                        <p>Total Documents: {selectedPackage.totalDocuments}</p>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Degree Selections for Each Component */}
+                  {selectedPackage && (
+                    <div className="space-y-4">
+                      <div className="flex items-center justify-between">
+                        <h4 className="font-medium text-primary-deepBlue">Degree Selections</h4>
+                      </div>
+                      
+                      {formData.multipleDegree?.degrees.map((degree, index) => (
+                        <div key={index} className="border border-neutral-lightGray rounded-2xl p-4">
+                          <div className="flex items-center justify-between mb-4">
+                            <h5 className="font-medium text-neutral-bodyText">Degree {index + 1}</h5>
+                          </div>
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                              <label className="block text-sm font-medium text-neutral-bodyText mb-2">
+                                Degree Type
+                              </label>
+                              <select
+                                value={degree.degreeType}
+                                onChange={(e) => handleDegreeChange(index, 'degreeType', e.target.value)}
+                                className="w-full px-4 py-3 border border-neutral-lightGray rounded-2xl focus:ring-2 focus:ring-primary-dodgerBlue focus:border-transparent"
+                                disabled={index < selectedPackage.components.length}
+                                required
+                              >
+                                <option value="">Select degree type</option>
+                                {degreeProgramsList.map((program: string, idx: number) => (
+                                  <option key={idx} value={program}>{program}</option>
+                                ))}
+                              </select>
+                              {index < selectedPackage.components.length && (
+                                <p className="text-xs text-neutral-bodyText mt-1">
+                                  Auto-selected from package
+                                </p>
+                              )}
+                            </div>
+                            <div>
+                              <label className="block text-sm font-medium text-neutral-bodyText mb-2">
+                                Major
+                              </label>
+                              <select
+                                value={degree.major}
+                                onChange={(e) => handleDegreeChange(index, 'major', e.target.value)}
+                                className="w-full px-4 py-3 border border-neutral-lightGray rounded-2xl focus:ring-2 focus:ring-primary-dodgerBlue focus:border-transparent"
+                                disabled={!degree.degreeType}
+                                required
+                              >
+                                <option value="">
+                                  {degree.degreeType ? "Select major" : "Select degree type first"}
+                                </option>
+                                {degree.degreeType && 
+                                  getFilteredMajors(degree.degreeType).map((major: string, idx: number) => (
+                                    <option key={idx} value={major}>{major}</option>
+                                  ))
+                                }
+                              </select>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
 
             {/* Personal Information Section */}
@@ -399,6 +664,21 @@ export function ApplicationForm() {
                     className="w-full px-4 py-3 border border-neutral-lightGray rounded-2xl focus:ring-2 focus:ring-primary-dodgerBlue focus:border-transparent"
                     required
                   />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-neutral-bodyText mb-2">
+                    Gender
+                  </label>
+                  <select
+                    value={formData.gender}
+                    onChange={(e) => handleInputChange('gender', e.target.value as 'male' | 'female' | 'other')}
+                    className="w-full px-4 py-3 border border-neutral-lightGray rounded-2xl focus:ring-2 focus:ring-primary-dodgerBlue focus:border-transparent"
+                    required
+                  >
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="other">Other</option>
+                  </select>
                 </div>
               </div>
             </div>
@@ -529,7 +809,7 @@ export function ApplicationForm() {
             {/* Document Upload Section */}
             <div className="space-y-6">
               <H2 className="text-primary-deepBlue">Document Upload</H2>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label className="block text-sm font-medium text-neutral-bodyText mb-2">
                     Passport/ID
@@ -597,45 +877,73 @@ export function ApplicationForm() {
                     )}
                   </div>
                 </div>
+              </div>
 
-                <div>
-                  <label className="block text-sm font-medium text-neutral-bodyText mb-2">
-                    Work Experience
+              {/* Work Experience Files */}
+              <div>
+                <div className="flex items-center justify-between mb-4">
+                  <label className="block text-sm font-medium text-neutral-bodyText">
+                    Work Experience Documents
                   </label>
-                  <div className="border-2 border-dashed border-neutral-lightGray rounded-2xl p-4">
-                    {uploadedFiles.workExperience ? (
-                      <div className="flex items-center justify-between">
-                        <span className="text-sm text-neutral-bodyText">{uploadedFiles.workExperience.name}</span>
-                        <button
-                          type="button"
-                          onClick={() => removeFile('workExperience')}
-                          className="text-red-500 hover:text-red-700"
-                        >
-                          <X className="w-4 h-4" />
-                        </button>
-                      </div>
-                    ) : (
-                      <div className="text-center">
-                        <Upload className="w-8 h-8 text-neutral-bodyText mx-auto mb-2" />
-                        <input
-                          type="file"
-                          onChange={(e) => e.target.files?.[0] && handleFileUpload('workExperience', e.target.files[0])}
-                          className="hidden"
-                          id="work-experience-upload"
-                          accept=".pdf,.jpg,.jpeg,.png"
-                        />
-                        <label htmlFor="work-experience-upload" className="cursor-pointer text-sm text-primary-dodgerBlue hover:text-primary-deepBlue">
-                          Click to upload
-                        </label>
-                      </div>
-                    )}
-                  </div>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    onClick={() => {
+                      const input = document.createElement('input')
+                      input.type = 'file'
+                      input.accept = '.pdf,.jpg,.jpeg,.png'
+                      input.onchange = (e) => {
+                        const file = (e.target as HTMLInputElement).files?.[0]
+                        if (file) handleWorkExperienceUpload(file)
+                      }
+                      input.click()
+                    }}
+                    className="flex items-center gap-2"
+                  >
+                    <Plus className="w-4 h-4" />
+                    Add Document
+                  </Button>
+                </div>
+                
+                <div className="space-y-3">
+                  {uploadedFiles.workExperience.map((file, index) => (
+                    <div key={index} className="flex items-center justify-between p-3 border border-neutral-lightGray rounded-2xl">
+                      <span className="text-sm text-neutral-bodyText">{file.name}</span>
+                      <button
+                        type="button"
+                        onClick={() => removeWorkExperienceFile(index)}
+                        className="text-red-500 hover:text-red-700"
+                      >
+                        <X className="w-4 h-4" />
+                      </button>
+                    </div>
+                  ))}
+                  
+                  {uploadedFiles.workExperience.length === 0 && (
+                    <div className="border-2 border-dashed border-neutral-lightGray rounded-2xl p-8 text-center">
+                      <Upload className="w-8 h-8 text-neutral-bodyText mx-auto mb-2" />
+                      <p className="text-sm text-neutral-bodyText">No work experience documents uploaded</p>
+                      <p className="text-xs text-neutral-bodyText mt-1">Click &quot;Add Document&quot; to upload work experience files</p>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
 
             {/* Submit Button */}
-            <div className="flex justify-center pt-6">
+            <div className="flex justify-center pt-6 space-x-4">
+              {isAdmin && onCancel && (
+                <Button
+                  type="button"
+                  size="lg"
+                  variant="outline"
+                  onClick={onCancel}
+                  className="px-8 py-4 text-lg"
+                >
+                  Cancel
+                </Button>
+              )}
               <Button
                 type="submit"
                 size="lg"
@@ -645,11 +953,11 @@ export function ApplicationForm() {
                 {isSubmitting ? (
                   <div className="flex items-center">
                     <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
-                    Submitting...
+                    {isAdmin ? 'Creating...' : 'Submitting...'}
                   </div>
                 ) : (
                   <div className="flex items-center">
-                    Submit Application
+                    {isAdmin ? 'Create Student' : 'Submit Application'}
                     <ArrowRight className="ml-2 w-5 h-5" />
                   </div>
                 )}

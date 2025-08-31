@@ -13,9 +13,9 @@ export interface CombinationPackage {
 export const combinationPackages: CombinationPackage[] = [
   {
     id: "package-1",
-    title: "High School Diploma + Associate Degree",
+    title: "Diploma Degree + Associate Degree",
     components: [
-      { name: "High School Diploma", price: "$399" },
+      { name: "Diploma Degree", price: "$399" },
       { name: "Associate Degree", price: "$749" }
     ],
     totalPrice: "$399+$749=$1148",
@@ -24,9 +24,9 @@ export const combinationPackages: CombinationPackage[] = [
   },
   {
     id: "package-2",
-    title: "High School Diploma + Bachelor's Degree + Master's Degree",
+    title: "Diploma Degree + Bachelor's Degree + Master's Degree",
     components: [
-      { name: "High School Diploma", price: "$399" },
+      { name: "Diploma Degree", price: "$399" },
       { name: "Bachelor's Degree", price: "$949" },
       { name: "Master's Degree", price: "$999" }
     ],
@@ -69,9 +69,9 @@ export const combinationPackages: CombinationPackage[] = [
   },
   {
     id: "package-6",
-    title: "High School Diploma + Bachelor's Degree",
+    title: "Diploma Degree + Bachelor's Degree",
     components: [
-      { name: "High School Diploma", price: "$399" },
+      { name: "Diploma Degree", price: "$399" },
       { name: "Bachelor's Degree", price: "$949" }
     ],
     totalPrice: "$399+$949=$1348",
@@ -91,9 +91,9 @@ export const combinationPackages: CombinationPackage[] = [
   },
   {
     id: "package-8",
-    title: "High School Diploma + Master's Degree",
+    title: "Diploma Degree + Master's Degree",
     components: [
-      { name: "High School Diploma", price: "$399" },
+      { name: "Diploma Degree", price: "$399" },
       { name: "Master's Degree", price: "$999" }
     ],
     totalPrice: "$399+$999=$1398",

@@ -104,7 +104,7 @@ export const degreeProgramsData: DegreeProgramsSectionData = {
 // About Section Data
 export const aboutData: AboutData = {
   title: "About Asian American Digital University (AADU)",
-  description: "Asian American Digital University (AADU), accredited by the Education Accreditation Council of America (EACOA) since 1991, validates the real-world knowledge and experience of professionals by awarding Associate, Bachelor's, Master's, Doctorate degrees, and High School Diplomas across 180+ disciplines - based on rigorous faculty-led evaluation.",
+  description: "Asian American Digital University (AADU), accredited by the Education Accreditation Council of America (EACOA) since 1991, validates the real-world knowledge and experience of professionals by awarding Associate, Bachelor's, Master's, Doctorate degrees, and Diploma Degrees across 180+ disciplines - based on rigorous faculty-led evaluation.",
   image: "/images/About Asian American Digital University (AADU) - Card - Homepagge.png",
   buttonText: "Learn More"
 };
@@ -125,7 +125,7 @@ export const faqData: FAQItem[] = [
   },
   {
     question: "What types of degrees are available?",
-    answer: "We offer Associate, Bachelor's, Master's, Doctorate degrees, and High School Diplomas across 180+ disciplines. You can choose from various fields including Business, Engineering, Science, Arts, and many more based on your experience."
+    answer: "We offer Associate, Bachelor's, Master's, Doctorate degrees, and Diploma Degrees across 180+ disciplines. You can choose from various fields including Business, Engineering, Science, Arts, and many more based on your experience."
   },
   {
     question: "Do I need to take classes or exams?",

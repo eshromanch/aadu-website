@@ -57,12 +57,12 @@ export const searchableContent: SearchResult[] = [
   },
   {
     id: "high-school-diploma",
-    title: "High School Diploma Program",
+    title: "Diploma Degree Program",
     description: "Complete your high school education with our flexible diploma program.",
     url: "/degree-programs/high-school",
     category: "degree-programs",
     tags: ["high school", "diploma", "program", "secondary"],
-    content: "High School Diploma Program offers comprehensive secondary education with flexible learning options."
+    content: "Diploma Degree Program offers comprehensive secondary education with flexible learning options."
   },
 
   // Majors

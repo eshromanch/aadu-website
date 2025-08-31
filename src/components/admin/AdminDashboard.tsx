@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button"
 import { H2, H3, Body16 } from "@/components/common/Typography"
 import { LogOut, Users, FileText, CheckCircle, XCircle, Clock, Search, Plus, MessageSquare } from "lucide-react"
 import { ContactManagement } from "./ContactManagement"
+import { ApplicationForm } from "@/components/apply/ApplicationForm"
 
 interface AdminDashboardProps {
   onLogout: () => void
@@ -17,15 +18,25 @@ interface Student {
   lastName: string
   email: string
   phone: string
-  degreePackage: string
-  major: string
+  degreePackageType: 'single' | 'multiple'
+  singleDegree?: {
+    degreeType: string
+    major: string
+  }
+  multipleDegree?: {
+    combinationPackage: string
+    degrees: Array<{
+      degreeType: string
+      major: string
+    }>
+  }
   status: 'pending' | 'approved' | 'rejected' | 'in-review'
   createdAt: string
   adminNotes?: string
   documents?: {
     passport?: string
     drivingLicense?: string
-    workExperience?: string
+    workExperience?: string[]
   }
 }
 
@@ -35,34 +46,10 @@ interface DashboardStats {
   approved: number
   rejected: number
   inReview: number
+  certificationProvided: number
 }
 
-interface CreateStudentForm {
-  firstName: string
-  lastName: string
-  email: string
-  phone: string
-  dateOfBirth: string
-  gender: 'male' | 'female' | 'other'
-  address: {
-    street: string
-    city: string
-    state: string
-    zipCode: string
-    country: string
-  }
-  degreePackage: string
-  major: string
-  yearOfGraduation: string
-  parentGuardian: {
-    name: string
-    relationship: string
-    phone: string
-    email: string
-  }
-  status: 'pending' | 'approved' | 'rejected' | 'in-review'
-  adminNotes: string
-}
+
 
 export function AdminDashboard({ onLogout }: AdminDashboardProps) {
   const [students, setStudents] = useState<Student[]>([])
@@ -71,7 +58,8 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
     pending: 0,
     approved: 0,
     rejected: 0,
-    inReview: 0
+    inReview: 0,
+    certificationProvided: 0
   })
   const [isLoading, setIsLoading] = useState(true)
   const [currentPage, setCurrentPage] = useState(1)
@@ -80,35 +68,7 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
   const [statusFilter, setStatusFilter] = useState("all")
   const [selectedStudent, setSelectedStudent] = useState<Student | null>(null)
   const [showCreateModal, setShowCreateModal] = useState(false)
-  const [isCreating, setIsCreating] = useState(false)
   const [showContactManagement, setShowContactManagement] = useState(false)
-
-  const [createForm, setCreateForm] = useState<CreateStudentForm>({
-    firstName: "",
-    lastName: "",
-    email: "",
-    phone: "",
-    dateOfBirth: "",
-    gender: 'male',
-    address: {
-      street: "",
-      city: "",
-      state: "",
-      zipCode: "",
-      country: ""
-    },
-    degreePackage: "",
-    major: "",
-    yearOfGraduation: "",
-    parentGuardian: {
-      name: "",
-      relationship: "",
-      phone: "",
-      email: ""
-    },
-    status: 'pending',
-    adminNotes: ""
-  })
 
   const fetchStudents = useCallback(async () => {
     try {
@@ -146,7 +106,8 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
           pending: statusCounts.pending || 0,
           approved: statusCounts.approved || 0,
           rejected: statusCounts.rejected || 0,
-          inReview: statusCounts['in-review'] || 0
+          inReview: statusCounts['in-review'] || 0,
+          certificationProvided: statusCounts['certification-provided'] || 0
         })
       }
     } catch (error) {
@@ -159,6 +120,8 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
   useEffect(() => {
     fetchStudents()
   }, [fetchStudents])
+
+
 
   // If showing contact management, render that component
   if (showContactManagement) {
@@ -185,91 +148,9 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
     }
   }
 
-  const handleCreateStudent = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setIsCreating(true)
-
-    try {
-      const submissionData = {
-        ...createForm,
-        dateOfBirth: new Date(createForm.dateOfBirth),
-        yearOfGraduation: new Date(createForm.yearOfGraduation)
-      }
-
-      const response = await fetch('/api/admin/students', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        credentials: 'include',
-        body: JSON.stringify(submissionData)
-      })
-
-      if (response.ok) {
-        setShowCreateModal(false)
-        setCreateForm({
-          firstName: "",
-          lastName: "",
-          email: "",
-          phone: "",
-          dateOfBirth: "",
-          gender: 'male',
-          address: {
-            street: "",
-            city: "",
-            state: "",
-            zipCode: "",
-            country: ""
-          },
-          degreePackage: "",
-          major: "",
-          yearOfGraduation: "",
-          parentGuardian: {
-            name: "",
-            relationship: "",
-            phone: "",
-            email: ""
-          },
-          status: 'pending',
-          adminNotes: ""
-        })
-        fetchStudents() // Refresh the list
-      } else {
-        const result = await response.json()
-        alert(result.message || 'Failed to create student')
-      }
-    } catch (error) {
-      alert('Network error. Please try again.')
-    } finally {
-      setIsCreating(false)
-    }
-  }
-
-  const handleCreateFormChange = (field: keyof CreateStudentForm, value: string | Date) => {
-    setCreateForm(prev => ({
-      ...prev,
-      [field]: value
-    }))
-  }
-
-  const handleAddressChange = (field: keyof CreateStudentForm['address'], value: string) => {
-    setCreateForm(prev => ({
-      ...prev,
-      address: {
-        ...prev.address,
-        [field]: value
-      }
-    }))
-  }
-
-  const handleParentGuardianChange = (field: keyof CreateStudentForm['parentGuardian'], value: string) => {
-    setCreateForm(prev => ({
-      ...prev,
-      parentGuardian: {
-        ...prev.parentGuardian,
-        [field]: value
-      }
-    }))
+  const handleCreateStudentSuccess = (data: unknown) => {
+    setShowCreateModal(false)
+    fetchStudents() // Refresh the list
   }
 
   const getStatusColor = (status: string) => {
@@ -277,6 +158,7 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
       case 'approved': return 'text-green-600 bg-green-50'
       case 'rejected': return 'text-red-600 bg-red-50'
       case 'in-review': return 'text-yellow-600 bg-yellow-50'
+      case 'certification-provided': return 'text-purple-600 bg-purple-50'
       default: return 'text-gray-600 bg-gray-50'
     }
   }
@@ -286,6 +168,7 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
       case 'approved': return <CheckCircle className="w-4 h-4" />
       case 'rejected': return <XCircle className="w-4 h-4" />
       case 'in-review': return <Clock className="w-4 h-4" />
+      case 'certification-provided': return <CheckCircle className="w-4 h-4" />
       default: return <Clock className="w-4 h-4" />
     }
   }
@@ -297,14 +180,14 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
         <div className="container mx-auto px-8 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
-              <div className="w-12 h-12 rounded-full border-2 border-primary-deepBlue flex items-center justify-center bg-white">
+              {/* <div className="w-12 h-12 rounded-full border-2 border-primary-deepBlue flex items-center justify-center bg-white">
                 <div className="text-center">
                   <div className="text-body-12 font-dm-sans font-semibold text-primary-deepBlue leading-tight">
                     AADU<br />
                     ADMIN
                   </div>
                 </div>
-              </div>
+              </div> */}
               <div>
                 <H2 className="text-primary-deepBlue">Admin Dashboard</H2>
                 <Body16 className="text-neutral-bodyText">Manage student applications</Body16>
@@ -340,7 +223,7 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
 
       <div className="container mx-auto px-8 py-8">
         {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-6 mb-8">
           <div className="bg-white rounded-2xl p-6 shadow-sm">
             <div className="flex items-center justify-between">
               <div>
@@ -390,6 +273,16 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
               <XCircle className="w-8 h-8 text-red-600" />
             </div>
           </div>
+          
+          <div className="bg-white rounded-2xl p-6 shadow-sm">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm text-neutral-bodyText">Certification Provided</p>
+                <p className="text-2xl font-bold text-purple-600">{stats.certificationProvided}</p>
+              </div>
+              <CheckCircle className="w-8 h-8 text-purple-600" />
+            </div>
+          </div>
         </div>
 
         {/* Filters and Search */}
@@ -418,6 +311,7 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
                 <option value="in-review">In Review</option>
                 <option value="approved">Approved</option>
                 <option value="rejected">Rejected</option>
+                <option value="certification-provided">Certification Provided</option>
               </select>
             </div>
           </div>
@@ -483,10 +377,14 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
                       <td className="px-6 py-4">
                         <div>
                           <div className="text-sm font-medium text-primary-deepBlue">
-                            {student.degreePackage}
+                            {student.degreePackageType === 'single' 
+                              ? student.singleDegree?.degreeType 
+                              : student.multipleDegree?.combinationPackage}
                           </div>
                           <div className="text-sm text-neutral-bodyText">
-                            {student.major}
+                            {student.degreePackageType === 'single' 
+                              ? student.singleDegree?.major 
+                              : `${student.multipleDegree?.degrees?.length || 0} degrees`}
                           </div>
                         </div>
                       </td>
@@ -549,7 +447,7 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
       {/* Create Student Modal */}
       {showCreateModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+          <div className="bg-white rounded-2xl max-w-6xl w-full max-h-[95vh] overflow-y-auto">
             <div className="p-6">
               <div className="flex items-center justify-between mb-6">
                 <H3 className="text-primary-deepBlue">
@@ -564,314 +462,11 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
                 </Button>
               </div>
 
-              <form onSubmit={handleCreateStudent} className="space-y-6">
-                {/* Personal Information */}
-                <div>
-                  <h4 className="font-semibold text-primary-deepBlue mb-3">Personal Information</h4>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-sm font-medium text-neutral-bodyText mb-2">
-                        First Name *
-                      </label>
-                      <input
-                        type="text"
-                        value={createForm.firstName}
-                        onChange={(e) => handleCreateFormChange('firstName', e.target.value)}
-                        className="w-full px-3 py-2 border border-neutral-lightGray rounded-2xl focus:ring-2 focus:ring-primary-dodgerBlue focus:border-transparent"
-                        required
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-neutral-bodyText mb-2">
-                        Last Name *
-                      </label>
-                      <input
-                        type="text"
-                        value={createForm.lastName}
-                        onChange={(e) => handleCreateFormChange('lastName', e.target.value)}
-                        className="w-full px-3 py-2 border border-neutral-lightGray rounded-2xl focus:ring-2 focus:ring-primary-dodgerBlue focus:border-transparent"
-                        required
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-neutral-bodyText mb-2">
-                        Email *
-                      </label>
-                      <input
-                        type="email"
-                        value={createForm.email}
-                        onChange={(e) => handleCreateFormChange('email', e.target.value)}
-                        className="w-full px-3 py-2 border border-neutral-lightGray rounded-2xl focus:ring-2 focus:ring-primary-dodgerBlue focus:border-transparent"
-                        required
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-neutral-bodyText mb-2">
-                        Phone *
-                      </label>
-                      <input
-                        type="tel"
-                        value={createForm.phone}
-                        onChange={(e) => handleCreateFormChange('phone', e.target.value)}
-                        className="w-full px-3 py-2 border border-neutral-lightGray rounded-2xl focus:ring-2 focus:ring-primary-dodgerBlue focus:border-transparent"
-                        required
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-neutral-bodyText mb-2">
-                        Date of Birth *
-                      </label>
-                      <input
-                        type="date"
-                        value={createForm.dateOfBirth}
-                        onChange={(e) => handleCreateFormChange('dateOfBirth', e.target.value)}
-                        className="w-full px-3 py-2 border border-neutral-lightGray rounded-2xl focus:ring-2 focus:ring-primary-dodgerBlue focus:border-transparent"
-                        required
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-neutral-bodyText mb-2">
-                        Gender *
-                      </label>
-                      <select
-                        value={createForm.gender}
-                        onChange={(e) => handleCreateFormChange('gender', e.target.value as 'male' | 'female' | 'other')}
-                        className="w-full px-3 py-2 border border-neutral-lightGray rounded-2xl focus:ring-2 focus:ring-primary-dodgerBlue focus:border-transparent"
-                        required
-                      >
-                        <option value="male">Male</option>
-                        <option value="female">Female</option>
-                        <option value="other">Other</option>
-                      </select>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Address Information */}
-                <div>
-                  <h4 className="font-semibold text-primary-deepBlue mb-3">Address Information</h4>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="md:col-span-2">
-                      <label className="block text-sm font-medium text-neutral-bodyText mb-2">
-                        Street Address *
-                      </label>
-                      <input
-                        type="text"
-                        value={createForm.address.street}
-                        onChange={(e) => handleAddressChange('street', e.target.value)}
-                        className="w-full px-3 py-2 border border-neutral-lightGray rounded-2xl focus:ring-2 focus:ring-primary-dodgerBlue focus:border-transparent"
-                        required
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-neutral-bodyText mb-2">
-                        City *
-                      </label>
-                      <input
-                        type="text"
-                        value={createForm.address.city}
-                        onChange={(e) => handleAddressChange('city', e.target.value)}
-                        className="w-full px-3 py-2 border border-neutral-lightGray rounded-2xl focus:ring-2 focus:ring-primary-dodgerBlue focus:border-transparent"
-                        required
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-neutral-bodyText mb-2">
-                        State/Province *
-                      </label>
-                      <input
-                        type="text"
-                        value={createForm.address.state}
-                        onChange={(e) => handleAddressChange('state', e.target.value)}
-                        className="w-full px-3 py-2 border border-neutral-lightGray rounded-2xl focus:ring-2 focus:ring-primary-dodgerBlue focus:border-transparent"
-                        required
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-neutral-bodyText mb-2">
-                        ZIP/Postal Code *
-                      </label>
-                      <input
-                        type="text"
-                        value={createForm.address.zipCode}
-                        onChange={(e) => handleAddressChange('zipCode', e.target.value)}
-                        className="w-full px-3 py-2 border border-neutral-lightGray rounded-2xl focus:ring-2 focus:ring-primary-dodgerBlue focus:border-transparent"
-                        required
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-neutral-bodyText mb-2">
-                        Country *
-                      </label>
-                      <input
-                        type="text"
-                        value={createForm.address.country}
-                        onChange={(e) => handleAddressChange('country', e.target.value)}
-                        className="w-full px-3 py-2 border border-neutral-lightGray rounded-2xl focus:ring-2 focus:ring-primary-dodgerBlue focus:border-transparent"
-                        required
-                      />
-                    </div>
-                  </div>
-                </div>
-
-                {/* Academic Information */}
-                <div>
-                  <h4 className="font-semibold text-primary-deepBlue mb-3">Academic Information</h4>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-sm font-medium text-neutral-bodyText mb-2">
-                        Degree Package *
-                      </label>
-                      <input
-                        type="text"
-                        value={createForm.degreePackage}
-                        onChange={(e) => handleCreateFormChange('degreePackage', e.target.value)}
-                        className="w-full px-3 py-2 border border-neutral-lightGray rounded-2xl focus:ring-2 focus:ring-primary-dodgerBlue focus:border-transparent"
-                        placeholder="e.g., Bachelor's Degree"
-                        required
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-neutral-bodyText mb-2">
-                        Major *
-                      </label>
-                      <input
-                        type="text"
-                        value={createForm.major}
-                        onChange={(e) => handleCreateFormChange('major', e.target.value)}
-                        className="w-full px-3 py-2 border border-neutral-lightGray rounded-2xl focus:ring-2 focus:ring-primary-dodgerBlue focus:border-transparent"
-                        placeholder="e.g., Computer Science"
-                        required
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-neutral-bodyText mb-2">
-                        Year of Graduation *
-                      </label>
-                      <input
-                        type="date"
-                        value={createForm.yearOfGraduation}
-                        onChange={(e) => handleCreateFormChange('yearOfGraduation', e.target.value)}
-                        className="w-full px-3 py-2 border border-neutral-lightGray rounded-2xl focus:ring-2 focus:ring-primary-dodgerBlue focus:border-transparent"
-                        required
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-neutral-bodyText mb-2">
-                        Status *
-                      </label>
-                      <select
-                        value={createForm.status}
-                        onChange={(e) => handleCreateFormChange('status', e.target.value as 'pending' | 'approved' | 'rejected' | 'in-review')}
-                        className="w-full px-3 py-2 border border-neutral-lightGray rounded-2xl focus:ring-2 focus:ring-primary-dodgerBlue focus:border-transparent"
-                        required
-                      >
-                        <option value="pending">Pending</option>
-                        <option value="in-review">In Review</option>
-                        <option value="approved">Approved</option>
-                        <option value="rejected">Rejected</option>
-                      </select>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Parent/Guardian Information */}
-                <div>
-                  <h4 className="font-semibold text-primary-deepBlue mb-3">Parent/Guardian Information</h4>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-sm font-medium text-neutral-bodyText mb-2">
-                        Full Name *
-                      </label>
-                      <input
-                        type="text"
-                        value={createForm.parentGuardian.name}
-                        onChange={(e) => handleParentGuardianChange('name', e.target.value)}
-                        className="w-full px-3 py-2 border border-neutral-lightGray rounded-2xl focus:ring-2 focus:ring-primary-dodgerBlue focus:border-transparent"
-                        required
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-neutral-bodyText mb-2">
-                        Relationship *
-                      </label>
-                      <input
-                        type="text"
-                        value={createForm.parentGuardian.relationship}
-                        onChange={(e) => handleParentGuardianChange('relationship', e.target.value)}
-                        className="w-full px-3 py-2 border border-neutral-lightGray rounded-2xl focus:ring-2 focus:ring-primary-dodgerBlue focus:border-transparent"
-                        placeholder="e.g., Father, Mother, Guardian"
-                        required
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-neutral-bodyText mb-2">
-                        Phone *
-                      </label>
-                      <input
-                        type="tel"
-                        value={createForm.parentGuardian.phone}
-                        onChange={(e) => handleParentGuardianChange('phone', e.target.value)}
-                        className="w-full px-3 py-2 border border-neutral-lightGray rounded-2xl focus:ring-2 focus:ring-primary-dodgerBlue focus:border-transparent"
-                        required
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-neutral-bodyText mb-2">
-                        Email *
-                      </label>
-                      <input
-                        type="email"
-                        value={createForm.parentGuardian.email}
-                        onChange={(e) => handleParentGuardianChange('email', e.target.value)}
-                        className="w-full px-3 py-2 border border-neutral-lightGray rounded-2xl focus:ring-2 focus:ring-primary-dodgerBlue focus:border-transparent"
-                        required
-                      />
-                    </div>
-                  </div>
-                </div>
-
-                {/* Admin Notes */}
-                <div>
-                  <h4 className="font-semibold text-primary-deepBlue mb-3">Admin Notes</h4>
-                  <div>
-                    <label className="block text-sm font-medium text-neutral-bodyText mb-2">
-                      Notes
-                    </label>
-                    <textarea
-                      value={createForm.adminNotes}
-                      onChange={(e) => handleCreateFormChange('adminNotes', e.target.value)}
-                      className="w-full px-3 py-2 border border-neutral-lightGray rounded-2xl focus:ring-2 focus:ring-primary-dodgerBlue focus:border-transparent h-24 resize-none"
-                      placeholder="Add any notes about this student..."
-                    />
-                  </div>
-                </div>
-
-                {/* Submit Buttons */}
-                <div className="flex justify-end space-x-4 pt-6">
-                  <Button
-                    type="button"
-                    onClick={() => setShowCreateModal(false)}
-                    variant="outline"
-                  >
-                    Cancel
-                  </Button>
-                  <Button
-                    type="submit"
-                    disabled={isCreating}
-                    className="bg-primary-deepBlue hover:bg-primary-deepBlue/90 text-white"
-                  >
-                    {isCreating ? (
-                      <div className="flex items-center">
-                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-                        Creating...
-                      </div>
-                    ) : (
-                      'Create Student'
-                    )}
-                  </Button>
-                </div>
-              </form>
+              <ApplicationForm 
+                isAdmin={true}
+                onSuccess={handleCreateStudentSuccess}
+                onCancel={() => setShowCreateModal(false)}
+              />
             </div>
           </div>
         </div>
@@ -931,14 +526,48 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
                   <h4 className="font-semibold text-primary-deepBlue mb-3">Academic Information</h4>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                      <label className="text-sm text-neutral-bodyText">Degree Package</label>
-                      <p className="font-medium">{selectedStudent.degreePackage}</p>
+                      <label className="text-sm text-neutral-bodyText">Degree Package Type</label>
+                      <p className="font-medium capitalize">{selectedStudent.degreePackageType}</p>
                     </div>
-                    <div>
-                      <label className="text-sm text-neutral-bodyText">Major</label>
-                      <p className="font-medium">{selectedStudent.major}</p>
-                    </div>
+                    {selectedStudent.degreePackageType === 'single' ? (
+                      <>
+                        <div>
+                          <label className="text-sm text-neutral-bodyText">Degree Type</label>
+                          <p className="font-medium">{selectedStudent.singleDegree?.degreeType}</p>
+                        </div>
+                        <div>
+                          <label className="text-sm text-neutral-bodyText">Major</label>
+                          <p className="font-medium">{selectedStudent.singleDegree?.major}</p>
+                        </div>
+                      </>
+                    ) : (
+                      <>
+                        <div>
+                          <label className="text-sm text-neutral-bodyText">Combination Package</label>
+                          <p className="font-medium">{selectedStudent.multipleDegree?.combinationPackage}</p>
+                        </div>
+                        <div>
+                          <label className="text-sm text-neutral-bodyText">Number of Degrees</label>
+                          <p className="font-medium">{selectedStudent.multipleDegree?.degrees?.length || 0}</p>
+                        </div>
+                      </>
+                    )}
                   </div>
+                  
+                  {selectedStudent.degreePackageType === 'multiple' && selectedStudent.multipleDegree?.degrees && (
+                    <div className="mt-4">
+                      <label className="text-sm text-neutral-bodyText">Degrees:</label>
+                      <div className="mt-2 space-y-2">
+                        {selectedStudent.multipleDegree.degrees.map((degree, index) => (
+                          <div key={index} className="p-3 bg-neutral-offWhiteBlue rounded-2xl">
+                            <p className="text-sm font-medium text-primary-deepBlue">Degree {index + 1}</p>
+                            <p className="text-sm text-neutral-bodyText">Type: {degree.degreeType}</p>
+                            <p className="text-sm text-neutral-bodyText">Major: {degree.major}</p>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
                 </div>
 
                 {/* Documents */}
@@ -952,7 +581,7 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
                           <p className="text-xs text-neutral-bodyText">{selectedStudent.documents.passport}</p>
                         </div>
                         <Button
-                          onClick={() => window.open(`/api/uploads${selectedStudent.documents?.passport}`, '_blank')}
+                          onClick={() => window.open(`/api/uploads/${selectedStudent.documents?.passport}`, '_blank')}
                           size="sm"
                           variant="outline"
                         >
@@ -967,7 +596,7 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
                           <p className="text-xs text-neutral-bodyText">{selectedStudent.documents.drivingLicense}</p>
                         </div>
                         <Button
-                          onClick={() => window.open(`/api/uploads${selectedStudent.documents?.drivingLicense}`, '_blank')}
+                          onClick={() => window.open(`/api/uploads/${selectedStudent.documents?.drivingLicense}`, '_blank')}
                           size="sm"
                           variant="outline"
                         >
@@ -975,22 +604,26 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
                         </Button>
                       </div>
                     )}
-                    {selectedStudent.documents?.workExperience && (
-                      <div className="flex items-center justify-between p-3 bg-neutral-offWhiteBlue rounded-2xl">
-                        <div>
-                          <p className="text-sm font-medium text-primary-deepBlue">Work Experience</p>
-                          <p className="text-xs text-neutral-bodyText">{selectedStudent.documents.workExperience}</p>
-                        </div>
-                        <Button
-                          onClick={() => window.open(`/api/uploads${selectedStudent.documents?.workExperience}`, '_blank')}
-                          size="sm"
-                          variant="outline"
-                        >
-                          Download
-                        </Button>
+                    {selectedStudent.documents?.workExperience && selectedStudent.documents.workExperience.length > 0 && (
+                      <div className="space-y-2">
+                        <p className="text-sm font-medium text-primary-deepBlue">Work Experience Documents</p>
+                        {selectedStudent.documents.workExperience.map((file, index) => (
+                          <div key={index} className="flex items-center justify-between p-3 bg-neutral-offWhiteBlue rounded-2xl">
+                            <div>
+                              <p className="text-xs text-neutral-bodyText">{file}</p>
+                            </div>
+                            <Button
+                              onClick={() => window.open(`/api/uploads/${file}`, '_blank')}
+                              size="sm"
+                              variant="outline"
+                            >
+                              Download
+                            </Button>
+                          </div>
+                        ))}
                       </div>
                     )}
-                    {(!selectedStudent.documents?.passport && !selectedStudent.documents?.drivingLicense && !selectedStudent.documents?.workExperience) && (
+                    {(!selectedStudent.documents?.passport && !selectedStudent.documents?.drivingLicense && (!selectedStudent.documents?.workExperience || selectedStudent.documents.workExperience.length === 0)) && (
                       <p className="text-sm text-neutral-bodyText">No documents uploaded</p>
                     )}
                   </div>
@@ -1021,6 +654,13 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
                         className="bg-yellow-600 hover:bg-yellow-700"
                       >
                         Mark for Review
+                      </Button>
+                      <Button
+                        onClick={() => handleStatusUpdate(selectedStudent._id, 'certification-provided')}
+                        size="sm"
+                        className="bg-purple-600 hover:bg-purple-700"
+                      >
+                        Mark Certification Provided
                       </Button>
                     </div>
                   </div>

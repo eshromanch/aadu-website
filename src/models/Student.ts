@@ -2,7 +2,7 @@ import mongoose from 'mongoose'
 
 export interface IStudent extends mongoose.Document {
   // Student ID (unique number)
-  studentId: number
+  studentId?: number
   
   // Personal Information
   firstName: string
@@ -22,8 +22,18 @@ export interface IStudent extends mongoose.Document {
   }
   
   // Academic Information
-  degreePackage: string
-  major: string
+  degreePackageType: 'single' | 'multiple'
+  singleDegree?: {
+    degreeType: string
+    major: string
+  }
+  multipleDegree?: {
+    combinationPackage: string
+    degrees: Array<{
+      degreeType: string
+      major: string
+    }>
+  }
   yearOfGraduation: Date
   
   // Parent/Guardian Information
@@ -38,11 +48,11 @@ export interface IStudent extends mongoose.Document {
   documents: {
     passport?: string
     drivingLicense?: string
-    workExperience?: string
+    workExperience?: string[]
   }
   
   // Application Status
-  status: 'pending' | 'approved' | 'rejected' | 'in-review'
+  status: 'pending' | 'approved' | 'rejected' | 'in-review' | 'certification-provided'
   adminNotes?: string
   
   // Timestamps
@@ -54,7 +64,7 @@ const studentSchema = new mongoose.Schema<IStudent>({
   // Student ID (unique number)
   studentId: {
     type: Number,
-    required: true,
+    required: false, // Will be set by pre-save middleware
     unique: true
   },
   
@@ -120,15 +130,36 @@ const studentSchema = new mongoose.Schema<IStudent>({
   },
   
   // Academic Information
-  degreePackage: {
+  degreePackageType: {
     type: String,
-    required: true,
-    trim: true
+    enum: ['single', 'multiple'],
+    required: true
   },
-  major: {
-    type: String,
-    required: true,
-    trim: true
+  singleDegree: {
+    degreeType: {
+      type: String,
+      trim: true
+    },
+    major: {
+      type: String,
+      trim: true
+    }
+  },
+  multipleDegree: {
+    combinationPackage: {
+      type: String,
+      trim: true
+    },
+    degrees: [{
+      degreeType: {
+        type: String,
+        trim: true
+      },
+      major: {
+        type: String,
+        trim: true
+      }
+    }]
   },
   yearOfGraduation: {
     type: Date,
@@ -170,16 +201,16 @@ const studentSchema = new mongoose.Schema<IStudent>({
       type: String,
       trim: true
     },
-    workExperience: {
+    workExperience: [{
       type: String,
       trim: true
-    }
+    }]
   },
   
   // Application Status
   status: {
     type: String,
-    enum: ['pending', 'approved', 'rejected', 'in-review'],
+    enum: ['pending', 'approved', 'rejected', 'in-review', 'certification-provided'],
     default: 'pending'
   },
   adminNotes: {
@@ -195,14 +226,20 @@ studentSchema.index({ studentId: 1 })
 studentSchema.index({ email: 1 })
 studentSchema.index({ status: 1 })
 studentSchema.index({ createdAt: -1 })
-studentSchema.index({ degreePackage: 1 })
+studentSchema.index({ degreePackageType: 1 })
 
 // Pre-save middleware to generate student ID if not provided
 studentSchema.pre('save', async function(next) {
   if (!this.studentId) {
-    // Find the highest student ID and increment by 1
-    const lastStudent = await mongoose.model('Student').findOne({}, {}, { sort: { 'studentId': -1 } })
-    this.studentId = lastStudent ? lastStudent.studentId + 1 : 1000001 // Start from 1000001
+    try {
+      // Find the highest student ID and increment by 1
+      const StudentModel = mongoose.model('Student')
+      const lastStudent = await StudentModel.findOne({}, {}, { sort: { 'studentId': -1 } })
+      this.studentId = lastStudent ? lastStudent.studentId + 1 : 1000001 // Start from 1000001
+    } catch {
+      // If model doesn't exist yet, start with 1000001
+      this.studentId = 1000001
+    }
   }
   next()
 })

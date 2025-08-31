@@ -75,11 +75,11 @@ export const degreePrograms: DegreeProgramCard[] = [
     imageAlt: "Person working at desk"
   },
   {
-    title: "High School Diploma Program",
-    description: "Receive an accredited High School Diploma based on your life experience, opening doors to further education and opportunities.",
+    title: "Diploma Degree Program",
+    description: "Receive an accredited Diploma Degree based on your life experience, opening doors to further education and opportunities.",
     buttonText: "Learn More",
     variant: "light",
-    image: "/images/High school Diploma.jpg",
+    image: "/images/Diploma Degree.jpg",
     imageAlt: "Person working at desk"
   }
 ];
@@ -200,8 +200,8 @@ export const individualDegreePrograms: IndividualDegreeProgram[] = [
   },
   {
     id: "diploma",
-    title: "High School Diploma Program",
-    subtitle: "Receive an accredited High School Diploma based on your life experience, opening doors to further education and opportunities.",
+    title: "Diploma Degree Program",
+    subtitle: "Receive an accredited Diploma Degree based on your life experience, opening doors to further education and opportunities.",
     heroImage: "https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
     heroImageAlt: "Graduates in red caps and gowns",
     aboutImage: "https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
@@ -209,11 +209,11 @@ export const individualDegreePrograms: IndividualDegreeProgram[] = [
     eligibilityImage: "https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
     eligibilityImageAlt: "Construction workers in safety gear",
     aboutTheDegree: {
-      paragraph1: "The High School Diploma from Asian American Digital University (AADU) is an accredited academic qualification awarded based on the evaluation of your life experience and practical knowledge. This diploma opens doors to further education and career opportunities.",
-      paragraph2: "The High School Diploma from Asian American Digital University (AADU) is fully accredited and recognized, as AADU holds accreditation from the Education Accreditation Council of America (EACOA). This credential validates your knowledge and supports educational advancement."
+      paragraph1: "The Diploma Degree from Asian American Digital University (AADU) is an accredited academic qualification awarded based on the evaluation of your life experience and practical knowledge. This diploma opens doors to further education and career opportunities.",
+      paragraph2: "The Diploma Degree from Asian American Digital University (AADU) is fully accredited and recognized, as AADU holds accreditation from the Education Accreditation Council of America (EACOA). This credential validates your knowledge and supports educational advancement."
     },
     eligibilityCriteria: {
-      intro: "To qualify for a High School Diploma at Asian American Digital University (AADU), applicants must meet the following requirements:",
+      intro: "To qualify for a Diploma Degree at Asian American Digital University (AADU), applicants must meet the following requirements:",
       requirements: [
         "Life Experience: At least 5 years of relevant life experience demonstrating practical knowledge and skills.",
         "Evidence of Learning: Ability to provide verifiable documentation of learning through various life experiences.",

@@ -1,10 +1,11 @@
 "use client"
 
 import * as React from "react"
-import { X } from "lucide-react"
+import { X, ChevronDown, ChevronRight } from "lucide-react"
 import Link from "next/link"
 import { cn } from "@/lib/utils"
 import { navigationData, topNavData } from "@/data/navData"
+import Image from "next/image"
 
 interface DrawerProps {
   isOpen: boolean
@@ -12,6 +13,18 @@ interface DrawerProps {
 }
 
 export function Drawer({ isOpen, onClose }: DrawerProps) {
+  const [expandedItems, setExpandedItems] = React.useState<Set<number>>(new Set())
+
+  const toggleItem = (index: number) => {
+    const newExpanded = new Set(expandedItems)
+    if (newExpanded.has(index)) {
+      newExpanded.delete(index)
+    } else {
+      newExpanded.add(index)
+    }
+    setExpandedItems(newExpanded)
+  }
+
   return (
     <>
       {/* Backdrop */}
@@ -29,15 +42,11 @@ export function Drawer({ isOpen, onClose }: DrawerProps) {
       )}>
         {/* Header */}
         <div className="flex items-center justify-between p-6 border-b border-neutral-lightGray">
-          <div className="w-12 h-12 rounded-full border-2 border-primary-deepBlue flex items-center justify-center bg-white">
-            <div className="text-center">
-              <div className="text-body-12 font-dm-sans font-semibold text-primary-deepBlue leading-tight">
-                ASIAN AMERICAN<br />
-                DIGITAL<br />
-                UNIVERSITY
-              </div>
-            </div>
-          </div>
+         <div className="w-12 h-12">
+         <Link href="/">
+            <Image src="/AADU LOGO.png" alt="Logo" width={100} height={100} />
+          </Link>
+         </div>
           <button
             onClick={onClose}
             className="text-primary-deepBlue hover:text-primary-dodgerBlue transition-colors"
@@ -55,26 +64,44 @@ export function Drawer({ isOpen, onClose }: DrawerProps) {
                 <div key={index}>
                   {item.children ? (
                     <div className="space-y-2">
-                      {/* Parent Link - Clickable to navigate to parent page */}
-                      <Link
-                        href={item.href}
-                        className="block text-body-20-semibold font-poppins text-primary-deepBlue hover:text-primary-dodgerBlue transition-colors"
-                        onClick={onClose}
-                      >
-                        {item.label}
-                      </Link>
-                      {/* Child Links */}
-                      <div className="ml-4 space-y-2">
-                        {item.children.map((child, childIndex) => (
-                          <Link
-                            key={childIndex}
-                            href={child.href}
-                            className="block text-body-16 font-poppins text-neutral-bodyText hover:text-primary-deepBlue transition-colors"
-                            onClick={onClose}
-                          >
-                            {child.label}
-                          </Link>
-                        ))}
+                      {/* Parent Link with Accordion Toggle */}
+                      <div className="flex items-center justify-between">
+                        <Link
+                          href={item.href}
+                          className="flex-1 text-body-20-semibold font-poppins text-primary-deepBlue hover:text-primary-dodgerBlue transition-colors"
+                          onClick={onClose}
+                        >
+                          {item.label}
+                        </Link>
+                        <button
+                          onClick={() => toggleItem(index)}
+                          className="p-2 text-primary-deepBlue hover:text-primary-dodgerBlue transition-colors"
+                        >
+                          {expandedItems.has(index) ? (
+                            <ChevronDown className="w-5 h-5" />
+                          ) : (
+                            <ChevronRight className="w-5 h-5" />
+                          )}
+                        </button>
+                      </div>
+                      
+                      {/* Child Links - Accordion Content */}
+                      <div className={cn(
+                        "overflow-hidden transition-all duration-300 ease-in-out",
+                        expandedItems.has(index) ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
+                      )}>
+                        <div className="ml-4 space-y-2 pt-2">
+                          {item.children.map((child, childIndex) => (
+                            <Link
+                              key={childIndex}
+                              href={child.href}
+                              className="block text-body-16 font-poppins text-neutral-bodyText hover:text-primary-deepBlue transition-colors py-1"
+                              onClick={onClose}
+                            >
+                              {child.label}
+                            </Link>
+                          ))}
+                        </div>
                       </div>
                     </div>
                   ) : (

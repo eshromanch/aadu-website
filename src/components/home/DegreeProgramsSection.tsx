@@ -34,15 +34,15 @@ export function DegreeProgramsSection() {
             {degreeProgramsData.programs.map((program, index) => (
              <Link key={index} href={program.link}>
                 <div 
-                className={`${program.bgColor} ${program.hasShadow ? 'shadow-lg' : ''} rounded-[15px] w-full h-[360px] relative overflow-hidden flex flex-col items-center justify-center`}
+                className={`${program.bgColor} ${program.hasShadow ? 'shadow-lg' : ''} rounded-[15px] w-full h-[360px] relative overflow-hidden flex flex-col items-center justify-between p-8`}
               >
-                
                   <Image
                     src={program.image}
                     alt={program.title}
-                    className=""
+                    className="object-cover h-[233px] object-center rounded"
                     height={233}
                     width={233}
+                    
                   />
                 
                 

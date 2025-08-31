@@ -78,14 +78,14 @@ export const degreeProgramsData: DegreeProgramsSectionData = {
   programs: [
     {
       title: "Bachelor's Degree",
-      image: "/images/Community College Program Card.png",
+      image: "/images/Bachelor's Degree.jpg",
       bgColor: "bg-primary-deepBlue",
       textColor: "text-neutral-offWhiteBlue",
       link: "/degree-programs/bachelors"
     },
     {
       title: "Master's Degree",
-      image: "/images/Community College Program Card.png",
+      image: "/images/masters degreee.jpg",
       bgColor: "bg-neutral-offWhiteBlue",
       textColor: "text-primary-deepBlue",
       hasShadow: true,
@@ -93,7 +93,7 @@ export const degreeProgramsData: DegreeProgramsSectionData = {
     },
     {
       title: "Associate Degree",
-      image: "/images/Community College Program Card.png",
+      image: "/images/Assosiate Degree.jpg",
       bgColor: "bg-primary-deepBlue",
       textColor: "text-neutral-offWhiteBlue",
       link: "/degree-programs/associate"

@@ -47,8 +47,9 @@ export function BigHero({ title, backgroundImage, className }: BigHeroProps) {
         <Image
           src={backgroundImage}
           alt="Hero background"
-          fill
-          className="object-cover"
+          width={1000}
+          height={1000}
+          className="w-full h-full object-cover"
           priority
         />
         {/* Gradient Overlay */}

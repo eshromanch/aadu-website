@@ -79,7 +79,7 @@ export const degreePrograms: DegreeProgramCard[] = [
     description: "Receive an accredited Diploma Degree based on your life experience, opening doors to further education and opportunities.",
     buttonText: "Learn More",
     variant: "light",
-    image: "/images/Diploma Degree.jpg",
+    image: "/images/High school Diploma.jpg",
     imageAlt: "Person working at desk"
   }
 ];
@@ -122,7 +122,7 @@ export const individualDegreePrograms: IndividualDegreeProgram[] = [
     heroImageAlt: "Graduates in red caps and gowns",
     aboutImage: "https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
     aboutImageAlt: "Person working at desk",
-    eligibilityImage: "https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    eligibilityImage: "/images/About Asian American Digital University (AADU) - Card - Homepagge.png",
     eligibilityImageAlt: "Construction workers in safety gear",
     aboutTheDegree: {
       paragraph1: "The Master's degree from Asian American Digital University (AADU) represents advanced academic achievement based on extensive professional experience and specialized expertise. This degree is designed for professionals who have demonstrated exceptional knowledge and leadership in their field.",
@@ -150,7 +150,7 @@ export const individualDegreePrograms: IndividualDegreeProgram[] = [
     heroImageAlt: "Graduates in red caps and gowns",
     aboutImage: "https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
     aboutImageAlt: "Person working at desk",
-    eligibilityImage: "https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    eligibilityImage: "/images/About Asian American Digital University (AADU) - Card - Homepagge.png",
     eligibilityImageAlt: "Construction workers in safety gear",
     aboutTheDegree: {
       paragraph1: "The Doctorate degree from Asian American Digital University (AADU) represents the pinnacle of academic achievement, awarded to individuals who have made significant contributions to their field through extensive research, innovation, and leadership.",
@@ -178,7 +178,7 @@ export const individualDegreePrograms: IndividualDegreeProgram[] = [
     heroImageAlt: "Graduates in red caps and gowns",
     aboutImage: "https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
     aboutImageAlt: "Person working at desk",
-    eligibilityImage: "https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    eligibilityImage: "/images/About Asian American Digital University (AADU) - Card - Homepagge.png",
     eligibilityImageAlt: "Construction workers in safety gear",
     aboutTheDegree: {
       paragraph1: "The Associate degree from Asian American Digital University (AADU) is an accredited academic qualification awarded based on the evaluation of your practical work and life experience. Designed for individuals with foundational expertise in their field.",
@@ -206,7 +206,7 @@ export const individualDegreePrograms: IndividualDegreeProgram[] = [
     heroImageAlt: "Graduates in red caps and gowns",
     aboutImage: "https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
     aboutImageAlt: "Person working at desk",
-    eligibilityImage: "https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    eligibilityImage: "/images/About Asian American Digital University (AADU) - Card - Homepagge.png",
     eligibilityImageAlt: "Construction workers in safety gear",
     aboutTheDegree: {
       paragraph1: "The Diploma Degree from Asian American Digital University (AADU) is an accredited academic qualification awarded based on the evaluation of your life experience and practical knowledge. This diploma opens doors to further education and career opportunities.",

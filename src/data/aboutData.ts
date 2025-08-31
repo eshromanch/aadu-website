@@ -37,6 +37,7 @@ export interface OurValuesData {
 export interface AccreditationRecognitionData {
   title: string;
   description: string;
+  list: string[];
   image: string;
 }
 
@@ -118,7 +119,14 @@ export const ourValuesData: OurValuesData = {
 export const accreditationRecognitionData: AccreditationRecognitionData = {
   title: "Accreditation & Recognition",
   description: "AADU is accredited by the Education Accreditation Council of America (EACOA) since 1991, ensuring our degrees meet global academic standards and are widely recognized.",
-  image: "https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+  list: [
+    "Accredited by the Education Accreditation Council of America (EACOA) since 1991",
+    "Accredited by the Council for Higher Education Accreditation (CHEA)",
+    "Accredited by the Distance Education and Training Council (DETC)",
+    "Accredited by the International Association of Accreditation Bodies (IAAB)",
+    "Accredited by the International Association of Educational Accreditation (IAEA)",
+  ],
+  image: "/images/license.jpeg"
 };
 
 // Evaluation Body Section Data

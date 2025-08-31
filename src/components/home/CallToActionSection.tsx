@@ -1,7 +1,7 @@
 "use client"
 
 import { SectionContainer } from "@/components/common/SectionContainer"
-import { H2, Body24 } from "@/components/common/Typography"
+import { H2, Body24, H2Semibold } from "@/components/common/Typography"
 import { Button } from "@/components/ui/button"
 import { callToActionData } from "@/data/homeData"
 import Image from "next/image"
@@ -11,9 +11,9 @@ export function CallToActionSection() {
   return (
     <SectionContainer className="py-16">
       <div className="h-[300px] lg:h-[500px] bg-neutral-babyBlueTint rounded-2xl p-8 lg:p-12 text-center flex flex-col justify-center">
-        <H2 className="text-primary-deepBlue mb-8">
+        <H2Semibold className="text-primary-deepBlue mb-8">
           {callToActionData.title}
-        </H2>
+        </H2Semibold>
         <Link href="/degree-programs">
           <Button size="lg" className="mx-auto">
             {callToActionData.buttonText}

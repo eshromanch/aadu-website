@@ -34,12 +34,12 @@ export function DegreeProgramsSection() {
             {degreeProgramsData.programs.map((program, index) => (
              <Link key={index} href={program.link}>
                 <div 
-                className={`${program.bgColor} ${program.hasShadow ? 'shadow-lg' : ''} rounded-[15px] w-full h-[360px] relative overflow-hidden flex flex-col items-center justify-between p-8`}
+                className={`${program.bgColor} ${program.hasShadow ? 'shadow-lg' : ''} rounded-[15px] w-full h-[360px] relative overflow-hidden flex flex-col items-center justify-between p-6`}
               >
                   <Image
                     src={program.image}
                     alt={program.title}
-                    className="object-cover h-[233px] object-center rounded"
+                    className="object-cover  w-full h-[233px] object-center rounded"
                     height={233}
                     width={233}
                     
@@ -48,7 +48,7 @@ export function DegreeProgramsSection() {
                 
                 {/* Title positioned at bottom */}
                 <div className="absolute bottom-0 left-0 right-0 p-4">
-                  <Body24 className={`${program.textColor} text-center`}>
+                  <Body24 className={`${program.textColor} text-left`}>
                     {program.title}
                   </Body24>
                 </div>

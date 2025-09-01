@@ -2,6 +2,7 @@ import { CallToActionBanner } from "@/components/common/CallToActionBanner"
 import { PageHero } from "@/components/common/PageHero"
 import { ApplicationForm } from "@/components/apply/ApplicationForm"
 import { applyHeroData } from "@/data/applyData"
+import { Suspense } from "react"
 
 export default function ApplyPage() {
   return (
@@ -14,7 +15,9 @@ export default function ApplyPage() {
       />
 
       {/* Application Form Section */}
-      <ApplicationForm />
+      <Suspense fallback={<div>Loading...</div>}>
+        <ApplicationForm />
+      </Suspense>
 
       {/* Call to Action Banner */}
       <CallToActionBanner

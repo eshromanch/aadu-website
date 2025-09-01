@@ -6,9 +6,11 @@ import { H2, Body20 } from "@/components/common/Typography"
 import { Button } from "@/components/ui/button"
 import { CombinationPackagesDrawer } from "@/components/degree-programs/CombinationPackagesDrawer"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 
 export function FinalCTASection() {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false)
+  const router = useRouter()
 
   const handleLearnMoreClick = () => {
     setIsDrawerOpen(true)
@@ -16,6 +18,11 @@ export function FinalCTASection() {
 
   const handleCloseDrawer = () => {
     setIsDrawerOpen(false)
+  }
+
+  const handlePackageSelect = (packageId: string) => {
+    // Navigate to apply page with package ID in URL params
+    router.push(`/apply?package=${packageId}`)
   }
 
   return (
@@ -68,6 +75,7 @@ export function FinalCTASection() {
       <CombinationPackagesDrawer 
         isOpen={isDrawerOpen} 
         onClose={handleCloseDrawer} 
+        onPackageSelect={handlePackageSelect}
       />
     </>
   )

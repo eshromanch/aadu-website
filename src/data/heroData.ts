@@ -13,33 +13,33 @@ export interface BigHeroData {
 export const aboutHeroData: PageHeroData = {
   title: "About AADU",
   subtitle: "Empowering Professionals Through Accredited Recognition",
-  backgroundImage: "https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+  backgroundImage: "/images/Hero image Frame.png"
 };
 
 // Academics Page Hero (PageHero - smaller card style)
 export const academicsHeroData: PageHeroData = {
   title: "Turn Your Work Experience Into an Accredited Degree",
-  backgroundImage: "https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+  backgroundImage: "/images/Hero image Frame.png"
 };
 
 // Degree Programs Page Hero (PageHero - smaller card style)
 export const degreeProgramsHeroData: PageHeroData = {
   title: "Degree Programs at AADU",
   subtitle: "Unlock career growth with degree options that recognize your professional journey",
-  backgroundImage: "https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+  backgroundImage: "/images/Hero image Frame.png"
 };
 
 // Home Page Hero (BigHero - full screen style)
 export const homeHeroData: BigHeroData = {
   title: "Turn Your Work Experience Into an Accredited Qualification",
-  backgroundImage: "https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+  backgroundImage: "/images/Hero image Frame.png"
 };
 
 // Contact Page Hero (PageHero - smaller card style)
 export const contactHeroData: PageHeroData = {
   title: "Contact Us",
   subtitle: "Get in Touch with Our Team",
-  backgroundImage: "https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+  backgroundImage: "/images/Hero image Frame.png"
 };
 
 // Programs Page Hero (PageHero - smaller card style)

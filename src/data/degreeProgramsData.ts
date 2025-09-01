@@ -37,7 +37,7 @@ export interface IndividualDegreeProgram {
 export const degreeProgramsHeroData = {
   title: "Degree Programs at AADU",
   subtitle: "Unlock career growth with degree options that recognize your professional journey",
-  backgroundImage: "/images/Bachelor's Degree.jpg"
+  backgroundImage: "/images/Bachelor's degree.png"
 };
 
 // Degree Program Cards Data
@@ -47,7 +47,7 @@ export const degreePrograms: DegreeProgramCard[] = [
     description: "Earn an accredited Bachelor's degree based on your professional and life experience—no classes or exams required.",
     buttonText: "Learn More",
     variant: "light",
-    image: "/images/Bachelor's Degree.jpg",
+    image: "/images/Bachelor's degree.png",
     imageAlt: "Person working at desk"
   },
   {

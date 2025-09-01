@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { SectionContainer } from "@/components/common/SectionContainer"
 import { H2 } from "@/components/common/Typography"
 import { Button } from "@/components/ui/button"
@@ -8,6 +8,7 @@ import { ArrowRight, Upload, X, Plus, Minus } from "lucide-react"
 import { degreePrograms, individualDegreePrograms } from "@/data/degreeProgramsData"
 import { combinationPackages } from "@/data/combinationPackagesData"
 import { faculties } from "@/data/majorsData"
+import { useSearchParams } from "next/navigation"
 
 interface SingleDegreeData {
   degreeType: string
@@ -69,8 +70,17 @@ interface ApplicationFormProps {
 }
 
 export function ApplicationForm({ isAdmin = false, onSuccess, onCancel }: ApplicationFormProps) {
+  const searchParams = useSearchParams()
   const degreeProgramsList = degreePrograms.map((program) => program.title)
   const allMajors = faculties.flatMap((faculty) => faculty.majors.map((major) => major.name))
+
+  // Auto-fill form when package is selected from URL params
+  useEffect(() => {
+    const packageId = searchParams.get('package')
+    if (packageId) {
+      autoFillFromPackage(packageId)
+    }
+  }, [searchParams])
 
   const getFilteredMajors = (selectedDegree: string) => {
     const degreeMajorMapping: { [key: string]: string[] } = {
@@ -208,6 +218,73 @@ export function ApplicationForm({ isAdmin = false, onSuccess, onCancel }: Applic
           degrees: []
         }
       }))
+    }
+  }
+
+  // Function to auto-fill form when a package is selected from CombinationPackagesDrawer
+  const autoFillFromPackage = (packageId: string) => {
+    const selectedPackage = combinationPackages.find(pkg => pkg.id === packageId)
+    if (selectedPackage) {
+      // Map component names to degree program titles
+      const componentToDegreeMapping: { [key: string]: string } = {
+        "Diploma Degree": "Diploma Degree Program",
+        "Associate Degree": "Associate Degree Program", 
+        "Bachelor's Degree": "Bachelor's Degree Program",
+        "Bachelor's Degree Program": "Bachelor's Degree Program",
+        "Master's Degree": "Master's Degree Program",
+        "Doctorate Degree": "Doctorate Degree Program"
+      }
+      
+      const autoDegrees: Array<{ degreeType: string; major: string }> = selectedPackage.components.map(component => ({
+        degreeType: componentToDegreeMapping[component.name] || component.name,
+        major: ""
+      }))
+      
+      setFormData(prev => ({
+        ...prev,
+        degreePackageType: 'multiple',
+        multipleDegree: {
+          combinationPackage: packageId,
+          degrees: autoDegrees
+        }
+      }))
+    }
+  }
+
+  // Function to add additional degree fields based on combination package
+  const addAdditionalDegree = () => {
+    const selectedPackage = getSelectedCombinationPackage()
+    if (selectedPackage && formData.multipleDegree) {
+      // Add a new degree field with empty degree type (user will select)
+      const newDegree = {
+        degreeType: "",
+        major: ""
+      }
+      
+      setFormData(prev => ({
+        ...prev,
+        multipleDegree: {
+          ...prev.multipleDegree!,
+          degrees: [...prev.multipleDegree!.degrees, newDegree]
+        }
+      }))
+    }
+  }
+
+  // Function to remove additional degree fields
+  const removeAdditionalDegree = (index: number) => {
+    const selectedPackage = getSelectedCombinationPackage()
+    if (selectedPackage && formData.multipleDegree) {
+      // Only allow removal of additional degrees (beyond the package components)
+      if (index >= selectedPackage.components.length) {
+        setFormData(prev => ({
+          ...prev,
+          multipleDegree: {
+            ...prev.multipleDegree!,
+            degrees: prev.multipleDegree!.degrees.filter((_, i) => i !== index)
+          }
+        }))
+      }
     }
   }
 
@@ -539,14 +616,35 @@ export function ApplicationForm({ isAdmin = false, onSuccess, onCancel }: Applic
                   {/* Degree Selections for Each Component */}
                   {selectedPackage && (
                     <div className="space-y-4">
-                      <div className="flex items-center justify-between">
+                      {/* <div className="flex items-center justify-between">
                         <h4 className="font-medium text-primary-deepBlue">Degree Selections</h4>
-                      </div>
+                        <Button
+                          type="button"
+                          variant="outline"
+                          size="sm"
+                          onClick={addAdditionalDegree}
+                          className="flex items-center gap-2"
+                        >
+                          <Plus className="w-4 h-4" />
+                          Add Degree
+                        </Button>
+                      </div> */}
                       
                       {formData.multipleDegree?.degrees.map((degree, index) => (
                         <div key={index} className="border border-neutral-lightGray rounded-2xl p-4">
                           <div className="flex items-center justify-between mb-4">
                             <h5 className="font-medium text-neutral-bodyText">Degree {index + 1}</h5>
+                            {selectedPackage && index >= selectedPackage.components.length && (
+                              <Button
+                                type="button"
+                                variant="outline"
+                                size="sm"
+                                onClick={() => removeAdditionalDegree(index)}
+                                className="text-red-500 hover:text-red-700"
+                              >
+                                <X className="w-4 h-4" />
+                              </Button>
+                            )}
                           </div>
                           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
@@ -557,7 +655,7 @@ export function ApplicationForm({ isAdmin = false, onSuccess, onCancel }: Applic
                                 value={degree.degreeType}
                                 onChange={(e) => handleDegreeChange(index, 'degreeType', e.target.value)}
                                 className="w-full px-4 py-3 border border-neutral-lightGray rounded-2xl focus:ring-2 focus:ring-primary-dodgerBlue focus:border-transparent"
-                                disabled={index < selectedPackage.components.length}
+                                disabled={selectedPackage ? index < selectedPackage.components.length : false}
                                 required
                               >
                                 <option value="">Select degree type</option>
@@ -565,7 +663,7 @@ export function ApplicationForm({ isAdmin = false, onSuccess, onCancel }: Applic
                                   <option key={idx} value={program}>{program}</option>
                                 ))}
                               </select>
-                              {index < selectedPackage.components.length && (
+                              {selectedPackage && index < selectedPackage.components.length && (
                                 <p className="text-xs text-neutral-bodyText mt-1">
                                   Auto-selected from package
                                 </p>

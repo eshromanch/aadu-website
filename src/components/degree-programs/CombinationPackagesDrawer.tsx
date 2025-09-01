@@ -9,9 +9,10 @@ import { combinationPackages } from "@/data/combinationPackagesData"
 interface CombinationPackagesDrawerProps {
   isOpen: boolean
   onClose: () => void
+  onPackageSelect?: (packageId: string) => void
 }
 
-export function CombinationPackagesDrawer({ isOpen, onClose }: CombinationPackagesDrawerProps) {
+export function CombinationPackagesDrawer({ isOpen, onClose, onPackageSelect }: CombinationPackagesDrawerProps) {
   if (!isOpen) return null
 
   return (
@@ -77,6 +78,10 @@ export function CombinationPackagesDrawer({ isOpen, onClose }: CombinationPackag
                         variant="default"
                         size="sm"
                         className="bg-primary-deepBlue hover:bg-primary-deepBlue/90 text-white px-4 py-2 rounded-2xl font-semibold"
+                        onClick={() => {
+                          onPackageSelect?.(pkg.id)
+                          onClose()
+                        }}
                       >
                         Apply Now
                       </Button>
@@ -143,6 +148,10 @@ export function CombinationPackagesDrawer({ isOpen, onClose }: CombinationPackag
                   <Button 
                     variant="default"
                     className="w-full bg-primary-deepBlue hover:bg-primary-deepBlue/90 text-white py-3 rounded-2xl font-semibold"
+                    onClick={() => {
+                      onPackageSelect?.(pkg.id)
+                      onClose()
+                    }}
                   >
                     Apply Now
                   </Button>

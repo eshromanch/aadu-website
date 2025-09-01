@@ -78,7 +78,7 @@ export const degreeProgramsData: DegreeProgramsSectionData = {
   programs: [
     {
       title: "Bachelor's Degree",
-      image: "/images/Bachelor's Degree.jpg",
+      image: "/images/Bachelor's degree.png",
       bgColor: "bg-primary-deepBlue",
       textColor: "text-neutral-offWhiteBlue",
       link: "/degree-programs/bachelors"

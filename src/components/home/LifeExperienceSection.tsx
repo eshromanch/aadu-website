@@ -1,5 +1,3 @@
-"use client"
-
 import { SectionContainer } from "@/components/common/SectionContainer"
 import { H2, Body20 } from "@/components/common/Typography"
 import { Button } from "@/components/ui/button"
@@ -10,9 +8,9 @@ import Link from "next/link"
 export function LifeExperienceSection() {
   return (
     <SectionContainer className="py-16">
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+      <div className="grid grid-cols-1 lg:grid-cols-3 lg:gap-12 gap-6">
         {/* Left - Image (spans 1 column) */}
-        <div className="lg:col-span-1">
+        <div className="lg:col-span-1 lg:block hidden">
           <div className="relative w-full h-64 lg:h-[500px] rounded-2xl overflow-hidden">
             <Image
               src={lifeExperienceData.image}
@@ -43,6 +41,16 @@ export function LifeExperienceSection() {
                 />
               </Button>
             </Link>
+          </div>
+        </div>
+        <div className="lg:col-span-1 lg:hidden">
+          <div className="relative w-full h-64 lg:h-[500px] rounded-2xl overflow-hidden">
+            <Image
+              src={lifeExperienceData.image}
+              alt="Students in university setting"
+              fill
+              className="object-cover"
+            />
           </div>
         </div>
       </div>

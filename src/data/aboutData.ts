@@ -37,6 +37,7 @@ export interface OurValuesData {
 export interface AccreditationRecognitionData {
   title: string;
   description: string;
+  subtitle: string;
   list: string[];
   image: string;
 }
@@ -118,6 +119,7 @@ export const ourValuesData: OurValuesData = {
 // Accreditation & Recognition Section Data
 export const accreditationRecognitionData: AccreditationRecognitionData = {
   title: "Accreditation & Recognition",
+  subtitle:"Commissioned on May-2014, Registered under the Registration Act-XX1 of 1882",
   description: "AADU is accredited by the Education Accreditation Council of America (EACOA) since 1991, ensuring our degrees meet global academic standards and are widely recognized.",
   list: [
     "Accredited by the Education Accreditation Council of America (EACOA) since 1991",
@@ -125,6 +127,7 @@ export const accreditationRecognitionData: AccreditationRecognitionData = {
     "Accredited by the Distance Education and Training Council (DETC)",
     "Accredited by the International Association of Accreditation Bodies (IAAB)",
     "Accredited by the International Association of Educational Accreditation (IAEA)",
+    'Notarized and certified by the Royal Thai Court and accredited Thai lawyers, ensuring the highest standards of legal recognition.'
   ],
   image: "/images/license.jpeg"
 };
@@ -152,7 +155,7 @@ export const talkWithUsData: TalkWithUsData = {
       email: "aauedu68@gmail.com"
     },
     {
-      title: "Thailand Branch",
+      title: "Worldwide Admission Support Center, Thailand",
       address: "17th, 2nd Floor, Soi Ramkham Haeng 2 Suangluang Bangkok, 10250",
       phone: "+660827296334",
       email: "aauedu68@gmail.com"

@@ -58,9 +58,15 @@ export const heroData: HeroData = {
 // Testimonial Section Data
 export const testimonialData: TestimonialData = {
   quote: "Whether you are seeking advancement in your current position, or preparing for a career change, American's accredited and recognized life experience degree programs can greatly enhance your chances.",
-  author: "Md. Jolilur Rahman",
-  position: "Director, AADU",
+  author: "D. Mahbubur Rahman",
+  position: "Chairman, Board of Trustees, Asian American Digital University",
   image: "https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+};
+export const testimonialData2: TestimonialData = {
+  quote: "As an international student admission officer from Thailand, I can confidently say that this extraordinary digital university excels in awarding people degrees based solely on their work experience.",
+  author: "Amp Pascharada",
+  position: "International Student Admission Officer, Asian American Digital University (Thailand)",
+  image: "/images/testimonial2.jpeg"
 };
 
 // Life Experience Section Data

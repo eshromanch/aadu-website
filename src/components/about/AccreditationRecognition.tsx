@@ -28,6 +28,9 @@ export function AccreditationRecognition() {
           <H2Semibold className="text-primary-deepBlue mb-6">
             {accreditationRecognitionData.title}
           </H2Semibold>
+          <Body20Semibold className="text-neutral-bodyText leading-relaxed mb-6">
+            {accreditationRecognitionData.subtitle}
+          </Body20Semibold>
           <Body20 className="text-neutral-bodyText leading-relaxed">
             {accreditationRecognitionData.description}
           </Body20>

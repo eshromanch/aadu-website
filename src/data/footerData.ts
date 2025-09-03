@@ -14,7 +14,7 @@ export interface FooterData {
 }
 
 export const footerData: FooterData = {
-  description: "AADU - American Academy of Distance University. Transform your work experience into an accredited degree and advance your professional career.",
+  description: "AADU -Asian American Digital University. Transform your work experience into an accredited degree and advance your professional career.",
   sections: [
     {
       title: "Academics",

@@ -6,6 +6,7 @@ export interface PageHeroData {
 
 export interface BigHeroData {
   title: string;
+  subtitle?: string;
   backgroundImage: string;
 }
 
@@ -31,7 +32,8 @@ export const degreeProgramsHeroData: PageHeroData = {
 
 // Home Page Hero (BigHero - full screen style)
 export const homeHeroData: BigHeroData = {
-  title: "Turn Your Work Experience Into an Accredited Qualification",
+  title: "Turn Your Work Experience Into an Accredited Degree",
+  subtitle: "(e.g. BA/BSc/BBA/BCom Hon's/Masters/Doctorate & Honorary Doctorate)",
   backgroundImage: "/images/Hero image Frame.png"
 };
 

@@ -13,6 +13,7 @@ export default function HomePage() {
     <div className="min-h-screen">
       <BigHero
         title={homeHeroData.title}
+        subtitle={homeHeroData.subtitle}
         backgroundImage={homeHeroData.backgroundImage}
       />
       <Testimonial />

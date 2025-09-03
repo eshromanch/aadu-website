@@ -1,12 +1,13 @@
 "use client"
 
 import { SectionContainer } from "@/components/common/SectionContainer"
-import { H1 } from "@/components/common/Typography"
+import { H1, H2, H2Semibold, H3 } from "@/components/common/Typography"
 import { cn } from "@/lib/utils"
 import Image from "next/image"
 
 interface BigHeroProps {
   title: string
+  subtitle?: string
   backgroundImage: string
   className?: string
 }
@@ -39,7 +40,7 @@ interface BigHeroProps {
  * 
  * @see PageHero - For smaller card-style heroes on sub-pages
  */
-export function BigHero({ title, backgroundImage, className }: BigHeroProps) {
+export function BigHero({ title, backgroundImage, className, subtitle }: BigHeroProps) {
   return (
     <section className={cn("relative h-[70vh]", className)}>
       {/* Background Image */}
@@ -62,6 +63,11 @@ export function BigHero({ title, backgroundImage, className }: BigHeroProps) {
           <H1 className="text-white ">
             {title}
           </H1>
+          {subtitle && (
+            <H3 className="mt-4 text-white ">
+              {subtitle}
+            </H3> 
+          )}
         </SectionContainer>
       </div>
     </section>

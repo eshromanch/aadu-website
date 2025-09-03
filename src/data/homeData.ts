@@ -64,7 +64,7 @@ export const testimonialData: TestimonialData = {
 };
 export const testimonialData2: TestimonialData = {
   quote: "As an international student admission officer from Thailand, I can confidently say that this extraordinary digital university excels in awarding people degrees based solely on their work experience.",
-  author: "Amp Pascharada",
+  author: "Ms. Amp Pascharada",
   position: "International Student Admission Officer, Asian American Digital University (Thailand)",
   image: "/images/testimonial2.jpeg"
 };

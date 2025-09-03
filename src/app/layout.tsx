@@ -16,8 +16,8 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: "Aadu Website",
-  description: "Aadu - Your trusted partner",
+  title: "Asian American Digital University Website",
+  description: "Asian American Digital University - Your trusted partner",
 };
 
 export default function RootLayout({

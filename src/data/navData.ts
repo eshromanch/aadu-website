@@ -14,6 +14,10 @@ export const navigationData: NavItem[] = [
     href: "/about",
   },
   {
+    label: "Gallery",
+    href: "/gallery",
+  },
+  {
     label: "Academics",
     href: "/academics",
     children: [
@@ -38,6 +42,10 @@ export const navigationData: NavItem[] = [
       {
         label: "Corporate Partnership Program",
         href: "/partnership-programs/corporate",
+      },
+      {
+        label: "Community Partnership Program",
+        href: "/partnership-programs/community",
       },
     ],
   },

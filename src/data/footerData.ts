@@ -14,7 +14,8 @@ export interface FooterData {
 }
 
 export const footerData: FooterData = {
-  description: "AADU -Asian American Digital University. Transform your work experience into an accredited degree and advance your professional career.",
+  // description: "AADU -Asian American Digital University. Transform your work experience into an accredited degree and advance your professional career.",
+  description: "Every One Has the Right to Education-Article 26 Universal Declaration of Human Rights",
   sections: [
     {
       title: "Academics",

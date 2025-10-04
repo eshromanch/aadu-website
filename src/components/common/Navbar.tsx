@@ -29,12 +29,15 @@ export function Navbar() {
           <div className="container mx-auto px-4">
             <div className="flex items-center justify-between h-16">
               {/* Logo */}
+            <div className="flex items-center space-x-2">
               <Link href="/">
                 <Image className="w-12 h-12" src="/AADU LOGO.png" alt="Logo" width={100} height={100} />
               </Link>
+              <p className="text-body-16 font-poppins text-primary-deepBlue">Asian American Digital University</p>
+            </div>
               
               {/* Mobile Icons */}
-              <div className="flex items-center space-x-4">
+              <div className="flex items-center space-x-4 justify-end">
                 <button 
                   onClick={toggleSearch}
                   className="text-primary-deepBlue hover:text-primary-dodgerBlue transition-colors"
@@ -57,10 +60,11 @@ export function Navbar() {
           <div className="container mx-auto px-8">
             <div className="flex items-center py-2">
               {/* Logo in the middle */}
-              <div className=" flex justify-center mr-12">
+              <div className=" flex justify-center items-center space-x-2 mr-12">
                 <Link href="/">
                   <Image className="w-20 h-20" src="/AADU LOGO.png" alt="Logo" width={100} height={100} />
                 </Link>
+                <p className="text-body-16 font-poppins text-primary-deepBlue">Asian American Digital University</p>
               </div>
               
               {/* Navigation sections */}

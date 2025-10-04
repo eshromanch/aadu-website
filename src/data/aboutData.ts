@@ -72,7 +72,7 @@ export const aboutHeroData: AboutHeroData = {
 export const ourStoryData: OurStoryData = {
   title: "Our Story",
   description: "Founded to bridge real-world experience with formal education, AADU has been accredited by the Education Accreditation Council of America (EACOA) since 1991. We help professionals turn their life and work experience into recognized academic degrees without traditional coursework.",
-  image: "https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+  image: "/images/Building.png"
 };
 
 // Mission & Vision Section Data
@@ -119,7 +119,7 @@ export const ourValuesData: OurValuesData = {
 // Accreditation & Recognition Section Data
 export const accreditationRecognitionData: AccreditationRecognitionData = {
   title: "Accreditation & Recognition",
-  subtitle:"Commissioned on May-2014, Registered under the Registration Act-XX1 of 1882",
+  subtitle:"The University was Commissioned on May-2014, Registered under the Registration Act-XX1 of 1882",
   description: "AADU is accredited by the Education Accreditation Council of America (EACOA) since 1991, ensuring our degrees meet global academic standards and are widely recognized.",
   list: [
     "Accredited by the Education Accreditation Council of America (EACOA) since 1991",

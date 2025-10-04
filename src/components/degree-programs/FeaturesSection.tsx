@@ -8,7 +8,7 @@ const features = [
   {
     icon: "/icons/books.svg",
     title: "No Classes, No Exams",
-    description: "This program offers you an opportunity to earn a bachelor's degree based on your work or life experience, without requiring you to take admission exams, attend classes, or study course books."
+    description: "Under our Corporate Partnership scheme, employees are eligible to apply for evaluated degrees based on experience, without attending classes or standardized exams. Submitted materials are reviewed by qualified faculty evaluators, and successful applicants may receive degree documentation within 20 to 45 business days, subject to verification and processing"
   },
   {
     icon: "/icons/delivery.svg",

@@ -1,6 +1,7 @@
 import { CallToActionBanner } from "@/components/common/CallToActionBanner"
 import { PageHero } from "@/components/common/PageHero"
 import { ApplicationForm } from "@/components/apply/ApplicationForm"
+import { StepsComponent } from "@/components/apply/StepsComponent"
 import { applyHeroData } from "@/data/applyData"
 import { Suspense } from "react"
 
@@ -13,6 +14,9 @@ export default function ApplyPage() {
         backgroundImage={applyHeroData.backgroundImage}
         className="container mx-auto py-16 lg:py-24"
       />
+
+      {/* Steps Section */}
+      <StepsComponent />
 
       {/* Application Form Section */}
       <Suspense fallback={<div>Loading...</div>}>

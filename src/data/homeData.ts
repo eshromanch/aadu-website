@@ -60,7 +60,7 @@ export const testimonialData: TestimonialData = {
   quote: "Whether you are seeking advancement in your current position, or preparing for a career change, American's accredited and recognized life experience degree programs can greatly enhance your chances.",
   author: "D. Mahbubur Rahman",
   position: "Chairman, Board of Trustees, Asian American Digital University",
-  image: "https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+  image: "/images/drmahbub.jpeg"
 };
 export const testimonialData2: TestimonialData = {
   quote: "As an international student admission officer from Thailand, I can confidently say that this extraordinary digital university excels in awarding people degrees based solely on their work experience.",
@@ -72,7 +72,7 @@ export const testimonialData2: TestimonialData = {
 // Life Experience Section Data
 export const lifeExperienceData: LifeExperienceData = {
   title: "What Are Life Experience Degrees?",
-  description: "Many people gain valuable knowledge outside the classroom—through years of work, business, travel, or personal learning. Life experience degrees formally recognize this real-world expertise and award accredited degrees based on it.",
+  description: "Many professionals acquire skills and knowledge outside formal coursework — through work, projects, volunteering, and self-study. AADU’s life experience degree system offers a structured evaluation process whereby eligible experience is assessed and converted into academic credit, subject to faculty review and institutional oversight",
   image: "/images/What Are Life Experience Degrees - Card- Home Page.png",
   buttonText: "Learn More"
 };
@@ -123,7 +123,7 @@ export const faqData: FAQItem[] = [
   },
   {
     question: "How long does it take to receive my degree?",
-    answer: "You can receive your accredited degree within 20-45 days after your application is approved. We use FedEx/DHL for fast and secure delivery to ensure you get your degree quickly and safely."
+    answer: "Upon approval of an applicant’s submission, the official degree documentation is typically processed within 20 to 45 business days. Shipping of physical documents (if requested) is included via standard courier service; tracking and proof of delivery will be provided."
   },
   {
     question: "Are these degrees recognized internationally?",

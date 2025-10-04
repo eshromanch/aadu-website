@@ -26,7 +26,7 @@ export interface Certification {
 export const whatAreLifeExperienceDegrees = {
   title: "What Are Life Experience Degrees?",
   paragraphs: [
-    "Many people gain valuable knowledge outside the classroom—through work, business, travel, or personal learning. Life experience degrees recognize this expertise by awarding accredited academic qualifications without traditional study.",
+    "Many professionals acquire skills and knowledge outside formal coursework — through work, projects, volunteering, and self-study. AADU’s life experience degree system offers a structured evaluation process whereby eligible experience is assessed and converted into academic credit, subject to faculty review and institutional oversight",
     "These degrees validate practical skills, allowing adults to earn recognized credentials without classes or exams. They bridge real-world experience and formal education, offering a credible alternative path.",
     "Life experience degrees help professionals advance careers, gain recognition, and unlock new opportunities by valuing their knowledge and skills."
   ],
